@@ -88,7 +88,7 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;overflow:hidden;height:
 </div>
 <div id="canvas-wrap">
   <div id="diagram">
-    <svg id="svg-layer" width="1850" height="756"></svg>
+    <svg id="svg-layer" width="1920" height="736"></svg>
     <div class="hint" id="hint"><div class="ic">🔍</div><div class="tx">点击任意环节查看上市公司与供应关系<br><small>滚轮缩放 · 拖拽平移 · 搜索过滤</small></div></div>
     <div id="legends">
       <span><span class="ld" style="background:#4fc3f7"></span> 主要供应</span>
@@ -1759,7 +1759,7 @@ const EDGES = [
     "rel_type": "secondary"
   }
 ];
-const POSITIONS = {"semi_cmp_materials": {"x": 50, "y": 50}, "semi_sic_substrate": {"x": 50, "y": 132}, "semi_photoresist": {"x": 50, "y": 214}, "semi_photomask": {"x": 50, "y": 296}, "semi_wet_chemicals": {"x": 50, "y": 378}, "semi_target_material": {"x": 50, "y": 460}, "semi_specialty_gas": {"x": 50, "y": 542}, "semi_silicon_wafer": {"x": 50, "y": 624}, "semi_equipment": {"x": 370, "y": 50}, "semi_equipment_parts": {"x": 370, "y": 132}, "semi_ic_substrate": {"x": 370, "y": 238}, "semi_packaging_materials": {"x": 370, "y": 320}, "semi_glass_substrate": {"x": 370, "y": 402}, "semi_eda_ip": {"x": 370, "y": 508}, "semi_ai_chip": {"x": 690, "y": 50}, "semi_cis": {"x": 690, "y": 132}, "semi_mems_sensor": {"x": 690, "y": 214}, "semi_power_discrete": {"x": 690, "y": 296}, "semi_storage": {"x": 690, "y": 378}, "semi_rf_frontend": {"x": 690, "y": 460}, "semi_analog_mcu": {"x": 690, "y": 542}, "semi_wafer_fab": {"x": 1010, "y": 50}, "semi_packaging": {"x": 1330, "y": 50}, "semi_ai_server": {"x": 1650, "y": 50}, "semi_pcb_ccl": {"x": 1650, "y": 132}, "semi_auto_electronics": {"x": 1650, "y": 214}};
+const POSITIONS = {"semi_cmp_materials": {"x": 60, "y": 60.0}, "semi_sic_substrate": {"x": 60, "y": 138.0}, "semi_photoresist": {"x": 60, "y": 216.0}, "semi_photomask": {"x": 60, "y": 294.0}, "semi_wet_chemicals": {"x": 60, "y": 372.0}, "semi_target_material": {"x": 60, "y": 450.0}, "semi_specialty_gas": {"x": 60, "y": 528.0}, "semi_silicon_wafer": {"x": 60, "y": 606.0}, "semi_equipment": {"x": 390, "y": 126.0}, "semi_equipment_parts": {"x": 390, "y": 204.0}, "semi_ic_substrate": {"x": 390, "y": 302.0}, "semi_packaging_materials": {"x": 390, "y": 380.0}, "semi_glass_substrate": {"x": 390, "y": 458.0}, "semi_eda_ip": {"x": 390, "y": 556.0}, "semi_ai_chip": {"x": 720, "y": 99.0}, "semi_cis": {"x": 720, "y": 177.0}, "semi_mems_sensor": {"x": 720, "y": 255.0}, "semi_power_discrete": {"x": 720, "y": 333.0}, "semi_storage": {"x": 720, "y": 411.0}, "semi_rf_frontend": {"x": 720, "y": 489.0}, "semi_analog_mcu": {"x": 720, "y": 567.0}, "semi_wafer_fab": {"x": 1050, "y": 333.0}, "semi_packaging": {"x": 1380, "y": 333.0}, "semi_ai_server": {"x": 1710, "y": 255.0}, "semi_pcb_ccl": {"x": 1710, "y": 333.0}, "semi_auto_electronics": {"x": 1710, "y": 411.0}};
 const POS_COLORS = {"upstream": {"border": "#2a5a7a", "bg": "#152535", "tag_bg": "#152a38", "tag_text": "#4fc3f7"}, "midstream": {"border": "#2a5a3a", "bg": "#152535", "tag_bg": "#153020", "tag_text": "#66bb6a"}, "downstream": {"border": "#5a4a2a", "bg": "#152535", "tag_bg": "#302a15", "tag_text": "#ffb74d"}, "equipment": {"border": "#4a2a5a", "bg": "#152535", "tag_bg": "#281530", "tag_text": "#ce93d8"}};
 const GROUP_LABELS = {"material": ["🧪 材料/耗材", "#4fc3f7"], "equipment": ["🔧 设备/零部件", "#ce93d8"], "packaging_prep": ["📦 封装上游", "#ff8a65"], "design_ip": ["🧠 芯片设计", "#66bb6a"], "wafer_fab": ["🏭 晶圆制造", "#ffb74d"], "packaging": ["📦 封装测试", "#ffb74d"], "end_product": ["🖥 终端应用", "#ef5350"]};
 
@@ -1787,7 +1787,7 @@ Object.values(layerGroupPositions).forEach(lp => {
   if (!label) return;
   const div = document.createElement('div');
   div.className = 'group-label';
-  div.style.cssText = `left:${lp.x}px;top:${lp.minY - 22}px;color:${label[1]};border:1px solid ${label[1]}33`;
+  div.style.cssText = `left:${lp.x}px;top:${lp.minY - 26}px;color:${label[1]};border:1px solid ${label[1]}33`;
   div.textContent = label[0];
   div.setAttribute('data-group', lp.group);
   diagram.appendChild(div);
@@ -1852,8 +1852,8 @@ window.addEventListener('mouseup', () => { dragging = false; canvasWrap.style.cu
 
 function fitScreen() {
   const w = canvasWrap.clientWidth, h = canvasWrap.clientHeight;
-  scale = Math.min((w-80)/1850, (h-120)/756, 1.0);
-  panX = (w - 1850*scale)/2; panY = 40; applyTransform();
+  scale = Math.min((w-80)/1920, (h-120)/736, 1.0);
+  panX = (w - 1920*scale)/2; panY = 40; applyTransform();
 }
 window.addEventListener('resize', fitScreen);
 setTimeout(fitScreen, 100);

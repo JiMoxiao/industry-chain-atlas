@@ -134,34 +134,52 @@ def flatten_data(data):
 # ── 布局 ────────────────────────────────────
 
 def layout_nodes(nodes):
-    NODE_W, NODE_H = 150, 72
-    LAYER_GAP = 170
-    GROUP_GAP = 24
-    ROW_GAP = 10
-    PADDING = 50
+    """按层垂直居中，组间gap合理"""
+    NODE_W, NODE_H = 150, 70
+    LAYER_GAP = 180
+    GROUP_GAP = 20
+    ROW_GAP = 8
+    PADDING = 60
 
+    # 每层每group的节点
     layer_groups = defaultdict(lambda: defaultdict(list))
     for n in nodes:
         layer_groups[n["layer"]][n["group"]].append(n)
 
+    # 先算每列总高度
+    col_heights = {}
+    for lyr, groups in layer_groups.items():
+        total = 0
+        gkeys = sorted(groups.keys(), key=lambda g: GROUP_ORDER.get(g, 99))
+        for gi, gk in enumerate(gkeys):
+            if gi > 0:
+                total += GROUP_GAP
+            total += len(groups[gk]) * (NODE_H + ROW_GAP) - ROW_GAP
+        col_heights[lyr] = total
+
+    max_col_h = max(col_heights.values()) if col_heights else 600
+
     positions = {}
-    max_y = 0
     max_layer = max(layer_groups.keys())
 
     for lyr in sorted(layer_groups.keys()):
         groups = layer_groups[lyr]
         x = PADDING + lyr * (NODE_W + LAYER_GAP)
-        y = PADDING
-        for gk in sorted(groups.keys(), key=lambda g: GROUP_ORDER.get(g, 99)):
-            if y > PADDING:
+        col_h = col_heights[lyr]
+        # 垂直居中：在 max_col_h 内居中本列
+        offset_y = (max_col_h - col_h) / 2
+
+        y = PADDING + offset_y
+        gkeys = sorted(groups.keys(), key=lambda g: GROUP_ORDER.get(g, 99))
+        for gi, gk in enumerate(gkeys):
+            if gi > 0:
                 y += GROUP_GAP
             for ni, n in enumerate(sorted(groups[gk], key=lambda n: n["name"])):
                 positions[n["id"]] = {"x": x, "y": y + ni * (NODE_H + ROW_GAP)}
             y += len(groups[gk]) * (NODE_H + ROW_GAP)
-        max_y = max(max_y, y)
 
     max_x = PADDING + max_layer * (NODE_W + LAYER_GAP) + NODE_W
-    return positions, max_x + PADDING, max_y + PADDING
+    return positions, max_x + PADDING, max_col_h + PADDING * 2
 
 
 # ── HTML 模板 ────────────────────────────────
@@ -319,7 +337,7 @@ Object.values(layerGroupPositions).forEach(lp => {{
   if (!label) return;
   const div = document.createElement('div');
   div.className = 'group-label';
-  div.style.cssText = `left:${{lp.x}}px;top:${{lp.minY - 22}}px;color:${{label[1]}};border:1px solid ${{label[1]}}33`;
+  div.style.cssText = `left:${{lp.x}}px;top:${{lp.minY - 26}}px;color:${{label[1]}};border:1px solid ${{label[1]}}33`;
   div.textContent = label[0];
   div.setAttribute('data-group', lp.group);
   diagram.appendChild(div);

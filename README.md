@@ -1,51 +1,64 @@
 # Semiconductor Industry Chain Atlas
 
-半导体全产业链图谱 — 独立于 capacity-cycle 的交互式知识库。
+半导体全产业链图谱 — 基于 AntV G6 的交互式知识库。
 
 ## 目录
 
 ```
 semiconductor/
 ├── data/
-│   ├── semiconductor.yaml      # 产业链定义（26 环节 / 93 供应关系 / 140+ 公司）
-│   └── market_heat.json        # 市场热度数据缓存
+│   ├── semiconductor.yaml           # 半导体产业链（26 环节 / 93 供应关系）
+│   ├── electronic_chemicals.yaml    # 电子化学品（9 环节）
+│   ├── nonferrous_metals.yaml       # 有色金属（10 环节）
+│   ├── silicon_materials.yaml       # 硅材料（8 环节）
+│   ├── pcb_materials.yaml           # PCB 材料（5 环节）
+│   ├── market_heat.json             # 市场热度缓存
+│   └── capacity_snapshots/          # 产能快照
 ├── lib/
-│   ├── config.py               # 配置常量（分组/分层/颜色/布局参数）
-│   ├── data_loader.py          # YAML 读取 + 热度数据合并 + 扁平化
-│   ├── layout.py               # 分层布局引擎
-│   └── renderer.py             # 模板加载 + 数据注入 → 自包含 HTML
+│   ├── config.py                    # 布局常量
+│   ├── data_loader.py               # 单 YAML 读取 + 扁平化
+│   ├── fusion.py                    # 多 YAML 融合引擎
+│   └── layout.py                    # 分层布局引擎
 ├── templates/
-│   ├── styles.css              # 样式（独立可预览）
-│   ├── app.js                  # 交互逻辑（拖拽/缩放/过滤/面板/提示）
-│   └── page.html               # HTML 骨架
-├── generate_viz.py             # 入口：5 行调度逻辑
-├── industry_chain.html         # 生成的可视化页面（浏览器直接打开）
-├── README.md
+│   ├── g6_page.html                 # G6 HTML 骨架
+│   ├── g6_app.js                    # G6 交互逻辑
+│   └── styles.css                   # 样式
+├── generate_g6.py                   # 单产业链生成器
+├── generate_fusion.py               # 融合图谱生成器
+├── update_heat.py                   # 热度数据更新
+├── snapshot.py                      # 产能快照工具
+└── README.md
 ```
 
 ## 快速开始
 
 ```bash
-# 更新 YAML 后重新生成 HTML
-python generate_viz.py
+# 生成单产业链图谱
+python generate_g6.py semiconductor
+python generate_g6.py electronic_chemicals
 
-# 浏览器直接打开
-start industry_chain.html
+# 生成融合全图谱
+python generate_fusion.py
+
+# 浏览器打开
+start semiconductor_chain_g6.html
+start fusion_chain.html
 ```
 
-## 覆盖范围
+## 产业链覆盖
 
-| 层级 | 环节数 | 代表公司 |
-|------|--------|---------|
-| 上游材料 | 13 | 沪硅产业、天岳先进、江丰电子、安集科技、华特气体、南大光电、路维光电、江化微、富创精密、沃格光电、深南电路、康强电子、华海诚科 等 |
-| 中游制造/设计 | 10 | 中芯国际、华虹公司、寒武纪、海光信息、兆易创新、圣邦股份、豪威集团、斯达半导、卓胜微、敏芯股份 等 |
-| 下游应用 | 3 | 工业富联、浪潮信息、德赛西威、拓普集团 等 |
-
-**特色**：VCU 风格全交互式可视化，支持搜索/过滤/缩放/点击详情。
+| 模块 | 环节 | 公司 | YAML |
+|------|------|------|------|
+| 半导体 | 26 | 140+ | semiconductor.yaml |
+| 电子化学品 | 9 | 35+ | electronic_chemicals.yaml |
+| 有色金属 | 10 | 30+ | nonferrous_metals.yaml |
+| 硅材料 | 8 | 25+ | silicon_materials.yaml |
+| PCB 材料 | 5 | 15+ | pcb_materials.yaml |
+| **融合** | **58** | **197** | 以上全部 |
 
 ## 设计原则
 
 - **YAML 是唯一真相源**：HTML 从 YAML 生成，不手动维护两份数据
-- **自包含**：HTML 零外部依赖，浏览器直接打开
-- **可复现**：修改 YAML → 运行 `generate_viz.py` → 新 HTML 立即可用
-- **模块化源码**：配置/数据/布局/渲染/CSS/JS 各自独立文件，互不污染
+- **自包含**：HTML 零外部依赖（G6 走 CDN），浏览器直接打开
+- **可复现**：修改 YAML → 运行 generator → 新 HTML 立即可用
+- **模块化**：配置/数据/布局/融合/模板各司其职

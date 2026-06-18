@@ -1,0 +1,5830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>半导体全产业链融合图谱</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;overflow:hidden;height:100vh;background:#f0f2f5}
+#app{display:flex;height:100vh;width:100vw}
+#topbar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:7px 16px;
+  background:#fff;border-bottom:1px solid #e0e0e0;color:#333;flex-wrap:wrap}
+#topbar h1{font-size:15px;font-weight:600;background:linear-gradient(90deg,#1b6e2e,#43a047,#78909c,#e06040,#c0392b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+#topbar button{padding:5px 12px;border-radius:5px;border:1px solid #d0d0d0;background:#fafafa;color:#555;cursor:pointer;font-size:11px;transition:all .15s}
+#topbar button:hover{background:#e8f5e9;border-color:#43a047;color:#333}
+#topbar button.on{background:#e8f5e9;border-color:#2e7d32;color:#2e7d32}
+#topbar .sep{width:1px;height:16px;background:#e0e0e0}
+#topbar input{padding:5px 12px;border-radius:5px;border:1px solid #d0d0d0;background:#fff;color:#333;font-size:11px;width:170px;outline:none}
+#topbar input:focus{border-color:#43a047}
+#topbar input::placeholder{color:#aaa}
+#canvas-wrap{flex:1;position:relative;overflow:hidden;cursor:grab;background:#f8f9fa}
+#g6-container{width:100%;height:100%}
+#canvas-wrap:active{cursor:grabbing}
+#diagram{position:absolute;top:0;left:0;width:__CANVAS_W__px;height:__CANVAS_H__px;transform-origin:0 0}
+#diagram svg{position:absolute;top:0;left:0;pointer-events:none}
+#diagram svg path{fill:none;stroke-width:1.8;stroke-linecap:round;opacity:0.28}
+#diagram svg .ep{stroke:#43a047}
+#diagram svg .es{stroke:#90a4ae}
+#diagram svg .ex{stroke:#e53935;stroke-dasharray:6 3}
+.node{position:absolute;background:#fff;border:2px solid #bdbdbd;border-radius:10px;padding:10px 14px;
+  cursor:pointer;text-align:center;transition:all .18s;min-width:130px;user-select:none;z-index:1;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.node:hover{border-color:#1b6e2e;box-shadow:0 0 12px rgba(27,110,46,.2);z-index:10}
+.node.sel{border-color:#1b6e2e!important;box-shadow:0 0 20px rgba(27,110,46,.35)!important;z-index:10}
+.node.hidden{display:none}
+.node .nid{font-size:9px;font-weight:700;color:#2e7d32;font-family:'Consolas',monospace}
+.node .nn{font-size:12px;color:#333;margin-top:2px;font-weight:600}
+.node .nc{font-size:9px;color:#888;margin-top:2px}
+.node .pos-tag{display:inline-block;font-size:8px;padding:1px 6px;border-radius:6px;margin-top:3px;font-weight:600}
+.group-label{position:absolute;font-size:10px;padding:2px 10px;border-radius:3px;pointer-events:none;z-index:0;white-space:nowrap;font-weight:600;opacity:0.7;background:#fff}
+#panel{position:fixed;top:42px;right:0;bottom:0;width:460px;background:#fff;border-left:1px solid #e0e0e0;
+  display:flex;flex-direction:column;z-index:15;transform:translateX(100%);transition:transform .3s;box-shadow:-2px 0 16px rgba(0,0,0,.08)}
+#panel.open{transform:translateX(0)}
+#panel .ph{padding:12px 16px;background:#fafafa;border-bottom:1px solid #e8e8e8;display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0}
+#panel .ph h2{font-size:16px;color:#1b6e2e}
+#panel .ph .sub{font-size:11px;color:#888;margin-top:4px}
+#panel .ph button{background:none;border:none;color:#999;font-size:22px;cursor:pointer;flex-shrink:0}
+#panel .pt{display:flex;border-bottom:1px solid #e8e8e8;flex-shrink:0}
+#panel .pt button{flex:1;padding:9px 4px;border:none;background:transparent;color:#888;cursor:pointer;font-size:11px;border-bottom:2px solid transparent;transition:all .15s}
+#panel .pt button:hover{color:#555}
+#panel .pt button.on{color:#2e7d32;border-bottom-color:#2e7d32}
+#panel .pb{flex:1;overflow-y:auto;padding:16px;color:#444;font-size:13px;line-height:1.75}
+#panel .pb h3{color:#2e7d32;font-size:13px;margin:14px 0 8px}
+#panel .pb h3:first-child{margin-top:0}
+#panel .pb .desc{background:#f5fdf6;border-left:3px solid #43a047;padding:10px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:12px;line-height:1.8}
+#panel .pb table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
+#panel .pb table a:hover{text-decoration:underline!important}
+#panel .pb td.val-up{color:#e53935;font-weight:600}
+#panel .pb td.val-down{color:#2e7d32;font-weight:600}
+#panel .pb th{background:#f5f5f5;color:#2e7d32;padding:6px 10px;text-align:left;font-weight:600}
+#panel .pb td{padding:5px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+#panel .pb .code{color:#2e7d32;font-family:'Consolas',monospace;font-size:11px}
+#panel .pb .edge-item{background:#fafafa;padding:8px 12px;margin:4px 0;border-radius:6px;border-left:2px solid #e0e0e0;font-size:11px}
+#panel .pb .edge-item .edir{font-weight:600}
+.tag-cap{display:inline-block;padding:1px 8px;border-radius:8px;font-size:10px;margin:2px}
+.tag-plan{background:#fff3e0;color:#e65100;border:1px solid #ffe0b2}
+.tag-const{background:#fff8e1;color:#f57f17;border:1px solid #ffecb3}
+.tag-ramp{background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9}
+.tag-equip{background:#f3e5f5;color:#7b1fa2;border:1px solid #e1bee7}
+#legends{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:16px;color:#999;font-size:10px;pointer-events:none;z-index:0}
+#legends span{display:flex;align-items:center;gap:5px}
+#legends .ld{width:10px;height:2px;border-radius:1px}
+#flow-arrows{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:8px;color:#bbb;font-size:13px;pointer-events:none;z-index:0}
+.tooltip{position:fixed;z-index:100;background:#fff;border:1px solid #43a047;border-radius:8px;padding:10px 14px;pointer-events:none;opacity:0;transition:opacity .15s;max-width:300px;box-shadow:0 4px 24px rgba(0,0,0,.15)}
+.tooltip.show{opacity:1}
+.tooltip .tt-title{font-size:12px;color:#2e7d32;font-weight:600;margin-bottom:6px}
+.tooltip .tt-co{font-size:10px;color:#555;margin:2px 0}
+.tooltip .tt-code{color:#888;font-family:'Consolas',monospace;margin-right:6px}
+#svg-layer path.edge-hl{opacity:0.85!important;stroke-width:2.8!important;filter:drop-shadow(0 0 4px rgba(46,125,50,.4))}
+#svg-layer path.edge-dim{opacity:0.05!important}
+.node-connected{border-color:#2e7d32!important;box-shadow:0 0 14px rgba(46,125,50,.25)!important}
+.node-dim{opacity:0.3}
+.node.dragging{cursor:grabbing!important;z-index:20!important;box-shadow:0 0 20px rgba(0,0,0,.15)!important}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@antv/g6@4/dist/g6.min.js"></script>
+</head>
+<body>
+<div id="app">
+<div id="topbar">
+  <h1>🔬 半导体全产业链融合图谱</h1>
+  <div class="sep"></div>
+  <button onclick="filterGroup('all')" id="fg-all" class="on">全部</button>
+<button onclick="filterGroup('electronic_chemicals/base_chemical')" id="fg-electronic_chemicals/base_chemical">🧪 🧪 ⚗️ 基础氟化工</button>
+<button onclick="filterGroup('electronic_chemicals/purified_chemical')" id="fg-electronic_chemicals/purified_chemical">🧪 🧪 🧪 电子级纯化品</button>
+<button onclick="filterGroup('electronic_chemicals/functional_material')" id="fg-electronic_chemicals/functional_material">🧪 🧪 🔬 功能性材料</button>
+<button onclick="filterGroup('nonferrous_metals/mining_smelting')" id="fg-nonferrous_metals/mining_smelting">⛏️ ⛏️ ⛏ 矿冶/回收</button>
+<button onclick="filterGroup('nonferrous_metals/refined_metal')" id="fg-nonferrous_metals/refined_metal">⛏️ ⛏️ 🔩 高纯金属精炼</button>
+<button onclick="filterGroup('nonferrous_metals/semi_product')" id="fg-nonferrous_metals/semi_product">⛏️ ⛏️ 🔗 半导体级产品</button>
+<button onclick="filterGroup('silicon_materials/raw_material')" id="fg-silicon_materials/raw_material">🏭 🏭 ⛏ 基础原料</button>
+<button onclick="filterGroup('silicon_materials/refined_material')" id="fg-silicon_materials/refined_material">🏭 🏭 ⚗️ 精炼与加工</button>
+<button onclick="filterGroup('silicon_materials/consumable')" id="fg-silicon_materials/consumable">🏭 🏭 🔧 耗材与制品</button>
+<button onclick="filterGroup('pcb_materials/fiber')" id="fg-pcb_materials/fiber">📦 📦 🧵 玻纤与电子布</button>
+<button onclick="filterGroup('pcb_materials/metal')" id="fg-pcb_materials/metal">📦 📦 🔩 电子铜箔</button>
+<button onclick="filterGroup('pcb_materials/resin')" id="fg-pcb_materials/resin">📦 📦 🧪 特种树脂</button>
+<button onclick="filterGroup('pcb_materials/ccl')" id="fg-pcb_materials/ccl">📦 📦 📦 覆铜板(CCL)</button>
+<button onclick="filterGroup('semiconductor/material')" id="fg-semiconductor/material">🔬 🔬 🧪 材料/耗材</button>
+<button onclick="filterGroup('semiconductor/equipment')" id="fg-semiconductor/equipment">🔬 🔬 🔧 设备/零部件</button>
+<button onclick="filterGroup('semiconductor/packaging_prep')" id="fg-semiconductor/packaging_prep">🔬 🔬 📦 封装上游</button>
+<button onclick="filterGroup('semiconductor/design_ip')" id="fg-semiconductor/design_ip">🔬 🔬 🧠 芯片设计</button>
+<button onclick="filterGroup('semiconductor/wafer_fab')" id="fg-semiconductor/wafer_fab">🔬 🔬 🏭 晶圆制造</button>
+<button onclick="filterGroup('semiconductor/packaging')" id="fg-semiconductor/packaging">🔬 🔬 📦 封装测试</button>
+<button onclick="filterGroup('semiconductor/end_product')" id="fg-semiconductor/end_product">🔬 🔬 🖥 终端应用</button>
+  <div class="sep"></div>
+  <input type="text" id="search" placeholder="搜索环节/公司/股票代码..." oninput="doSearch()">
+  <span style="flex:1"></span>
+  <span id="mc" style="font-size:11px;color:#4a6070"></span>
+</div>
+<div id="canvas-wrap">
+  <div id="g6-container"></div>
+  <div id="tooltip" class="tooltip"></div>
+  <div id="legends">
+    <span><span class="ld" style="background:#4fc3f7"></span> 主要供应</span>
+    <span><span class="ld" style="background:#5a7a8a"></span> 次要供应</span>
+    <span><span class="ld" style="border-top:2px dashed #ff7043;background:none"></span> 独家供应</span>
+  </div>
+</div>
+<div id="panel"><div class="ph"><div><h2 id="p-title"></h2><div class="sub" id="p-sub"></div></div><button onclick="closePanel()">✕</button></div>
+<div class="pt">
+  <button onclick="switchTab('overview')" id="tb-overview" class="on">概述</button>
+  <button onclick="switchTab('companies')" id="tb-companies">上市公司</button>
+  <button onclick="switchTab('metrics')" id="tb-metrics">数据指标</button>
+  <button onclick="switchTab('edges')" id="tb-edges">供应关系</button>
+</div>
+<div class="pb" id="panel-body"></div></div>
+</div>
+
+<script>
+// ==================== DATA ====================
+const RAW_NODES = [
+  {
+    "id": "electronic_chemicals/ec_fluorine_base",
+    "name": "🧪 氟化工基础材料",
+    "position": "upstream",
+    "tier": 1,
+    "description": "萤石→无水氢氟酸(AHF)→高纯氟气(F₂)是半导体含氟材料的根基。F₂用于合成NF₃(清洗)、WF₆(钨沉积)、C₄F₆(刻蚀)等电子特气，AHF提纯为G5级氢氟酸用于晶圆清洗/蚀刻。萤石是国家级战略资源，中国储量全球第二。",
+    "companies": [
+      {
+        "code": "600160",
+        "name": "巨化股份",
+        "role": "国内唯一萤石→AHF→高纯F₂→电子特气全产业链，G5 HF 2.1万吨/年进台积电/三星/中芯国际",
+        "d": 2.14,
+        "d5": 5.96,
+        "d20": 43.6
+      },
+      {
+        "code": "002407",
+        "name": "多氟多",
+        "role": "电子级HF 6万吨/年(G5半导体级2万吨)，唯一同时进台积电+三星+中芯国际",
+        "d": -2.19,
+        "d5": 5.22,
+        "d20": -5.18
+      },
+      {
+        "code": "603505",
+        "name": "金石资源",
+        "role": "中国萤石矿龙头，储量>2700万吨占国内20%，供中船特气等含氟特气企业",
+        "d": 0.5,
+        "d5": 8.84,
+        "d20": -9.24
+      },
+      {
+        "code": "603379",
+        "name": "三美股份",
+        "role": "AHF产能22.1万吨/年，合资日本森田化学产电子级HF(2万吨/年)",
+        "d": 3.2,
+        "d5": 4.88,
+        "d20": 24.23
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国电子级氢氟酸市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 103,
+        "source_name": "华经产业研究院 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "半导体级G5氢氟酸国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 28,
+        "source_name": "CEMIA 2023 G5级~25-30%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "electronic_chemicals/base_chemical",
+    "layer": 0,
+    "industry": "electronic_chemicals",
+    "heat_d": 0.91,
+    "heat_d5": 6.22,
+    "heat_d20": 13.35,
+    "x": 60,
+    "y": 321.0
+  },
+  {
+    "id": "electronic_chemicals/ec_pb_sources",
+    "name": "🧪 电子级磷/硼源化学品",
+    "position": "upstream",
+    "tier": 1,
+    "description": "电子级磷酸(H₃PO₄)、三氯氧磷(POCl₃)、三溴化硼(BBr₃)是半导体掺杂/扩散工艺核心化学品。黄磷→热法磷酸→电子级磷酸提纯，电子级磷酸金属杂质<10ppb。硼源用于p型掺杂，磷源用于n型掺杂和PSG/BPSG钝化层。全球电子级磷酸市场被日本Rasa工业/美国CMC Materials主导，国产电子级磷酸在存储芯片领域已大规模导入。",
+    "companies": [
+      {
+        "code": "600096",
+        "name": "云天化",
+        "role": "磷矿→黄磷→电子级磷酸全链条，国内磷化工综合龙头，半导体级磷酸扩产",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "600141",
+        "name": "兴发集团",
+        "role": "磷化工+硅化工双主业，电子级磷酸/黄磷通过中芯国际验证",
+        "d": -3.91,
+        "d5": 1.81,
+        "d20": 15.07
+      },
+      {
+        "code": "600078",
+        "name": "澄星股份",
+        "role": "黄磷→磷酸龙头，电子级磷酸产品开发送样中，半导体级延伸",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国电子级磷酸市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 18,
+        "source_name": "华经产业研究院 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "半导体级磷酸国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 35,
+        "source_name": "券商研报 存储芯片已规模化导入",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "electronic_chemicals/base_chemical",
+    "layer": 0,
+    "industry": "electronic_chemicals",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 60,
+    "y": 449.0
+  },
+  {
+    "id": "electronic_chemicals/ec_g5_acids",
+    "name": "🧪 G5电子级酸",
+    "position": "upstream",
+    "tier": 1,
+    "description": "G5级(金属杂质<0.1ppb)高纯酸是晶圆清洗/蚀刻/剥离的核心工艺化学品。包括硫酸(H₂SO₄)、盐酸(HCl)、硝酸(HNO₃)、氢氟酸(HF)、磷酸(H₃PO₄)、双氧水(H₂O₂)、氨水(NH₄OH)。G5认证周期18-24个月，是国产替代深水区。2026Q1国产G5硫酸产能集中释放。",
+    "companies": [
+      {
+        "code": "688545",
+        "name": "兴福电子",
+        "role": "G5磷酸国内市占>80%(连续3年第一)，G5硫酸国内市占~31%，进台积电/SK海力士/GF/中芯国际",
+        "d": 4.5,
+        "d5": 13.6,
+        "d20": 32.06
+      },
+      {
+        "code": "300655",
+        "name": "晶瑞电材",
+        "role": "G5双氧水国内唯一量产(市占>40%/晶圆厂>60%)，G5硫酸通过中芯国际验证",
+        "d": 2.85,
+        "d5": 7.28,
+        "d20": 0.36
+      },
+      {
+        "code": "688549",
+        "name": "中巨芯",
+        "role": "G5氢氟酸国内首个1x nm量产，进SK海力士/台积电/中芯国际，2024营收10.3亿",
+        "d": 13.62,
+        "d5": 16.66,
+        "d20": 89.41
+      },
+      {
+        "code": "603078",
+        "name": "江化微",
+        "role": "G5/C8级酸碱有机溶剂全平台，G5硫酸镇江基地2025投产爬坡",
+        "d": 0.64,
+        "d5": 9.14,
+        "d20": 33.86
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国半导体湿电子化学品市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 130,
+        "source_name": "CEMIA 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "集成电路级湿化学品综合国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 44,
+        "source_name": "CEMIA 2023 12英寸存储>80%/逻辑>40%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "electronic_chemicals/purified_chemical",
+    "layer": 1,
+    "industry": "electronic_chemicals",
+    "heat_d": 5.4,
+    "heat_d5": 11.67,
+    "heat_d20": 38.92,
+    "x": 495,
+    "y": 60.0
+  },
+  {
+    "id": "electronic_chemicals/ec_solvents",
+    "name": "🧪 电子级溶剂与显影液",
+    "position": "upstream",
+    "tier": 1,
+    "description": "PGMEA(丙二醇甲醚醋酸酯)是光刻胶主溶剂和晶圆边缘清洗剂，PGME是其前驱体。NMP(N-甲基吡咯烷酮)用于晶圆清洗/剥离。TMAH(四甲基氢氧化铵)是正性光刻胶显影液核心成分。8/12英寸晶圆用TMAH几乎100%进口，国产替代空间极大。",
+    "companies": [
+      {
+        "code": "300721",
+        "name": "怡达股份",
+        "role": "G5级PGMEA/PGME 8万吨/年，进中芯国际28nm，通过ASML供应链审计，出口日韩",
+        "d": -0.82,
+        "d5": 4.45,
+        "d20": -8.05
+      },
+      {
+        "code": "603931",
+        "name": "格林达",
+        "role": "TMAH显影液国内唯一G5级，国家单项冠军企业，面板→半导体升级中",
+        "d": 0.51,
+        "d5": 5.74,
+        "d20": 13.05
+      },
+      {
+        "code": "300655",
+        "name": "晶瑞电材",
+        "role": "G5 NMP技术储备(全球少数)，在建10万吨电子级NMP+2万吨回收",
+        "d": 2.85,
+        "d5": 7.28,
+        "d20": 0.36
+      }
+    ],
+    "data_points": [
+      {
+        "name": "半导体级TMAH国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 5,
+        "source_name": "中信建投 8/12英寸几乎全进口",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "中国电子级PGMEA市场需求_万吨_年",
+        "unit": "万吨/年",
+        "type": "market",
+        "current_value": 15,
+        "source_name": "券商估算 2025半导体+面板",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "electronic_chemicals/purified_chemical",
+    "layer": 1,
+    "industry": "electronic_chemicals",
+    "heat_d": 0.85,
+    "heat_d5": 5.82,
+    "heat_d20": 1.79,
+    "x": 495,
+    "y": 188.0
+  },
+  {
+    "id": "electronic_chemicals/ec_si_mo_precursors",
+    "name": "🧪 电子级硅基与金属有机源",
+    "position": "upstream",
+    "tier": 1,
+    "description": "三氯氢硅(SiHCl₃/TCS)是硅烷(SiH₄)和多晶硅的关键中间体，经歧化反应制取电子级硅烷。TEOS(正硅酸乙酯)是CVD SiO₂介质层核心硅源。金属有机源(MO源：TMGa/TMAl/TMIn/TEGa)是化合物半导体MOCVD外延必需原料——决定外延层纯度和光电性能。全球MO源90%+被AkzoNobel(荷兰)和Dockweiler(德国)垄断，南大光电是国内唯一批量化MO源供应商(全球市占~8%)。",
+    "companies": [
+      {
+        "code": "603938",
+        "name": "三孚股份",
+        "role": "电子级三氯氢硅(TCS)国内最大（~6.5万吨/年），SiHCl₃→SiH₄核心前驱体",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "002409",
+        "name": "雅克科技",
+        "role": "SOD/High-K前驱体(TEMAH/TEMAZ)全球供应商，ALD/CVD前驱体平台化",
+        "d": 7.38,
+        "d5": 8.69,
+        "d20": 22.47
+      },
+      {
+        "code": "300346",
+        "name": "南大光电",
+        "role": "MO源(TEGa/TMGa/TMAl/TMIn)国内龙头，全球市占~8%，化合物半导体MOCVD核心原料",
+        "d": 3.19,
+        "d5": 12.54,
+        "d20": 8.77
+      },
+      {
+        "code": "688106",
+        "name": "金宏气体",
+        "role": "电子级TEOS(正硅酸乙酯)量产，CVD SiO₂工艺核心硅源",
+        "d": 3.62,
+        "d5": 4.63,
+        "d20": -3.19
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国电子级TCS市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 25,
+        "source_name": "券商估算 半导体+光伏级",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "半导体ALD/CVD前驱体国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 20,
+        "source_name": "券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "MO源全球市占率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 8,
+        "source_name": "南大光电2025年报",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "electronic_chemicals/purified_chemical",
+    "layer": 1,
+    "industry": "electronic_chemicals",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 495,
+    "y": 316.0
+  },
+  {
+    "id": "electronic_chemicals/ec_pr_resin",
+    "name": "🧪 光刻胶核心原料",
+    "position": "upstream",
+    "tier": 1,
+    "description": "光刻胶树脂(成膜骨架)+PAG(光产酸剂)占光刻胶原料成本60%+。树脂按波长分酚醛(g/i线)、PHS(KrF)、丙烯酸酯(ArF)。PAG是KrF/ArF/EUV化学放大光刻胶的\"光开关\"。全球PAG 75%依赖进口，日本三井化学/三菱化学垄断单体，住友/Dow垄断树脂。",
+    "companies": [
+      {
+        "code": "002643",
+        "name": "万润股份",
+        "role": "国内唯一百吨级ArF高端树脂量产(~65吨/年)，二期规划935吨/年成全国最大",
+        "d": 4.38,
+        "d5": 2.28,
+        "d20": -2.27
+      },
+      {
+        "code": "605589",
+        "name": "圣泉集团",
+        "role": "光刻胶酚醛树脂国内唯一>1吨批产量产(~200吨/年)，KrF+g/i线主力",
+        "d": -0.98,
+        "d5": 5.15,
+        "d20": 38.77
+      },
+      {
+        "code": "300429",
+        "name": "强力新材",
+        "role": "KrF PAG光产酸剂及单体，PCB光刻胶化学品全球龙头",
+        "d": 2.1,
+        "d5": 5.2,
+        "d20": -1.5
+      },
+      {
+        "code": "688199",
+        "name": "久日新材",
+        "role": "DNQ重氮萘醌感光剂(g/i线)，PAG开发中",
+        "d": 0.73,
+        "d5": 1.9,
+        "d20": -0.67
+      },
+      {
+        "code": "688113",
+        "name": "八亿时空",
+        "role": "KrF PHS树脂~50吨/年",
+        "d": -1.69,
+        "d5": 2.48,
+        "d20": -14.76
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国光刻胶树脂市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 50,
+        "source_name": "券商估算 树脂占光刻胶成本40-75%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "PAG进口依赖度_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 75,
+        "source_name": "天风证券 PAG国产化率~25%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "光刻胶树脂单体国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 50,
+        "source_name": "行业数据 2025 专利份额从5%升至22%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "electronic_chemicals/functional_material",
+    "layer": 2,
+    "industry": "electronic_chemicals",
+    "heat_d": 0.91,
+    "heat_d5": 3.4,
+    "heat_d20": 3.91,
+    "x": 930,
+    "y": 390.0
+  },
+  {
+    "id": "electronic_chemicals/ec_electroplating",
+    "name": "🧪 半导体电镀与湿法沉积化学品",
+    "position": "upstream",
+    "tier": 1,
+    "description": "半导体电镀液(铜互连大马士革镀铜液、TSV深孔镀铜液、铜柱凸块镀液、锡银镀液)是实现芯片三维互连的核心湿法化学品。与CMP(减材)互补——电镀是增材工艺。镀铜液由硫酸铜+硫酸+氯离子+有机添加剂(抑制剂/加速剂/整平剂)组成，添加剂配方是核心壁垒，全球90%+被Atotech(德国)、DuPont(美国)垄断。先进封装TSV/Bumping需求爆发驱动电镀液用量增长。",
+    "companies": [
+      {
+        "code": "300236",
+        "name": "上海新阳",
+        "role": "铜互连电镀液+TSV铜电镀液国内领先，进中芯国际铜互连产线，半导体电镀+清洗平台化",
+        "d": 6.54,
+        "d5": 6.94,
+        "d20": 1.36
+      },
+      {
+        "code": "688720",
+        "name": "艾森股份",
+        "role": "先进封装电镀液(铜柱/锡银电镀)龙头，电镀液+光刻胶双轮驱动，供长电科技/通富微电",
+        "d": 13.21,
+        "d5": 9.89,
+        "d20": 11.27
+      },
+      {
+        "code": "002741",
+        "name": "光华科技",
+        "role": "PCB电子化学品龙头(沉铜/电镀/化金)，半导体级电镀液延伸，先进封装电镀验证中",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球半导体电镀液市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 12,
+        "source_name": "TECHCET 2025 含先进封装电镀",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "铜互连电镀液国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 25,
+        "source_name": "券商研报 上海新阳/艾森合计",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "electronic_chemicals/functional_material",
+    "layer": 2,
+    "industry": "electronic_chemicals",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 930,
+    "y": 518.0
+  },
+  {
+    "id": "electronic_chemicals/ec_packaging_polymer",
+    "name": "🧪 电子封装高分子材料",
+    "position": "upstream",
+    "tier": 1,
+    "description": "环氧塑封料(EMC)占IC封装材料成本90%以上，其核心原料包括：邻甲酚醛环氧树脂(CNE，提供机械强度和耐热性)、酚醛树脂固化剂(形成交联网络)、酸酐固化剂(低应力封装)、球形硅微粉填料(降低CTE热膨胀)。先进封装Underfill底部填充胶需要低粘度(<10Pa·s)、高Tg(>150°C)、低CTE。全球CNE树脂被日本化药/DIC/三菱化学垄断70%+，球形硅微粉被日本电化/龙森垄断。",
+    "companies": [
+      {
+        "code": "603002",
+        "name": "宏昌电子",
+        "role": "电子级环氧树脂龙头(半导体封装用)，年产~15万吨，EMC核心树脂供应商",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "300041",
+        "name": "回天新材",
+        "role": "电子胶粘剂龙头，底部填充胶(Underfill)+芯片粘接胶(DAP)，已通过长电/华天验证",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "300481",
+        "name": "濮阳惠成",
+        "role": "电子级酸酐固化剂(四氢苯酐/六氢苯酐)国内市占>60%，EMC硬化体系核心",
+        "d": 2.87,
+        "d5": 2.31,
+        "d20": 23.29
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国EMC用环氧树脂市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 35,
+        "source_name": "券商估算 封装用环氧树脂",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "先进封装Underfill国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 15,
+        "source_name": "券商研报 底部填充胶国产化",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "球形硅微粉进口依赖度_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 70,
+        "source_name": "日本电化/龙森垄断，国产联瑞新材(非上市)突破中",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "electronic_chemicals/functional_material",
+    "layer": 2,
+    "industry": "electronic_chemicals",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 930,
+    "y": 646.0
+  },
+  {
+    "id": "electronic_chemicals/ec_cmp_abrasive",
+    "name": "🧪 CMP纳米磨料与添加剂",
+    "position": "upstream",
+    "tier": 1,
+    "description": "CMP抛光液由纳米磨料(55%成本)+化学添加剂(氧化剂/缓蚀剂/pH调节剂/表面活性剂)组成。磨料分纳米氧化铈CeO₂(氧化物/STI抛光)、胶体二氧化硅SiO₂(介质/金属抛光)、氧化铝Al₂O₃(硬质材料)。全球铈基磨料85%被德国Merck垄断，中国产量仅占3.2%。",
+    "companies": [
+      {
+        "code": "688019",
+        "name": "安集科技",
+        "role": "CMP抛光液全球市占~13%，自研国产铈基磨料量产大幅提升客户良率",
+        "d": 5.47,
+        "d5": 12.18,
+        "d20": -1.24
+      },
+      {
+        "code": "300054",
+        "name": "鼎龙股份",
+        "role": "自产CMP磨料粒子获千万级批量订单(2024.07)，仙桃基地磨料+抛光液一体化",
+        "d": 7.97,
+        "d5": 15.82,
+        "d20": 18.59
+      },
+      {
+        "code": "300405",
+        "name": "科隆股份",
+        "role": "纳米氧化铈CMP小规模订单，与抛光液企业持续验证测试",
+        "d": -3.36,
+        "d5": 4.21,
+        "d20": -19.66
+      },
+      {
+        "code": "300236",
+        "name": "上海新阳",
+        "role": "铜/钨CMP抛光液+电镀液+TSV铜电镀，半导体材料平台化",
+        "d": 6.54,
+        "d5": 6.94,
+        "d20": 1.36
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球CMP抛光液市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 38,
+        "source_name": "国金证券/华经产业研究院 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "全球铈基CMP磨料国产占比_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 3.2,
+        "source_name": "行业数据 Merck垄断85%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "electronic_chemicals/functional_material",
+    "layer": 2,
+    "industry": "electronic_chemicals",
+    "heat_d": 4.16,
+    "heat_d5": 9.79,
+    "heat_d20": -0.24,
+    "x": 930,
+    "y": 262.0
+  },
+  {
+    "id": "nonferrous_metals/nf_hp_copper",
+    "name": "⛏️ 高纯铜(溅射靶材级)",
+    "position": "upstream",
+    "tier": 1,
+    "description": "半导体级高纯铜(5N-7N)是溅射靶材基础原料。6N+超高纯铜进入3nm制程铜互连靶材，提纯路径：电解铜(3N)→真空精炼(4N-5N)→区域熔炼/电解精炼(6N-7N)。全球6N+铜量产仅日矿金属(日本)、日立金属(日本)、有研亿金(中国)三家。靶材级铜与引线框架铜合金是完全不同的冶金路径——前者追求极致纯度，后者追求力学性能与导电率平衡。",
+    "companies": [
+      {
+        "code": "600206",
+        "name": "有研新材",
+        "role": "子公司有研亿金6N/7N超高纯铜百吨级量产，国内极少数稳定供应铜靶材坯料",
+        "d": 1.74,
+        "d5": 7.75,
+        "d20": 28.9
+      },
+      {
+        "code": "600362",
+        "name": "江西铜业",
+        "role": "5N-7N高纯铜国内最大冶炼企业，铜靶材原料上游",
+        "d": 4.22,
+        "d5": 2.0,
+        "d20": 6.74
+      },
+      {
+        "code": "688530",
+        "name": "欧莱新材",
+        "role": "高纯无氧铜锭基地在建（韶关），向上游靶材坯料延伸",
+        "d": 1.85,
+        "d5": 21.66,
+        "d20": 16.23
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球铜溅射靶材市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 11,
+        "source_name": "券商研报 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "300mm晶圆高纯铜靶材国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 38,
+        "source_name": "券商研报 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "nonferrous_metals/refined_metal",
+    "layer": 1,
+    "industry": "nonferrous_metals",
+    "heat_d": 1.6,
+    "heat_d5": 8.49,
+    "heat_d20": 18.85,
+    "x": 495,
+    "y": 760.0
+  },
+  {
+    "id": "nonferrous_metals/nf_hp_aluminum",
+    "name": "⛏️ 高纯铝",
+    "position": "upstream",
+    "tier": 1,
+    "description": "5N-6N超高纯铝是半导体铝互连溅射靶材的核心原料，全球仅3家6N级供应商（新疆众和+日本住友/日轻），此前100%依赖日本进口，新疆众和打破垄断。",
+    "companies": [
+      {
+        "code": "600888",
+        "name": "新疆众和",
+        "role": "国内唯一6N级超高纯铝量产企业，靶材坯料供应江丰电子/有研亿金",
+        "d": -1.52,
+        "d5": 1.49,
+        "d20": 32.77
+      },
+      {
+        "code": "002532",
+        "name": "天山铝业",
+        "role": "高纯铝产能6万吨/年（建成4万吨），半导体靶材方向占比提升中",
+        "d": -1.26,
+        "d5": 1.85,
+        "d20": -16.62
+      },
+      {
+        "code": "600673",
+        "name": "东阳光",
+        "role": "电子铝箔→化成箔完整产业链，半导体靶材级供应待验证",
+        "d": 9.99,
+        "d5": 10.88,
+        "d20": -6.57
+      }
+    ],
+    "data_points": [
+      {
+        "name": "6N级超高纯铝全球供应商数量",
+        "unit": "家",
+        "type": "market",
+        "current_value": 3,
+        "source_name": "行业数据",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "新疆众和高纯铝产量_万吨_年",
+        "unit": "万吨/年",
+        "type": "output",
+        "current_value": 7.95,
+        "source_name": "新疆众和年报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "nonferrous_metals/refined_metal",
+    "layer": 1,
+    "industry": "nonferrous_metals",
+    "heat_d": 2.4,
+    "heat_d5": 4.74,
+    "heat_d20": 3.19,
+    "x": 495,
+    "y": 888.0
+  },
+  {
+    "id": "nonferrous_metals/nf_precious_metal",
+    "name": "⛏️ 半导体用贵金属材料",
+    "position": "upstream",
+    "tier": 1,
+    "description": "金(Au)、银(Ag)、钯(Pd)、铂(Pt)是半导体封装和器件制造的关键贵金属。金丝/银丝/镀钯铜丝用于芯片键合（连接芯片焊盘→引线框架），金/铂靶材用于MEMS器件和传感器电极溅射，银浆用于芯片粘接和热界面。全球半导体键合丝市场约43亿元（Au丝~17%/Ag丝~42%/Cu丝~37%）。贵金属靶材和蒸发材料是化合物半导体（GaAs/GaN器件）的必需消耗品。",
+    "companies": [
+      {
+        "code": "600206",
+        "name": "有研新材",
+        "role": "高纯金/银/铂/钯靶材及蒸发材料，贵金属靶材品类最全国内唯一，同供键合丝/溅射靶",
+        "d": 1.74,
+        "d5": 7.75,
+        "d20": 28.9
+      },
+      {
+        "code": "600489",
+        "name": "中金黄金",
+        "role": "高纯金锭(4N5-5N)，国内最大黄金冶炼商，半导体封装用键合金丝上游",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球半导体用金键合丝市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 18,
+        "source_name": "券商研报 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "半导体封装用银浆国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 30,
+        "source_name": "券商研报 银浆国产化",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "nonferrous_metals/refined_metal",
+    "layer": 1,
+    "industry": "nonferrous_metals",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 495,
+    "y": 504.0
+  },
+  {
+    "id": "nonferrous_metals/nf_refractory",
+    "name": "⛏️ 高纯难熔金属",
+    "position": "upstream",
+    "tier": 1,
+    "description": "高纯钽(Ta)/钛(Ti)/钨(W)/钼(Mo)是半导体PVD溅射靶材核心原料。钽用于阻挡层(TaN)，钛用于粘附层，钨用于栅极/插塞，3nm+钼替代钨趋势加速。全球靶材涨价60-70%，国产认证突破中。",
+    "companies": [
+      {
+        "code": "000962",
+        "name": "东方钽业",
+        "role": "5N9级超高纯钽靶坯量产，全球钽丝市占60%世界第一",
+        "d": -3.11,
+        "d5": 8.21,
+        "d20": 13.64
+      },
+      {
+        "code": "600549",
+        "name": "厦门钨业",
+        "role": "5N钨靶通过台积电12英寸认证，钼酸铵国内市占超40%",
+        "d": 3.1,
+        "d5": 7.01,
+        "d20": 55.79
+      },
+      {
+        "code": "601958",
+        "name": "金钼股份",
+        "role": "5N钼靶国内唯一通过海外头部客户认证，中芯国际10亿长协",
+        "d": -1.42,
+        "d5": 4.64,
+        "d20": 30.71
+      },
+      {
+        "code": "000969",
+        "name": "安泰科技",
+        "role": "高纯钨/钼靶材上游核心供应商，12英寸钼靶通过中芯国际认证",
+        "d": -2.76,
+        "d5": 6.59,
+        "d20": 14.9
+      },
+      {
+        "code": "600456",
+        "name": "宝钛股份",
+        "role": "钛材全产业链龙头，高纯钛靶坯重要上游",
+        "d": -0.52,
+        "d5": 2.0,
+        "d20": -7.07
+      }
+    ],
+    "data_points": [
+      {
+        "name": "靶材涨价幅度_百分比",
+        "unit": "%",
+        "type": "price_change",
+        "current_value": 65,
+        "source_name": "券商研报 2026Q1",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "全球钼靶供应现状",
+        "unit": "",
+        "type": "status",
+        "current_value": 0,
+        "source_name": "台积电3nm月耗钼靶超2吨/供应紧缺",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "nonferrous_metals/refined_metal",
+    "layer": 1,
+    "industry": "nonferrous_metals",
+    "heat_d": -0.94,
+    "heat_d5": 5.69,
+    "heat_d20": 21.59,
+    "x": 495,
+    "y": 1016.0
+  },
+  {
+    "id": "nonferrous_metals/nf_hp_cobalt",
+    "name": "⛏️ 高纯钴及新兴互连金属",
+    "position": "upstream",
+    "tier": 1,
+    "description": "高纯钴(5N-6N)是先进制程(3nm及以下)铜互连替代材料。Co在M0/M1层取代Cu：更薄阻挡层(Co liner替代TaN+Co seed)、更好抗电迁移性、更低接触电阻。每片3nm晶圆消耗钴靶~0.3g，台积电3nm月产能10万片→年钴靶需求~360kg，虽量小但单价极高（6N钴靶~$8000/kg）。全球半导体钴靶市场<2亿美元但CAGR>40%。中国钴冶炼全球主导(华友/寒锐占全球精炼钴产能60%+)，但半导体级钴靶坯仍处验证期。",
+    "companies": [
+      {
+        "code": "603799",
+        "name": "华友钴业",
+        "role": "全球钴业龙头，刚果金钴矿→冶炼→高纯钴粉全链条，半导体级钴靶坯延伸中",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "300618",
+        "name": "寒锐钴业",
+        "role": "钴粉/钴盐产能国内前三，5N高纯钴粉量产，半导体靶材/高温合金原料",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球半导体用钴靶材市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 1.8,
+        "source_name": "TECHCET 2025 先进制程驱动",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "全球精炼钴中国产能占比_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 78,
+        "source_name": "华友钴业+寒锐钴业2025年报合计",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "nonferrous_metals/refined_metal",
+    "layer": 1,
+    "industry": "nonferrous_metals",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 495,
+    "y": 632.0
+  },
+  {
+    "id": "nonferrous_metals/nf_bonding_wire",
+    "name": "⛏️ 键合丝",
+    "position": "upstream",
+    "tier": 1,
+    "description": "键合丝是芯片封装核心材料，连接芯片焊盘与引线框架。按材质分键合金丝(17%)、银丝(42%)、铜丝(37%)、铝丝(4%)。\"铜代金\"趋势下镀钯铜丝国产替代空间大。全球Top3(贺利氏/铭凯益/日铁)占55%。",
+    "companies": [
+      {
+        "code": "002119",
+        "name": "康强电子",
+        "role": "键合丝+引线框架龙头，金丝/铜丝供应长电/华天/通富，引线框架国内市占第一",
+        "d": -0.27,
+        "d5": 8.85,
+        "d20": 37.12
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球键合丝市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 43.2,
+        "source_name": "券商研报 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "中国键合丝总需求量_亿米",
+        "unit": "亿米",
+        "type": "market",
+        "current_value": 360.1,
+        "source_name": "行业数据 2022",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "nonferrous_metals/semi_product",
+    "layer": 2,
+    "industry": "nonferrous_metals",
+    "heat_d": -0.27,
+    "heat_d5": 8.85,
+    "heat_d20": 37.12,
+    "x": 930,
+    "y": 1090.0
+  },
+  {
+    "id": "nonferrous_metals/nf_leadframe_alloy",
+    "name": "⛏️ 引线框架铜合金",
+    "position": "upstream",
+    "tier": 1,
+    "description": "引线框架铜合金带材(C7025/C19400/KCF/EFTEC-64T)是IC引线框架的骨架材料，要求高强度(>600MPa)、高导电率(>50%IACS)、精密冲压成型性和热匹配性。冶金路径：电解铜→合金熔炼(添加Fe/P/Zn/Sn)→热轧→冷轧(精度±2μm)→去应力退火→分条。全球高端引线框架铜带90%+被三菱伸铜(日本)、维兰德(德国)垄断。铜合金引线框架→冲压/蚀刻成型→封装厂，是封测直接上游。",
+    "companies": [
+      {
+        "code": "601137",
+        "name": "博威合金",
+        "role": "引线框架铜合金带材龙头，C7025/C194/KCF系列，供康强电子/长电科技，国内市占率第一",
+        "d": -1.4,
+        "d5": 2.55,
+        "d20": 23.53
+      },
+      {
+        "code": "002171",
+        "name": "楚江新材",
+        "role": "高精度铜合金带材，电子引线框架用铜带量产，铜加工综合龙头",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国引线框架铜合金市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 55,
+        "source_name": "券商研报 2025 含冲压框架",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "高精度引线框架铜带国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 55,
+        "source_name": "博威合金/楚江新材合计市占",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "nonferrous_metals/semi_product",
+    "layer": 2,
+    "industry": "nonferrous_metals",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 930,
+    "y": 962.0
+  },
+  {
+    "id": "nonferrous_metals/nf_pkg_interconnect",
+    "name": "⛏️ 封装互连材料(焊料/浆料)",
+    "position": "upstream",
+    "tier": 1,
+    "description": "BGA/CSP焊球(SAC305/SnAgCu)、芯片粘接银浆/烧结银、铜柱凸块是芯片与基板/PCB之间的电热互连材料。焊球直径从0.76mm(BGA)缩至0.15mm(先进CSP)，对球形度(<±2%)和氧化控制要求极高。全球焊球市场被Senju(日本千住)、Alpha(美国麦德美)、Indium(美国)垄断85%+。烧结银(Ag sintering)是SiC功率模块关键互连材料，替代传统焊料满足200°C+高温工作。A股直接标的极少，龙头企业多未上市（康普锡威/北京达博）。",
+    "companies": [
+      {
+        "code": "002119",
+        "name": "康强电子",
+        "role": "键合丝+引线框架一站式，封装互连材料综合供应商，引线框架国内市占第一",
+        "d": -0.27,
+        "d5": 8.85,
+        "d20": 37.12
+      },
+      {
+        "code": "600206",
+        "name": "有研新材",
+        "role": "母公司有研集团控股康普锡威(国内最大焊锡粉厂商，非上市)，锡基焊料粉上游",
+        "d": 1.74,
+        "d5": 7.75,
+        "d20": 28.9
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球半导体焊料球市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 22,
+        "source_name": "券商研报 2025 BGA/CSP/WLCSP",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "BGA焊球国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 10,
+        "source_name": "券商研报 Senju/Alpha/Indium垄断",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "nonferrous_metals/semi_product",
+    "layer": 2,
+    "industry": "nonferrous_metals",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 930,
+    "y": 834.0
+  },
+  {
+    "id": "nonferrous_metals/nf_scattered_metals",
+    "name": "⛏️ 稀散金属（镓/铟/锗）",
+    "position": "upstream",
+    "tier": 1,
+    "description": "镓(Ga)用于GaAs/GaN化合物半导体，铟(In)用于InP衬底和ITO靶材，锗(Ge)用于Ge衬底和SiGe外延。中国镓储量占全球68%、锗占41%、铟供应占70%+。但高端衬底深加工仍依赖日本住友和美国AXT。2023年镓/锗出口管制凸显战略价值。",
+    "companies": [
+      {
+        "code": "002428",
+        "name": "云南锗业",
+        "role": "GaAs晶片80万片/年+InP晶片15万片/年，国内唯一2-6英寸InP衬底量产",
+        "d": -1.92,
+        "d5": 15.36,
+        "d20": 9.05
+      },
+      {
+        "code": "600497",
+        "name": "驰宏锌锗",
+        "role": "锗产能60吨/年，产品覆盖四氯化锗→锗单晶全链条",
+        "d": 0.3,
+        "d5": 2.96,
+        "d20": 1.98
+      },
+      {
+        "code": "601600",
+        "name": "中国铝业",
+        "role": "镓资源核心方（氧化铝副产），中国镓储量占全球68%",
+        "d": -0.99,
+        "d5": 2.12,
+        "d20": -8.68
+      },
+      {
+        "code": "000960",
+        "name": "锡业股份",
+        "role": "铟储量4821吨全球第一，原生铟国内市占近30%",
+        "d": -0.5,
+        "d5": 3.29,
+        "d20": 13.46
+      },
+      {
+        "code": "600961",
+        "name": "株冶集团",
+        "role": "铟产量全球第一(61%)，高纯铟4N5-7N量产",
+        "d": -1.69,
+        "d5": 5.67,
+        "d20": -3.18
+      },
+      {
+        "code": "000751",
+        "name": "锌业股份",
+        "role": "亚洲最大半导体用铟供应商，ITO靶材全球市占超30%",
+        "d": -2.85,
+        "d5": 2.23,
+        "d20": -7.09
+      }
+    ],
+    "data_points": [
+      {
+        "name": "磷化铟衬底自给率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 10,
+        "source_name": "行业数据 日本住友/美国AXT垄断90%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "全球精铟产量_吨_年",
+        "unit": "吨/年",
+        "type": "output",
+        "current_value": 1150,
+        "source_name": "行业数据 2024 中国占70%+",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "nonferrous_metals/mining_smelting",
+    "layer": 0,
+    "industry": "nonferrous_metals",
+    "heat_d": -1.28,
+    "heat_d5": 5.27,
+    "heat_d20": 0.92,
+    "x": 60,
+    "y": 765.0
+  },
+  {
+    "id": "nonferrous_metals/nf_rare_earth",
+    "name": "⛏️ 稀土功能材料",
+    "position": "upstream",
+    "tier": 1,
+    "description": "稀土铈(Ce)基抛光粉是半导体CMP工艺核心耗材，用于晶圆平坦化精密抛光。中国稀土抛光材料产量占全球72%，但以手机盖板玻璃为主（1.7-4万元/吨），半导体纳米级（>30万元/吨）占比尚小。高端CMP抛光液仍依赖美国Cabot、日本Fujimi。",
+    "companies": [
+      {
+        "code": "600111",
+        "name": "北方稀土",
+        "role": "抛光材料产能3.2万吨/年全球最大，依托白云鄂博轻稀土基地",
+        "d": -3.19,
+        "d5": 7.11,
+        "d20": -2.71
+      },
+      {
+        "code": "600552",
+        "name": "凯盛科技",
+        "role": "CeO2-Al2O3复合抛光粉达Ra<0.2nm，联合中科院开发",
+        "d": 9.98,
+        "d5": 5.28,
+        "d20": 32.27
+      },
+      {
+        "code": "300405",
+        "name": "科隆股份",
+        "role": "纳米氧化铈CMP小规模订单，持续与CMP抛光液企业对接测试",
+        "d": -3.36,
+        "d5": 4.21,
+        "d20": -19.66
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国稀土抛光材料市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 7.68,
+        "source_name": "行业数据 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "半导体CMP抛光液国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 10,
+        "source_name": "券商研报 <10% 依赖Cabot/Fujimi",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "nonferrous_metals/mining_smelting",
+    "layer": 0,
+    "industry": "nonferrous_metals",
+    "heat_d": 1.14,
+    "heat_d5": 5.53,
+    "heat_d20": 3.3,
+    "x": 60,
+    "y": 637.0
+  },
+  {
+    "id": "silicon_materials/sm_metallurgical_si",
+    "name": "🏭 工业硅",
+    "position": "upstream",
+    "tier": 1,
+    "description": "冶金级工业硅(Si 99%+)是多晶硅生产的最上游原料。中国工业硅产能占全球82.6%绝对主导，但\"大而不强\"——大规模低附加值出口，高端半导体级多晶硅长期依赖进口。下游分流：多晶硅(55%)、有机硅(27%)、铝合金(17%)。",
+    "companies": [
+      {
+        "code": "603260",
+        "name": "合盛硅业",
+        "role": "全球最大工业硅生产商，产能122万吨/年，同时向下延伸SiC衬底",
+        "d": -1.96,
+        "d5": 2.01,
+        "d20": 16.61
+      },
+      {
+        "code": "600596",
+        "name": "新安股份",
+        "role": "工业硅30万吨/年，\"工业硅→有机硅\"一体化闭环，有机硅单体49万吨国内第二",
+        "d": 0.5,
+        "d5": 1.72,
+        "d20": 23.71
+      },
+      {
+        "code": "600141",
+        "name": "兴发集团",
+        "role": "磷化工+硅化工双主业，内蒙古乌海规划工业硅20万吨/年",
+        "d": -3.91,
+        "d5": 1.81,
+        "d20": 15.07
+      },
+      {
+        "code": "688303",
+        "name": "大全能源",
+        "role": "工业硅30万吨/年自供下游多晶硅，工业硅→多晶硅一体化代表",
+        "d": -5.0,
+        "d5": 1.12,
+        "d20": -5.82
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国工业硅产能_万吨_年",
+        "unit": "万吨/年",
+        "type": "capacity",
+        "current_value": 728,
+        "source_name": "观研天下/百川盈孚 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "中国工业硅产量_万吨",
+        "unit": "万吨",
+        "type": "output",
+        "current_value": 480,
+        "source_name": "百川盈孚/SMM 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "全球产能占比_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 82.6,
+        "source_name": "行业协会 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "silicon_materials/raw_material",
+    "layer": 0,
+    "industry": "silicon_materials",
+    "heat_d": -2.59,
+    "heat_d5": 1.67,
+    "heat_d20": 12.39,
+    "x": 60,
+    "y": 1081.0
+  },
+  {
+    "id": "silicon_materials/sm_elec_polysilicon",
+    "name": "🏭 电子级多晶硅",
+    "position": "upstream",
+    "tier": 1,
+    "description": "电子级多晶硅(11N-13N纯度)是半导体CZ/FZ单晶生长的直接原料。全球仅德国Wacker、日本Tokuyama、美国Hemlock三家垄断12英寸晶圆用市场。中国光伏级多晶硅产能>200万吨全球主导，但12英寸用半导体级国产化率不足10%，是半导体材料\"卡脖子\"最核心环节。鑫华半导体(IPO中)是国内电子级专业龙头。",
+    "companies": [
+      {
+        "code": "600438",
+        "name": "通威股份",
+        "role": "乐山1000吨/年电子级多晶硅产线，通过海外客户验证并出口供货",
+        "d": -2.44,
+        "d5": 1.7,
+        "d20": -13.44
+      },
+      {
+        "code": "688303",
+        "name": "大全能源",
+        "role": "一期1000吨/年11N级已投产，远期规划2.1万吨半导体级总产能",
+        "d": -5.0,
+        "d5": 1.12,
+        "d20": -5.82
+      },
+      {
+        "code": "600089",
+        "name": "特变电工",
+        "role": "控股新特能源(港股01799)布局半导体级多晶硅，30万吨光伏级向半导体延伸",
+        "d": -2.78,
+        "d5": 1.65,
+        "d20": -11.63
+      }
+    ],
+    "data_points": [
+      {
+        "name": "12英寸晶圆用多晶硅国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 10,
+        "source_name": "行业研报 <10% 卡脖子核心环节",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "中国12英寸晶圆用多晶硅年需求量_万吨",
+        "unit": "万吨",
+        "type": "market",
+        "current_value": 1,
+        "source_name": "行业研报估算",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "全球电子级多晶硅市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 12,
+        "source_name": "QYResearch/SEMI 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "silicon_materials/refined_material",
+    "layer": 1,
+    "industry": "silicon_materials",
+    "heat_d": -3.41,
+    "heat_d5": 1.49,
+    "heat_d20": -10.3,
+    "x": 495,
+    "y": 1204.0
+  },
+  {
+    "id": "silicon_materials/sm_quartz",
+    "name": "🏭 石英坩埚与石英制品",
+    "position": "upstream",
+    "tier": 1,
+    "description": "石英坩埚是CZ单晶拉制核心消耗品(每炉一只/寿命~650h)，内层高纯合成石英砂(涂层)长期被日本三菱化学垄断。石英舟/管/环用于晶圆热处理和刻蚀腔体。半导体级32英寸+坩埚由日本信越石英主导，国产化率<30%。凯盛科技合成石英砂是国产替代关键变量。",
+    "companies": [
+      {
+        "code": "603688",
+        "name": "石英股份",
+        "role": "国内石英材料绝对龙头，全球少数掌握高纯石英砂量产，国内唯一通过TEL高温扩散认证",
+        "d": -1.23,
+        "d5": 7.34,
+        "d20": 9.64
+      },
+      {
+        "code": "001269",
+        "name": "欧晶科技",
+        "role": "32英寸半导体级石英坩埚已实现进口替代，36英寸量产供货，坩埚寿命突破650h",
+        "d": -3.62,
+        "d5": 7.52,
+        "d20": 7.13
+      },
+      {
+        "code": "300316",
+        "name": "晶盛机电",
+        "role": "子公司美晶新材坩埚产能1.8万只/月，半导体坩埚占比约2.4%提升中",
+        "d": 0.35,
+        "d5": 3.94,
+        "d20": -8.14
+      },
+      {
+        "code": "600552",
+        "name": "凯盛科技",
+        "role": "合成石英砂2024年12月带料试生产，目标替代三菱化学进口砂",
+        "d": 9.98,
+        "d5": 5.28,
+        "d20": 32.27
+      }
+    ],
+    "data_points": [
+      {
+        "name": "半导体石英坩埚国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 30,
+        "source_name": "沙利文 32英寸+仍由信越/Momentive主导",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "中国半导体石英坩埚市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 5.1,
+        "source_name": "沙利文/观研天下 2024 CAGR 38%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "silicon_materials/consumable",
+    "layer": 1,
+    "industry": "silicon_materials",
+    "heat_d": 1.37,
+    "heat_d5": 6.02,
+    "heat_d20": 10.23,
+    "x": 495,
+    "y": 1392.0
+  },
+  {
+    "id": "silicon_materials/sm_wafer_consumables",
+    "name": "🏭 硅片加工辅材(切割/研磨)",
+    "position": "upstream",
+    "tier": 1,
+    "description": "金刚线(电镀金刚石线锯)是硅片切割核心工具，线径从120μm微缩至<50μm。半导体级金刚线要求极高一致性（线径波动<±1μm）、低断线率、高切割速度。每片12英寸硅片消耗金刚线~2.5m。光伏金刚线国产化率>95%，但半导体级（线径<60μm、低损伤层）仍被日本则武/旭金刚石主导。切割冷却液、研磨液与金刚线配套使用，是硅片加工三大消耗品之一。",
+    "companies": [
+      {
+        "code": "300554",
+        "name": "三超新材",
+        "role": "金刚线（硅片切割用）龙头，半导体硅片切割线国内领先，金刚线线径<50μm",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "300700",
+        "name": "岱勒新材",
+        "role": "金刚石线（光伏→半导体延伸），半导体硅片切割线开发送样中",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国半导体硅片切割用金刚线市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 8,
+        "source_name": "券商估算 半导体硅片切割线",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "半导体级金刚线国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 30,
+        "source_name": "日本则武/旭金刚石仍主导高端",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "silicon_materials/consumable",
+    "layer": 1,
+    "industry": "silicon_materials",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 495,
+    "y": 1520.0
+  },
+  {
+    "id": "silicon_materials/sm_sic_powder",
+    "name": "🏭 碳化硅粉体",
+    "position": "upstream",
+    "tier": 1,
+    "description": "高纯碳化硅粉体(6N-8N)是SiC衬底PVT长晶核心原料，直接决定衬底缺陷密度和良率。国内最大专业粉料商河南中宜创芯(8N8/500吨年/平煤神马系)未上市，天科合达(非上市)自产5N5粉料并对外销售。A股中三安光电/合盛硅业为垂直整合自供模式。高端半导体级粉料仍存差距。",
+    "companies": [
+      {
+        "code": "600703",
+        "name": "三安光电",
+        "role": "国内唯一SiC全产业链IDM(粉料→长晶→衬底→外延→芯片)，粉料全自供",
+        "d": 1.9,
+        "d5": 2.45,
+        "d20": 2.23
+      },
+      {
+        "code": "603260",
+        "name": "合盛硅业",
+        "role": "从工业硅向下延伸，内蒙古800吨SiC颗粒项目已点火",
+        "d": -1.96,
+        "d5": 2.01,
+        "d20": 16.61
+      },
+      {
+        "code": "600330",
+        "name": "天通股份",
+        "role": "SiC晶体生长设备+晶体生长工艺，涉足SiC粉料制备",
+        "d": 3.15,
+        "d5": 5.31,
+        "d20": 16.0
+      },
+      {
+        "code": "600509",
+        "name": "天富能源",
+        "role": "持有天科合达11.62%股权(第二大股东)，天科合达自产5N5 SiC粉料",
+        "d": -1.15,
+        "d5": 1.52,
+        "d20": -10.05
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球高纯SiC粉体市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 12.2,
+        "source_name": "YH Research/QYResearch 2024 晶圆用~1.2亿美元",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "高纯SiC粉体CAGR_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 17,
+        "source_name": "QYResearch 半导体级驱动",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "silicon_materials/raw_material",
+    "layer": 0,
+    "industry": "silicon_materials",
+    "heat_d": 0.48,
+    "heat_d5": 2.82,
+    "heat_d20": 6.2,
+    "x": 60,
+    "y": 1209.0
+  },
+  {
+    "id": "silicon_materials/sm_compound_substrate",
+    "name": "🏭 化合物半导体衬底",
+    "position": "upstream",
+    "tier": 1,
+    "description": "砷化镓(GaAs)、磷化铟(InP)、氮化镓(GaN)衬底是第二代/第三代化合物半导体的\"硅片\"。GaAs衬底用于手机PA/射频开关（5G手机PA用量4-8颗）、光通信激光器；InP衬底用于光模块EML/DFB激光器、太赫兹器件；GaN-on-SiC衬底用于5G基站功放和卫星通信。全球GaAs衬底~$6亿市场被Freiberger(德国)、住友电工(日本)、AXT(美国/中国)三家垄断85%+。InP衬底90%+被住友电工垄断。国产GaAs/InP衬底在LED低端市场有量，通信级严重依赖进口。",
+    "companies": [
+      {
+        "code": "002428",
+        "name": "云南锗业",
+        "role": "GaAs晶片80万片/年+InP晶片15万片/年，国内唯一2-6英寸InP衬底量产，子公司鑫耀半导体",
+        "d": -1.92,
+        "d5": 15.36,
+        "d20": 9.05
+      },
+      {
+        "code": "600703",
+        "name": "三安光电",
+        "role": "GaAs/GaN/SiC全系列衬底+外延IDM，GaAs衬底产能国内最大，化合物半导体平台",
+        "d": 1.9,
+        "d5": 2.45,
+        "d20": 2.23
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球半绝缘GaAs衬底市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 6,
+        "source_name": "Yole 2025 射频/光通信驱动",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "InP衬底国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 10,
+        "source_name": "日本住友电工/AXT垄断90%+",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "silicon_materials/raw_material",
+    "layer": 0,
+    "industry": "silicon_materials",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 60,
+    "y": 953.0
+  },
+  {
+    "id": "silicon_materials/sm_epitaxial_wafer",
+    "name": "🏭 外延片",
+    "position": "upstream",
+    "tier": 1,
+    "description": "外延片(Epitaxial Wafer)是在抛光硅片上生长一层高纯度单晶薄膜，是芯片制造的直接衬底材料。硅外延片用于功率器件(IGBT/MOSFET)、CIS图像传感器——外延层电阻率/厚度决定器件击穿电压。SiC外延片是SiC MOSFET/SBD的关键——外延层质量直接决定器件导通电阻和可靠性，SiC外延全球CR3(Wolfspeed/II-VI/Showa Denko)占80%+。GaN-on-SiC外延用于5G基站射频功放。外延是\"硅片→芯片\"之间最后一道材料工序。",
+    "companies": [
+      {
+        "code": "688584",
+        "name": "上海合晶",
+        "role": "6/8/12英寸外延片专精，国内最大半导体外延片专业厂商",
+        "d": 2.87,
+        "d5": 4.87,
+        "d20": -5.33
+      },
+      {
+        "code": "605358",
+        "name": "立昂微",
+        "role": "8/12英寸重掺/轻掺硅外延片，外延+抛光片双平台",
+        "d": 4.11,
+        "d5": 6.83,
+        "d20": 26.74
+      },
+      {
+        "code": "600703",
+        "name": "三安光电",
+        "role": "SiC/GaN外延全产业链IDM，6/8英寸SiC外延片产能国内最大",
+        "d": 1.9,
+        "d5": 2.45,
+        "d20": 2.23
+      },
+      {
+        "code": "688469",
+        "name": "芯联集成",
+        "role": "8英寸SiC外延+器件制造一体化，SiC MOSFET外延平台",
+        "d": 7.9,
+        "d5": 5.56,
+        "d20": 7.63
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国半导体硅外延片市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 55,
+        "source_name": "券商研报 2025 功率+CIS驱动",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "SiC外延片国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 40,
+        "source_name": "三安光电/芯联集成/天域半导体(非上市)合计",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "silicon_materials/refined_material",
+    "layer": 2,
+    "industry": "silicon_materials",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 930,
+    "y": 1406.0
+  },
+  {
+    "id": "silicon_materials/sm_soi_specialty",
+    "name": "🏭 SOI与特种硅片",
+    "position": "upstream",
+    "tier": 1,
+    "description": "SOI(Silicon-On-Insulator，绝缘体上硅)由顶层硅(器件层)+埋氧层(BOX SiO₂)+衬底硅构成。RF-SOI用于5G手机射频前端开关/LNA（每部5G手机用6-10片RF-SOI），FD-SOI(全耗尽SOI)用于汽车MCU和IoT低功耗芯片（28nm FD-SOI可替代16nm FinFET能效）。全球SOI硅片市场99%被法国Soitec垄断（Smart Cut技术专利），沪硅产业旗下新傲科技是Soitec中国合作伙伴和唯一国产SOI硅片供应商。区熔(FZ)硅片是另一特种硅片，用于高压IGBT和晶闸管。",
+    "companies": [
+      {
+        "code": "688126",
+        "name": "沪硅产业",
+        "role": "子公司新傲科技(SOI硅片)，Soitec中国合作伙伴，8英寸RF-SOI量产",
+        "d": 4.35,
+        "d5": 6.36,
+        "d20": 10.53
+      },
+      {
+        "code": "002129",
+        "name": "TCL中环",
+        "role": "8/12英寸区熔硅片(FZ)国内绝对龙头，SOI布局中",
+        "d": 3.68,
+        "d5": 2.16,
+        "d20": 10.65
+      },
+      {
+        "code": "688432",
+        "name": "有研硅",
+        "role": "4-12英寸全尺寸硅片，SOI硅片产品线+区熔硅片",
+        "d": 2.62,
+        "d5": 5.52,
+        "d20": 24.48
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球SOI硅片市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 18,
+        "source_name": "Soitec/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "中国SOI硅片自给率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 8,
+        "source_name": "券商研报 Soitec垄断99%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "silicon_materials/refined_material",
+    "layer": 2,
+    "industry": "silicon_materials",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 930,
+    "y": 1278.0
+  },
+  {
+    "id": "pcb_materials/pcb_glass_yarn",
+    "name": "📦 电子级玻纤纱",
+    "position": "upstream",
+    "tier": 1,
+    "description": "电子级玻璃纤维纱是电子布的织造原料，由熔融玻璃液经铂金漏板高速拉丝而成。单丝直径4-9μm（头发丝的1/10），要求极低气泡率和高度均匀的介电性能。全球电子纱产能高度集中于中国（占70%+），中国巨石一家独大（全球电子纱产能~25%）。电子纱按介电常数分E-glass(普通)和Low-Dk glass(低介电)，后者是5G/AI服务器PCB的必需原料，技术壁垒极高，全球仅日本日东纺和中国巨石/泰山玻纤能稳定量产。",
+    "companies": [
+      {
+        "code": "600176",
+        "name": "中国巨石",
+        "role": "全球玻纤产能第一（~260万吨/年），电子纱产能国内最大，Low-Dk电子纱量产",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "002080",
+        "name": "中材科技",
+        "role": "子公司泰山玻纤电子纱产能国内第二，Low-Dk电子纱通过客户认证",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球电子级玻纤纱市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 120,
+        "source_name": "券商研报 2025 含普通+Low-Dk",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "中国电子纱全球产能占比_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 72,
+        "source_name": "中国巨石年报/行业协会",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "pcb_materials/fiber",
+    "layer": 0,
+    "industry": "pcb_materials",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 60,
+    "y": 1397.0
+  },
+  {
+    "id": "pcb_materials/pcb_glass_cloth",
+    "name": "📦 电子布(电子级玻纤布)",
+    "position": "upstream",
+    "tier": 1,
+    "description": "电子布由电子纱经整经→浆纱→织造→退浆→表面处理而成，是覆铜板(CCL)的核心骨架增强材料，占CCL成本~20-30%。高端电子布向超薄化（<28μm厚度）、低介电常数（Dk<4.0@10GHz）、低热膨胀（CTE<3ppm/°C）演进。宏和科技是全球超薄/极薄电子布市占率第一（2025年20.5%），也是国内唯二实现第二代Low Dk/Df布批量稳定供货的厂商。AI服务器PCB需用3-5层超薄低介电布叠加，单台AI服务器PCB用布量是传统服务器的3-5倍。",
+    "companies": [
+      {
+        "code": "603256",
+        "name": "宏和科技",
+        "role": "全球超薄/极薄电子布市占第一（20.5%），Low Dk/Df布国内唯二量产，石英纤维布全球首批量产",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "600176",
+        "name": "中国巨石",
+        "role": "从电子纱垂直整合至电子布，电子布产能国内前三",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球高端电子布市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 85,
+        "source_name": "Prismark/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "宏和科技超薄布全球市占率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 20.5,
+        "source_name": "宏和科技2025年报",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "Low Dk/Df电子布渗透率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 15,
+        "source_name": "券商研报 2025 AI驱动快速增长",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "pcb_materials/fiber",
+    "layer": 1,
+    "industry": "pcb_materials",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 495,
+    "y": 1708.0
+  },
+  {
+    "id": "pcb_materials/pcb_copper_foil",
+    "name": "📦 电子铜箔",
+    "position": "upstream",
+    "tier": 1,
+    "description": "电子铜箔是CCL的导电层，经热压与电子布+树脂复合形成覆铜板。按工艺分电解铜箔（主流，占95%+）和压延铜箔（柔性板FPC用）。AI服务器PCB对铜箔要求极高——超低轮廓（Rz<1.5μm，减少高频信号趋肤效应损耗）、极薄（6-12μm）、高延伸率。全球高端电子铜箔被三井金属（日本）、古河电工（日本）、日矿金属（日本）垄断60%+，国产替代空间大。铜冠铜箔是国内电子铜箔龙头（全球第四），高频高速铜箔已进入华为/中兴供应链。",
+    "companies": [
+      {
+        "code": "301217",
+        "name": "铜冠铜箔",
+        "role": "国内电子铜箔龙头（全球第四），高频高速铜箔进入华为/中兴，锂电铜箔+电子铜箔双线",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "600110",
+        "name": "诺德股份",
+        "role": "铜箔龙头，锂电铜箔为主（占80%+），电子铜箔产能逐步扩大",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "603799",
+        "name": "嘉元科技",
+        "role": "锂电铜箔龙头，极薄电子铜箔（4.5-6μm）技术储备",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球电子铜箔市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 280,
+        "source_name": "Prismark/GGII 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "高频高速电子铜箔国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 25,
+        "source_name": "券商研报 三井/古河/日矿仍占主导",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "pcb_materials/metal",
+    "layer": 0,
+    "industry": "pcb_materials",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 60,
+    "y": 1585.0
+  },
+  {
+    "id": "pcb_materials/pcb_specialty_resin",
+    "name": "📦 特种树脂(CCL基体)",
+    "position": "upstream",
+    "tier": 1,
+    "description": "树脂是CCL的基体粘接材料（占CCL成本~40-50%），将电子布与铜箔热压粘合成一体。普通FR-4用环氧树脂（Tg 130-140°C），高频高速CCL需要BT树脂（双马来酰亚胺三嗪）、PPE（聚苯醚）、PTFE（聚四氟乙烯）、碳氢树脂（Hydrocarbon）。AI服务器PCB（M6/M7/M8等级）用的超低损耗树脂全球95%+被松下电工（Megtron系列）、AGC（日本旭硝子）、Rogers（美国）垄断。东材科技是国内唯一实现PPE树脂量产的企业，BT/PTFE树脂国产化近乎空白。",
+    "companies": [
+      {
+        "code": "601208",
+        "name": "东材科技",
+        "role": "国内唯一PPE树脂量产（高频CCL核心基体），BT树脂研发中，光学膜+电子树脂双平台",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "002669",
+        "name": "康达新材",
+        "role": "电子级环氧树脂/BT树脂复合材料，CCL用特种胶粘剂布局",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球CCL用特种树脂市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 180,
+        "source_name": "Prismark/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "高频高速树脂国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 8,
+        "source_name": "松下/AGC/Rogers垄断95%+，东材科技PPE突围",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "pcb_materials/resin",
+    "layer": 1,
+    "industry": "pcb_materials",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 495,
+    "y": 1896.0
+  },
+  {
+    "id": "pcb_materials/pcb_ccl",
+    "name": "📦 覆铜板(CCL)",
+    "position": "upstream",
+    "tier": 1,
+    "description": "覆铜板(Copper Clad Laminate)是将电子布浸渍树脂后与铜箔热压而成的复合材料，是PCB的核心基板。CCL占PCB成本30-40%，其介电性能(Dk/Df)、热膨胀系数(CTE)、玻璃化转变温度(Tg)直接决定PCB性能等级。AI服务器用M6/M7/M8级CCL要求超低损耗(Df<0.002@10GHz)，全球90%+被松下电工(Megtron系列)、AGC、Rogers垄断。生益科技是国内唯一进入AI服务器供应链的CCL厂商（全球销量第二）。",
+    "companies": [
+      {
+        "code": "600183",
+        "name": "生益科技",
+        "role": "全球CCL销量第二，国内唯一进入AI服务器M7级CCL供应链，产品覆盖全系列",
+        "d": 0.42,
+        "d5": 24.41,
+        "d20": 75.58
+      },
+      {
+        "code": "688519",
+        "name": "南亚新材",
+        "role": "高速CCL国内前三，M6级AI服务器CCL批量供货",
+        "d": 10.82,
+        "d5": 32.15,
+        "d20": 110.57
+      },
+      {
+        "code": "603186",
+        "name": "华正新材",
+        "role": "高频CCL+铝基板，AI服务器CCL布局中",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球CCL市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 1400,
+        "source_name": "Prismark 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "AI服务器CCL国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 15,
+        "source_name": "券商研报 松下/AGC/Rogers垄断高端",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "pcb_materials/ccl",
+    "layer": 2,
+    "industry": "pcb_materials",
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 930,
+    "y": 1594.0
+  },
+  {
+    "id": "semiconductor/semi_silicon_wafer",
+    "name": "🔬 硅片",
+    "position": "upstream",
+    "tier": 1,
+    "description": "半导体级多晶硅 → 单晶硅棒 → 硅片切割。12英寸大硅片是先进制程核心材料，全球前五大供应商占90%份额，国产化率仍低。",
+    "companies": [
+      {
+        "code": "688126",
+        "name": "沪硅产业",
+        "role": "12英寸大硅片龙头",
+        "d": 4.35,
+        "d5": 6.36,
+        "d20": 10.53
+      },
+      {
+        "code": "002129",
+        "name": "TCL中环",
+        "role": "光伏+半导体硅片",
+        "d": 3.68,
+        "d5": 2.16,
+        "d20": 10.65
+      },
+      {
+        "code": "605358",
+        "name": "立昂微",
+        "role": "12英寸重掺/轻掺硅片龙头",
+        "d": 4.11,
+        "d5": 6.83,
+        "d20": 26.74
+      },
+      {
+        "code": "688432",
+        "name": "有研硅",
+        "role": "4-12英寸全尺寸硅片",
+        "d": 2.62,
+        "d5": 5.52,
+        "d20": 24.48
+      },
+      {
+        "code": "688584",
+        "name": "上海合晶",
+        "role": "6/8/12英寸外延片专精",
+        "d": 2.87,
+        "d5": 4.87,
+        "d20": -5.33
+      },
+      {
+        "code": "688783",
+        "name": "西安奕材",
+        "role": "12英寸硅片国产主力（国内第一/全球第六，~85万片/月）",
+        "d": 15.96,
+        "d5": 17.94,
+        "d20": 56.16
+      },
+      {
+        "code": "688233",
+        "name": "神工股份",
+        "role": "刻蚀用大直径硅材料龙头，硅零部件国产替代",
+        "d": 9.71,
+        "d5": 10.82,
+        "d20": 13.41
+      }
+    ],
+    "data_points": [
+      {
+        "name": "产能_万片_月",
+        "unit": "万片/月",
+        "type": "capacity",
+        "current_value": 270,
+        "source_name": "Bernstein Research / C114",
+        "source_url": "https://www.c114.com.cn/news/51/a1309702.html",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "产量_万片_月",
+        "unit": "万片/月",
+        "type": "output",
+        "current_value": 240,
+        "source_name": "SEMI / 券商研报估算",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "全球硅片出货面积_百万平方英寸",
+        "unit": "MSI",
+        "type": "market",
+        "current_value": 14500,
+        "source_name": "SEMI 2025",
+        "source_url": "https://www.semi.org",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [
+      {
+        "company": "沪硅产业",
+        "scale": "30万片/月(12英寸)",
+        "expected_online": "2026-Q4",
+        "status": "construction"
+      }
+    ],
+    "group": "semiconductor/material",
+    "layer": 3,
+    "industry": "semiconductor",
+    "heat_d": 6.19,
+    "heat_d5": 7.79,
+    "heat_d20": 19.52,
+    "x": 1365,
+    "y": 1301.0
+  },
+  {
+    "id": "semiconductor/semi_sic_substrate",
+    "name": "🔬 SiC衬底",
+    "position": "upstream",
+    "tier": 1,
+    "description": "第三代半导体碳化硅衬底，新能源车+AI电源核心材料，全球产能紧缺，国产替代加速。",
+    "companies": [
+      {
+        "code": "688234",
+        "name": "天岳先进",
+        "role": "SiC衬底全球前三",
+        "d": 6.37,
+        "d5": 10.2,
+        "d20": -3.51
+      },
+      {
+        "code": "688469",
+        "name": "芯联集成",
+        "role": "SiC器件IDM",
+        "d": 7.9,
+        "d5": 5.56,
+        "d20": 7.63
+      },
+      {
+        "code": "600703",
+        "name": "三安光电",
+        "role": "SiC全产业链IDM",
+        "d": 1.9,
+        "d5": 2.45,
+        "d20": 2.23
+      },
+      {
+        "code": "002617",
+        "name": "露笑科技",
+        "role": "6英寸导电型SiC衬底",
+        "d": 1.22,
+        "d5": 2.71,
+        "d20": -3.96
+      },
+      {
+        "code": "603595",
+        "name": "东尼电子",
+        "role": "SiC衬底验证爬坡",
+        "d": 2.34,
+        "d5": 4.22,
+        "d20": 24.69
+      }
+    ],
+    "data_points": [
+      {
+        "name": "产能_万片_年",
+        "unit": "万片/年",
+        "type": "capacity",
+        "current_value": 100,
+        "source_name": "天岳先进+天科合达年报",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "产量_万片_年",
+        "unit": "万片/年",
+        "type": "output",
+        "current_value": 80,
+        "source_name": "天岳先进2025年报(69万片)+天科合达估算",
+        "source_url": "http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/company/rptid/831313421639/index.phtml",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "全球SiC衬底市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 30,
+        "source_name": "Yole / 券商研报",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/material",
+    "layer": 3,
+    "industry": "semiconductor",
+    "heat_d": 3.95,
+    "heat_d5": 5.03,
+    "heat_d20": 5.42,
+    "x": 1365,
+    "y": 533.0
+  },
+  {
+    "id": "semiconductor/semi_specialty_gas",
+    "name": "🔬 电子特气",
+    "position": "upstream",
+    "tier": 1,
+    "description": "高纯特种气体（蚀刻/沉积/掺杂用），晶圆制造消耗品，进入门槛极高，需通过晶圆厂长周期认证。",
+    "companies": [
+      {
+        "code": "688268",
+        "name": "华特气体",
+        "role": "进入台积电供应链",
+        "d": 1.4,
+        "d5": 11.97,
+        "d20": 2.35
+      },
+      {
+        "code": "002409",
+        "name": "雅克科技",
+        "role": "前驱体/SOD全球供应商",
+        "d": 7.38,
+        "d5": 8.69,
+        "d20": 22.47
+      },
+      {
+        "code": "688106",
+        "name": "金宏气体",
+        "role": "超纯氨国内第一",
+        "d": 3.62,
+        "d5": 4.63,
+        "d20": -3.19
+      },
+      {
+        "code": "600378",
+        "name": "昊华科技",
+        "role": "含氟特气国家队",
+        "d": 10.0,
+        "d5": 4.43,
+        "d20": 73.16
+      },
+      {
+        "code": "300346",
+        "name": "南大光电",
+        "role": "磷烷/砷烷全球领先",
+        "d": 3.19,
+        "d5": 12.54,
+        "d20": 8.77
+      },
+      {
+        "code": "688146",
+        "name": "中船特气",
+        "role": "电子特气国内第一/全球第九，NF3+WF6产能全球最大，已入台积电3nm供应链",
+        "d": 5.24,
+        "d5": 30.65,
+        "d20": 139.5
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内电子特气市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 320,
+        "source_name": "华泰证券 2026",
+        "source_url": "https://hk.stockstar.com/IG2026051900010380.shtml",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 30,
+        "source_name": "华泰证券/SEMI",
+        "source_url": "https://fund.eastmoney.com/a/202605073730238452.html",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/material",
+    "layer": 3,
+    "industry": "semiconductor",
+    "heat_d": 5.14,
+    "heat_d5": 12.15,
+    "heat_d20": 40.51,
+    "x": 1365,
+    "y": 1173.0
+  },
+  {
+    "id": "semiconductor/semi_target_material",
+    "name": "🔬 溅射靶材",
+    "position": "upstream",
+    "tier": 1,
+    "description": "半导体溅射靶材（铝/钛/钽/铜），进入3nm制程，涨价周期受益者。",
+    "companies": [
+      {
+        "code": "300666",
+        "name": "江丰电子",
+        "role": "半导体靶材龙头",
+        "d": 0.65,
+        "d5": 15.44,
+        "d20": 41.09
+      },
+      {
+        "code": "600206",
+        "name": "有研新材",
+        "role": "铜/铝/钛/钽/钴靶材品类最全",
+        "d": 1.74,
+        "d5": 7.75,
+        "d20": 28.9
+      },
+      {
+        "code": "300263",
+        "name": "隆华科技",
+        "role": "钼靶国内市占率>50%",
+        "d": 3.42,
+        "d5": 4.1,
+        "d20": 20.21
+      },
+      {
+        "code": "300706",
+        "name": "阿石创",
+        "role": "钼靶全球市占率33%",
+        "d": -4.75,
+        "d5": 17.08,
+        "d20": 42.15
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球靶材市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 180,
+        "source_name": "券商研报",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "特殊靶材价格涨幅_百分比",
+        "unit": "%",
+        "type": "price_change",
+        "current_value": 8,
+        "source_name": "券商研报估算",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/material",
+    "layer": 3,
+    "industry": "semiconductor",
+    "heat_d": 0.27,
+    "heat_d5": 11.09,
+    "heat_d20": 33.09,
+    "x": 1365,
+    "y": 1045.0
+  },
+  {
+    "id": "semiconductor/semi_cmp_materials",
+    "name": "🔬 CMP抛光材料",
+    "position": "upstream",
+    "tier": 1,
+    "description": "CMP抛光液+抛光垫，晶圆平坦化核心耗材，国产化率快速提升。",
+    "companies": [
+      {
+        "code": "688019",
+        "name": "安集科技",
+        "role": "CMP抛光液龙头",
+        "d": 5.47,
+        "d5": 12.18,
+        "d20": -1.24
+      },
+      {
+        "code": "300054",
+        "name": "鼎龙股份",
+        "role": "抛光垫+CMP平台化",
+        "d": 7.97,
+        "d5": 15.82,
+        "d20": 18.59
+      },
+      {
+        "code": "600309",
+        "name": "万华化学",
+        "role": "CMP抛光垫新进入者",
+        "d": 1.03,
+        "d5": 1.99,
+        "d20": -7.26
+      },
+      {
+        "code": "300236",
+        "name": "上海新阳",
+        "role": "铜/钨CMP抛光液+TSV封装胶",
+        "d": 6.54,
+        "d5": 6.94,
+        "d20": 1.36
+      }
+    ],
+    "data_points": [
+      {
+        "name": "产能_吨_年",
+        "unit": "吨/年",
+        "type": "capacity",
+        "current_value": 5000,
+        "source_name": "安集科技+鼎龙股份产能估算",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 20,
+        "source_name": "抛光液~20%/抛光垫<10% 综合",
+        "source_url": "https://fund.eastmoney.com/a/202605073730238452.html",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/material",
+    "layer": 3,
+    "industry": "semiconductor",
+    "heat_d": 5.25,
+    "heat_d5": 9.23,
+    "heat_d20": 2.86,
+    "x": 1365,
+    "y": 405.0
+  },
+  {
+    "id": "semiconductor/semi_photoresist",
+    "name": "🔬 光刻胶",
+    "position": "upstream",
+    "tier": 1,
+    "description": "半导体光刻胶（g/i/KrF/ArF/EUV），日本垄断90%以上，国产替代空间最大环节之一，受益涨价周期。",
+    "companies": [
+      {
+        "code": "603650",
+        "name": "彤程新材",
+        "role": "半导体光刻胶",
+        "d": 5.99,
+        "d5": 9.67,
+        "d20": 8.32
+      },
+      {
+        "code": "002643",
+        "name": "万润股份",
+        "role": "光刻胶材料",
+        "d": 4.38,
+        "d5": 2.28,
+        "d20": -2.27
+      },
+      {
+        "code": "300655",
+        "name": "晶瑞电材",
+        "role": "g/i线光刻胶市占30%+",
+        "d": 2.85,
+        "d5": 7.28,
+        "d20": 0.36
+      },
+      {
+        "code": "300346",
+        "name": "南大光电",
+        "role": "ArF光刻胶国产龙头(28nm量产)",
+        "d": 3.19,
+        "d5": 12.54,
+        "d20": 8.77
+      },
+      {
+        "code": "300236",
+        "name": "上海新阳",
+        "role": "KrF光刻胶批量供货+TSV封装胶",
+        "d": 6.54,
+        "d5": 6.94,
+        "d20": 1.36
+      },
+      {
+        "code": "688720",
+        "name": "艾森股份",
+        "role": "先进封装光刻胶主力，电镀液+光刻胶双轮驱动",
+        "d": 13.21,
+        "d5": 9.89,
+        "d20": 11.27
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球光刻胶市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 28,
+        "source_name": "富士经济/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 15,
+        "source_name": "KrF~12%/ArF~5% 综合",
+        "source_url": "https://fund.eastmoney.com/a/202605073730238452.html",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/material",
+    "layer": 3,
+    "industry": "semiconductor",
+    "heat_d": 6.03,
+    "heat_d5": 8.1,
+    "heat_d20": 4.63,
+    "x": 1365,
+    "y": 661.0
+  },
+  {
+    "id": "semiconductor/semi_photomask",
+    "name": "🔬 光掩模/光罩",
+    "position": "upstream",
+    "tier": 1,
+    "description": "光掩模(Photomask)是芯片光刻工艺的\"底片\"，电路图案通过光掩模转移到晶圆上。全球市场被日本凸版/大日本印刷/美国Photronics垄断，国产化率极低，是半导体材料国产替代最后的高地之一。2025年路维光电/清溢光电加速扩产，市场开始关注。",
+    "companies": [
+      {
+        "code": "688401",
+        "name": "路维光电",
+        "role": "高精度掩模版龙头，G11面板掩模量产，半导体掩模扩产",
+        "d": 4.89,
+        "d5": 9.6,
+        "d20": 12.16
+      },
+      {
+        "code": "688138",
+        "name": "清溢光电",
+        "role": "面板+半导体掩模版双线，合肥12英寸半导体掩模项目",
+        "d": 10.29,
+        "d5": 8.24,
+        "d20": 15.96
+      },
+      {
+        "code": "300395",
+        "name": "菲利华",
+        "role": "合成石英光掩模基板，国内唯一通过日韩光掩模厂认证",
+        "d": 2.61,
+        "d5": 13.97,
+        "d20": 0.67
+      },
+      {
+        "code": "688548",
+        "name": "广钢气体",
+        "role": "合肥长鑫光掩模项目配套大宗电子气站",
+        "d": 12.42,
+        "d5": 7.25,
+        "d20": -1.92
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 10,
+        "source_name": "华泰证券 整体国产化率",
+        "source_url": "https://hk.stockstar.com/IG2026051900010380.shtml",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "全球半导体光掩模市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 52,
+        "source_name": "SEMI/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/material",
+    "layer": 3,
+    "industry": "semiconductor",
+    "heat_d": 7.55,
+    "heat_d5": 9.77,
+    "heat_d20": 6.72,
+    "x": 1365,
+    "y": 789.0
+  },
+  {
+    "id": "semiconductor/semi_wet_chemicals",
+    "name": "🔬 湿电子化学品",
+    "position": "upstream",
+    "tier": 1,
+    "description": "高纯试剂(G1-G5级)：硫酸/双氧水/氢氟酸/氨水/磷酸/蚀刻液/剥离液。用于晶圆清洗/蚀刻/显影。G5级(金属杂质<0.1ppb)是先进制程准入门槛。晶圆厂扩产→用量线性增长，是半导体材料中\"量价齐升\"逻辑最顺的赛道之一。",
+    "companies": [
+      {
+        "code": "603078",
+        "name": "江化微",
+        "role": "国内湿电子化学品龙头，G5级硫酸通过中芯国际验证",
+        "d": 0.64,
+        "d5": 9.14,
+        "d20": 33.86
+      },
+      {
+        "code": "300655",
+        "name": "晶瑞电材",
+        "role": "超纯双氧水/氨水/氢氟酸，G5级批量供货",
+        "d": 2.85,
+        "d5": 7.28,
+        "d20": 0.36
+      },
+      {
+        "code": "688549",
+        "name": "中巨芯",
+        "role": "电子级氢氟酸/硝酸/硫酸，含氟电子特气+湿化学品双平台",
+        "d": 13.62,
+        "d5": 16.66,
+        "d20": 89.41
+      },
+      {
+        "code": "300236",
+        "name": "上海新阳",
+        "role": "电镀液/清洗液/蚀刻液，TSV铜电镀液国内领先",
+        "d": 6.54,
+        "d5": 6.94,
+        "d20": 1.36
+      },
+      {
+        "code": "300481",
+        "name": "濮阳惠成",
+        "role": "功能电子材料(酸酐固化剂/芴类材料)",
+        "d": 2.87,
+        "d5": 2.31,
+        "d20": 23.29
+      },
+      {
+        "code": "603931",
+        "name": "格林达",
+        "role": "TMAH显影液龙头，国内市占率第一",
+        "d": 0.51,
+        "d5": 5.74,
+        "d20": 13.05
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内湿电子化学品市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 180,
+        "source_name": "华泰证券",
+        "source_url": "https://hk.stockstar.com/IG2026051900010380.shtml",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 44,
+        "source_name": "华泰证券 G3-G4级综合",
+        "source_url": "https://fund.eastmoney.com/a/202605073730238452.html",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/material",
+    "layer": 3,
+    "industry": "semiconductor",
+    "heat_d": 4.5,
+    "heat_d5": 8.01,
+    "heat_d20": 26.89,
+    "x": 1365,
+    "y": 917.0
+  },
+  {
+    "id": "semiconductor/semi_equipment",
+    "name": "🔬 半导体设备",
+    "position": "upstream",
+    "tier": 1,
+    "description": "刻蚀/薄膜沉积/清洗/检测/离子注入等核心设备，国产替代深水区，2026Q1国产设备金额占比达55%。",
+    "companies": [
+      {
+        "code": "002371",
+        "name": "北方华创",
+        "role": "全平台设备龙头",
+        "d": 4.77,
+        "d5": 12.99,
+        "d20": 7.33
+      },
+      {
+        "code": "688012",
+        "name": "中微公司",
+        "role": "刻蚀设备龙头",
+        "d": 10.03,
+        "d5": 13.53,
+        "d20": 6.72
+      },
+      {
+        "code": "688072",
+        "name": "拓荆科技",
+        "role": "薄膜沉积龙头",
+        "d": 12.84,
+        "d5": 28.83,
+        "d20": 16.59
+      },
+      {
+        "code": "688082",
+        "name": "盛美上海",
+        "role": "清洗设备龙头",
+        "d": 20.0,
+        "d5": 12.71,
+        "d20": 70.89
+      },
+      {
+        "code": "688120",
+        "name": "华海清科",
+        "role": "CMP设备龙头",
+        "d": 10.5,
+        "d5": 14.24,
+        "d20": 4.56
+      },
+      {
+        "code": "688037",
+        "name": "芯源微",
+        "role": "前道涂胶显影(国内唯一)",
+        "d": 5.63,
+        "d5": 20.68,
+        "d20": -6.65
+      },
+      {
+        "code": "603690",
+        "name": "至纯科技",
+        "role": "湿法清洗设备国内份额近50%",
+        "d": 0.8,
+        "d5": 3.19,
+        "d20": -6.66
+      },
+      {
+        "code": "300567",
+        "name": "精测电子",
+        "role": "半导体量检测设备龙头",
+        "d": 5.34,
+        "d5": 14.45,
+        "d20": 8.66
+      },
+      {
+        "code": "688361",
+        "name": "中科飞测",
+        "role": "半导体缺陷检测/量测设备龙头，国内唯一2Xnm光学检测",
+        "d": 4.44,
+        "d5": 17.38,
+        "d20": -2.79
+      },
+      {
+        "code": "300604",
+        "name": "长川科技",
+        "role": "封测设备龙头，测试机/分选机/探针台/AOI全平台",
+        "d": 9.82,
+        "d5": 32.89,
+        "d20": 9.32
+      },
+      {
+        "code": "688200",
+        "name": "华峰测控",
+        "role": "模拟/功率半导体测试机龙头，车规级AEC-Q100认证",
+        "d": 14.77,
+        "d5": 17.42,
+        "d20": 12.78
+      },
+      {
+        "code": "600641",
+        "name": "万业企业",
+        "role": "离子注入机（凯世通），国产离子注入唯一量产",
+        "d": 0.18,
+        "d5": 3.78,
+        "d20": 12.04
+      },
+      {
+        "code": "688147",
+        "name": "微导纳米",
+        "role": "ALD原子层沉积设备国内第一，已导入华虹集团",
+        "d": 6.29,
+        "d5": 18.24,
+        "d20": 16.39
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国产设备采购额_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 520,
+        "source_name": "SEMI/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 25,
+        "source_name": "SEMI 2025 综合国产化率",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "头部企业订单额_亿元",
+        "unit": "亿元",
+        "type": "order"
+      },
+      {
+        "name": "设备交期_月",
+        "unit": "月",
+        "type": "lead_time"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/equipment",
+    "layer": 4,
+    "industry": "semiconductor",
+    "heat_d": 8.11,
+    "heat_d5": 16.18,
+    "heat_d20": 11.48,
+    "x": 1800,
+    "y": 523.0
+  },
+  {
+    "id": "semiconductor/semi_equipment_parts",
+    "name": "🔬 半导体设备零部件",
+    "position": "upstream",
+    "tier": 1,
+    "description": "半导体设备由数万零部件构成：密封圈/阀门/管路/射频电源/真空泵/机械手/静电卡盘/陶瓷件/石英件。美日主导，制裁倒逼国产替代，2025年设备零部件成为A股独立炒作主题。逻辑类似\"卖铲子的铲子\"——设备国产化率高→零部件需求放大。",
+    "companies": [
+      {
+        "code": "688409",
+        "name": "富创精密",
+        "role": "国产半导体设备零部件平台龙头，金属件/模组/气体管路",
+        "d": 5.94,
+        "d5": 13.61,
+        "d20": 7.05
+      },
+      {
+        "code": "300260",
+        "name": "新莱应材",
+        "role": "超高洁净管阀(UHP)，进入应用材料/泛林/中微供应链",
+        "d": 3.98,
+        "d5": 14.86,
+        "d20": 13.91
+      },
+      {
+        "code": "688596",
+        "name": "正帆科技",
+        "role": "气体输送系统(Gas Box/Skid)，中芯/长存/长鑫核心供应商",
+        "d": 4.58,
+        "d5": 3.8,
+        "d20": -6.49
+      },
+      {
+        "code": "300820",
+        "name": "英杰电气",
+        "role": "射频电源/直流电源，刻蚀/薄膜沉积设备核心部件",
+        "d": 2.9,
+        "d5": 6.29,
+        "d20": 1.62
+      },
+      {
+        "code": "688448",
+        "name": "磁谷科技",
+        "role": "磁悬浮真空泵，替代进口干泵",
+        "d": -2.68,
+        "d5": 5.27,
+        "d20": 4.18
+      },
+      {
+        "code": "688652",
+        "name": "京仪装备",
+        "role": "半导体温控设备/废气处理设备龙头",
+        "d": 5.11,
+        "d5": 11.79,
+        "d20": -7.96
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内半导体设备零部件市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 250,
+        "source_name": "券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 15,
+        "source_name": "华泰证券 核心零部件",
+        "source_url": "https://hk.stockstar.com/IG2026051900010380.shtml",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/equipment",
+    "layer": 4,
+    "industry": "semiconductor",
+    "heat_d": 3.31,
+    "heat_d5": 9.27,
+    "heat_d20": 2.05,
+    "x": 1800,
+    "y": 651.0
+  },
+  {
+    "id": "semiconductor/semi_glass_substrate",
+    "name": "🔬 玻璃基板(先进封装)",
+    "position": "upstream",
+    "tier": 1,
+    "description": "玻璃基板是下一代先进封装核心材料，替代有机ABF载板。英特尔2023年首发展示，计划2030年商业化；三星电机/Absolics加速布局。A股炒作核心是TGV(玻璃通孔)+\"玻璃替代有机\"产业趋势，2025-2026年最热半导体主题之一。",
+    "companies": [
+      {
+        "code": "603773",
+        "name": "沃格光电",
+        "role": "TGV玻璃通孔核心标的，MiniLED玻璃基板量产",
+        "d": 10.0,
+        "d5": 35.35,
+        "d20": 112.82
+      },
+      {
+        "code": "688170",
+        "name": "德龙激光",
+        "role": "TGV激光钻孔设备，玻璃基板制孔核心装备",
+        "d": 3.2,
+        "d5": 7.2,
+        "d20": 11.53
+      },
+      {
+        "code": "300776",
+        "name": "帝尔激光",
+        "role": "光伏+半导体激光精密加工，TGV钻孔设备布局",
+        "d": 10.08,
+        "d5": 12.04,
+        "d20": 20.09
+      },
+      {
+        "code": "600707",
+        "name": "彩虹股份",
+        "role": "显示玻璃基板G8.5量产，半导体玻璃基板布局",
+        "d": 9.99,
+        "d5": 2.08,
+        "d20": 23.41
+      },
+      {
+        "code": "300684",
+        "name": "中石科技",
+        "role": "TGV玻璃基板导热界面材料(TIM)",
+        "d": 2.79,
+        "d5": 7.98,
+        "d20": -5.31
+      },
+      {
+        "code": "002185",
+        "name": "华天科技",
+        "role": "玻璃基板封装工艺研发",
+        "d": 6.9,
+        "d5": 3.47,
+        "d20": 20.49
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球TGV玻璃基板市场规模_预测_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 5,
+        "source_name": "Yole 2026E (早期商业化)",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "TGV产能_万片_年",
+        "unit": "万片/年",
+        "type": "capacity"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/packaging_prep",
+    "layer": 4,
+    "industry": "semiconductor",
+    "heat_d": 7.16,
+    "heat_d5": 11.35,
+    "heat_d20": 30.5,
+    "x": 1800,
+    "y": 1095.0
+  },
+  {
+    "id": "semiconductor/semi_ic_substrate",
+    "name": "🔬 IC载板/封装基板",
+    "position": "upstream",
+    "tier": 1,
+    "description": "IC载板是连接芯片与PCB的关键桥梁。ABF载板(Ajinomoto Build-up Film)用于CPU/GPU/AI芯片，BT载板用于存储/MEMS。AI服务器引爆ABF载板需求，全球产能紧缺，是玻璃基板的\"前浪\"（玻璃替代的就是ABF）。味之素是全球ABF膜唯一供应商。",
+    "companies": [
+      {
+        "code": "002916",
+        "name": "深南电路",
+        "role": "PCB+IC载板双龙头，ABF载板FC-BGA批量供货",
+        "d": 10.0,
+        "d5": 16.73,
+        "d20": 33.25
+      },
+      {
+        "code": "002436",
+        "name": "兴森科技",
+        "role": "BT载板龙头国内第一，ABF载板扩产中",
+        "d": 8.39,
+        "d5": 15.22,
+        "d20": 41.67
+      },
+      {
+        "code": "603228",
+        "name": "景旺电子",
+        "role": "IC载板(珠海)+高端HDI",
+        "d": 3.34,
+        "d5": 5.98,
+        "d20": 5.6
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球IC载板市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 160,
+        "source_name": "Prismark/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "ABF载板国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 5,
+        "source_name": "华泰证券 <5%",
+        "source_url": "https://hk.stockstar.com/IG2026051900010380.shtml",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/packaging_prep",
+    "layer": 4,
+    "industry": "semiconductor",
+    "heat_d": 7.24,
+    "heat_d5": 12.64,
+    "heat_d20": 26.84,
+    "x": 1800,
+    "y": 839.0
+  },
+  {
+    "id": "semiconductor/semi_packaging_materials",
+    "name": "🔬 封装材料",
+    "position": "upstream",
+    "tier": 1,
+    "description": "半导体封装所需核心材料：键合丝(金/银/铜/钯铜)、引线框架、环氧塑封料(EMC/GMC/LMC)、底部填充胶(Underfill)、热界面材料(TIM1/TIM2)。先进封装(Chiplet/3D/HBM)对TIM和Underfill要求极高，是CoWoS必需消耗品，HBM堆叠封装拉动了TIM需求暴增。",
+    "companies": [
+      {
+        "code": "002119",
+        "name": "康强电子",
+        "role": "引线框架+键合丝龙头，国内市占率第一",
+        "d": -0.27,
+        "d5": 8.85,
+        "d20": 37.12
+      },
+      {
+        "code": "688535",
+        "name": "华海诚科",
+        "role": "环氧塑封料(EMC)，先进封装GMC/LMC已通过长电验证",
+        "d": 6.55,
+        "d5": 8.83,
+        "d20": -5.15
+      },
+      {
+        "code": "300684",
+        "name": "中石科技",
+        "role": "热界面材料(TIM1/TIM2)，AI芯片散热核心供应商",
+        "d": 2.79,
+        "d5": 7.98,
+        "d20": -5.31
+      },
+      {
+        "code": "688035",
+        "name": "德邦科技",
+        "role": "芯片粘接胶/底部填充胶/导热界面材料，华为海思供应商",
+        "d": 7.04,
+        "d5": 5.86,
+        "d20": 8.29
+      },
+      {
+        "code": "300236",
+        "name": "上海新阳",
+        "role": "TSV铜电镀液+封装光刻胶",
+        "d": 6.54,
+        "d5": 6.94,
+        "d20": 1.36
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内半导体封装材料市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 450,
+        "source_name": "券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "先进封装材料国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 18,
+        "source_name": "华泰证券估算",
+        "source_url": "https://hk.stockstar.com/IG2026051900010380.shtml",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/packaging_prep",
+    "layer": 4,
+    "industry": "semiconductor",
+    "heat_d": 4.53,
+    "heat_d5": 7.69,
+    "heat_d20": 7.26,
+    "x": 1800,
+    "y": 967.0
+  },
+  {
+    "id": "semiconductor/semi_eda_ip",
+    "name": "🔬 EDA与IP核",
+    "position": "midstream",
+    "tier": 2,
+    "description": "EDA(电子设计自动化)是芯片设计的\"画笔\"，全球被Synopsys/Cadence/Siemens EDA三巨头垄断95%+份额。IP核是芯片设计可复用模块。美国对华EDA禁令(2022.8)催化国产替代窗口，华大九天是A股唯一全流程EDA标的。2025年国产EDA市占率从3%提升至~8%。",
+    "companies": [
+      {
+        "code": "301269",
+        "name": "华大九天",
+        "role": "国产EDA龙头，模拟IC全流程+数字后端工具链",
+        "d": 5.42,
+        "d5": 11.01,
+        "d20": 1.7
+      },
+      {
+        "code": "688206",
+        "name": "概伦电子",
+        "role": "SPICE仿真/器件建模EDA，台积电5nm认证",
+        "d": 3.94,
+        "d5": 8.53,
+        "d20": -1.76
+      },
+      {
+        "code": "301095",
+        "name": "广立微",
+        "role": "良率提升/测试芯片EDA，Foundry端工具",
+        "d": 3.27,
+        "d5": 6.29,
+        "d20": -14.19
+      },
+      {
+        "code": "688521",
+        "name": "芯原股份",
+        "role": "全球第七大半导体IP供应商(IP+设计服务双平台)",
+        "d": 3.36,
+        "d5": 43.03,
+        "d20": -12.66
+      },
+      {
+        "code": "688262",
+        "name": "国芯科技",
+        "role": "嵌入式CPU IP核(国产替代ARM)",
+        "d": 4.13,
+        "d5": 6.68,
+        "d20": -5.14
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内EDA市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 180,
+        "source_name": "券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产EDA市占率_百分比",
+        "unit": "%",
+        "type": "ratio"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/design_ip",
+    "layer": 4,
+    "industry": "semiconductor",
+    "heat_d": 4.02,
+    "heat_d5": 15.11,
+    "heat_d20": -6.41,
+    "x": 1800,
+    "y": 1283.0
+  },
+  {
+    "id": "semiconductor/semi_ai_chip",
+    "name": "🔬 AI算力芯片",
+    "position": "midstream",
+    "tier": 2,
+    "description": "GPU/AI加速芯片设计，AI产业核心算力底座，国产替代紧迫度最高环节，2026Q1板块营收+81%。",
+    "companies": [
+      {
+        "code": "688256",
+        "name": "寒武纪",
+        "role": "国产AI芯片龙头",
+        "d": 1.0,
+        "d5": 64.43,
+        "d20": -3.11
+      },
+      {
+        "code": "688041",
+        "name": "海光信息",
+        "role": "CPU+DCU双轮驱动",
+        "d": 4.73,
+        "d5": 30.49,
+        "d20": -2.69
+      },
+      {
+        "code": "688521",
+        "name": "芯原股份",
+        "role": "AI芯片设计服务",
+        "d": 3.36,
+        "d5": 43.03,
+        "d20": -12.66
+      },
+      {
+        "code": "688802",
+        "name": "沐曦股份",
+        "role": "GPU训练+推理",
+        "d": 0.51,
+        "d5": 22.38,
+        "d20": -5.48
+      },
+      {
+        "code": "002261",
+        "name": "拓维信息",
+        "role": "华为昇腾整机授权(兆瀚)",
+        "d": -1.7,
+        "d5": 14.27,
+        "d20": -12.41
+      },
+      {
+        "code": "000034",
+        "name": "神州数码",
+        "role": "神州鲲泰AI服务器",
+        "d": 0.83,
+        "d5": 2.42,
+        "d20": -11.02
+      },
+      {
+        "code": "688795",
+        "name": "摩尔线程",
+        "role": "国产GPU第一股",
+        "d": 0.31,
+        "d5": 26.07,
+        "d20": -11.8
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内AI芯片市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 2398,
+        "source_name": "IDC/券商研报 2025",
+        "source_url": "https://www.tmtpost.com/8006210.html",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "出货量_万颗",
+        "unit": "万颗",
+        "type": "output",
+        "current_value": 400,
+        "source_name": "IDC 2025 加速卡出货量",
+        "source_url": "https://www.tmtpost.com/8006210.html",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 41,
+        "source_name": "Bernstein Research 2025出货量口径",
+        "source_url": "https://www.pconline.com.cn/ai/2153/21532351.html",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [
+      {
+        "company": "寒武纪",
+        "scale": "思元系列新一代量产",
+        "expected_online": "2026-H2",
+        "status": "ramp_up"
+      }
+    ],
+    "group": "semiconductor/design_ip",
+    "layer": 5,
+    "industry": "semiconductor",
+    "heat_d": 1.29,
+    "heat_d5": 29.01,
+    "heat_d20": -8.45,
+    "x": 2235,
+    "y": 469.0
+  },
+  {
+    "id": "semiconductor/semi_storage",
+    "name": "🔬 存储芯片",
+    "position": "midstream",
+    "tier": 2,
+    "description": "DRAM + NAND Flash + NOR Flash，全球超级周期中，2026Q1 DRAM合约价+90%以上，HBM市场规模预计510亿美元。",
+    "companies": [
+      {
+        "code": "603986",
+        "name": "兆易创新",
+        "role": "NOR Flash+MCU龙头",
+        "d": 10.0,
+        "d5": 16.26,
+        "d20": 31.64
+      },
+      {
+        "code": "688008",
+        "name": "澜起科技",
+        "role": "内存接口芯片全球龙头",
+        "d": 7.51,
+        "d5": 15.39,
+        "d20": 2.0
+      },
+      {
+        "code": "688525",
+        "name": "佰维存储",
+        "role": "AI端侧存储",
+        "d": 8.67,
+        "d5": 20.47,
+        "d20": 16.93
+      },
+      {
+        "code": "301308",
+        "name": "江波龙",
+        "role": "国内存储模组第一/全球第六",
+        "d": 5.82,
+        "d5": 19.67,
+        "d20": 0.2
+      },
+      {
+        "code": "300042",
+        "name": "朗科科技",
+        "role": "存储模组/品牌",
+        "d": 5.21,
+        "d5": 11.91,
+        "d20": -8.4
+      },
+      {
+        "code": "300223",
+        "name": "北京君正",
+        "role": "利基DRAM国内第一",
+        "d": 5.97,
+        "d5": 6.52,
+        "d20": 20.8
+      },
+      {
+        "code": "688766",
+        "name": "普冉股份",
+        "role": "NOR Flash设计",
+        "d": 20.0,
+        "d5": 31.88,
+        "d20": 36.48
+      },
+      {
+        "code": "688110",
+        "name": "东芯股份",
+        "role": "NAND+DRAM设计",
+        "d": 9.14,
+        "d5": 18.82,
+        "d20": -7.17
+      }
+    ],
+    "data_points": [
+      {
+        "name": "DRAM合约价涨跌幅_百分比",
+        "unit": "%",
+        "type": "price_change",
+        "current_value": 58,
+        "source_name": "TrendForce 2026E",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "NAND合约价涨跌幅_百分比",
+        "unit": "%",
+        "type": "price_change",
+        "current_value": 32,
+        "source_name": "TrendForce 2026E",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "全球DRAM市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 978,
+        "source_name": "WSTS/券商研报 2025",
+        "source_url": "https://ee.ofweek.com/2026-06/ART-8110-2812-30690836.html",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "HBM市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/design_ip",
+    "layer": 5,
+    "industry": "semiconductor",
+    "heat_d": 9.04,
+    "heat_d5": 17.62,
+    "heat_d20": 11.56,
+    "x": 2235,
+    "y": 981.0
+  },
+  {
+    "id": "semiconductor/semi_analog_mcu",
+    "name": "🔬 模拟芯片与MCU",
+    "position": "midstream",
+    "tier": 2,
+    "description": "信号链+电源管理+MCU微控制器，涨价周期受益者，2026Q1板块营收+27%，国产替代稳步推进。",
+    "companies": [
+      {
+        "code": "300661",
+        "name": "圣邦股份",
+        "role": "模拟芯片龙头",
+        "d": 3.18,
+        "d5": 14.93,
+        "d20": 12.52
+      },
+      {
+        "code": "688536",
+        "name": "思瑞浦",
+        "role": "高性能信号链",
+        "d": 0.92,
+        "d5": 7.39,
+        "d20": 8.39
+      },
+      {
+        "code": "688052",
+        "name": "纳芯微",
+        "role": "传感器+隔离+驱动",
+        "d": 2.72,
+        "d5": 5.67,
+        "d20": 5.26
+      },
+      {
+        "code": "300327",
+        "name": "中颖电子",
+        "role": "白家电MCU国内领先",
+        "d": 4.25,
+        "d5": 5.33,
+        "d20": -1.55
+      },
+      {
+        "code": "603986",
+        "name": "兆易创新",
+        "role": "MCU+Flash双龙头",
+        "d": 10.0,
+        "d5": 16.26,
+        "d20": 31.64
+      },
+      {
+        "code": "688045",
+        "name": "必易微",
+        "role": "AC-DC电源管理芯片",
+        "d": 0.19,
+        "d5": 3.85,
+        "d20": 7.26
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内模拟芯片市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 520,
+        "source_name": "IC Insights/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 18,
+        "source_name": "券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "平均交期_周",
+        "unit": "周",
+        "type": "lead_time"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/design_ip",
+    "layer": 5,
+    "industry": "semiconductor",
+    "heat_d": 3.54,
+    "heat_d5": 8.9,
+    "heat_d20": 10.59,
+    "x": 2235,
+    "y": 1237.0
+  },
+  {
+    "id": "semiconductor/semi_rf_frontend",
+    "name": "🔬 射频前端",
+    "position": "midstream",
+    "tier": 2,
+    "description": "射频前端(PA功率放大器/滤波器/射频开关/LNA低噪声放大器)是手机/基站通信核心芯片。5G手机PA+滤波器用量翻倍，模组化(FEMiD/PAMiD)趋势明显。市场长期被Skyworks/Qorvo/Qualcomm/Broadcom垄断，国产替代从分立器件→模组的路径清晰。卓胜微是A股射频前端标杆。",
+    "companies": [
+      {
+        "code": "300782",
+        "name": "卓胜微",
+        "role": "射频开关/LNA国内第一→PA/滤波器模组化转型",
+        "d": 2.14,
+        "d5": 4.35,
+        "d20": -22.94
+      },
+      {
+        "code": "688153",
+        "name": "唯捷创芯",
+        "role": "4G/5G PA龙头，国内射频PA市占率第一",
+        "d": -0.72,
+        "d5": 3.42,
+        "d20": -7.24
+      },
+      {
+        "code": "688798",
+        "name": "艾为电子",
+        "role": "射频前端+音频功放+电源管理，手机多品类覆盖",
+        "d": 1.32,
+        "d5": 3.92,
+        "d20": -4.53
+      },
+      {
+        "code": "603501",
+        "name": "豪威集团",
+        "role": "射频IC+SOC(韦尔半导体)，射频接收模组",
+        "d": 2.18,
+        "d5": 3.46,
+        "d20": -10.73
+      },
+      {
+        "code": "688403",
+        "name": "汇成股份",
+        "role": "SAW/BAW滤波器晶圆级封装",
+        "d": 6.9,
+        "d5": 6.69,
+        "d20": 38.49
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内射频前端市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 350,
+        "source_name": "Yole/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 25,
+        "source_name": "卓胜微/唯捷创芯等合计市占率",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/design_ip",
+    "layer": 5,
+    "industry": "semiconductor",
+    "heat_d": 2.36,
+    "heat_d5": 4.37,
+    "heat_d20": -1.39,
+    "x": 2235,
+    "y": 1109.0
+  },
+  {
+    "id": "semiconductor/semi_cis",
+    "name": "🔬 CIS图像传感器",
+    "position": "midstream",
+    "tier": 2,
+    "description": "CMOS图像传感器，车载+AI眼镜+安防多轮驱动，国产厂商全球份额持续提升。",
+    "companies": [
+      {
+        "code": "603501",
+        "name": "豪威集团",
+        "role": "车载CIS龙头",
+        "d": 2.18,
+        "d5": 3.46,
+        "d20": -10.73
+      },
+      {
+        "code": "002273",
+        "name": "水晶光电",
+        "role": "光学元器件",
+        "d": -0.39,
+        "d5": 4.87,
+        "d20": -9.06
+      },
+      {
+        "code": "688728",
+        "name": "格科微",
+        "role": "手机CIS全球第二(23%份额)",
+        "d": 3.2,
+        "d5": 4.8,
+        "d20": -5.63
+      },
+      {
+        "code": "688213",
+        "name": "思特威",
+        "role": "CIS芯片设计龙头，安防/无人机全球第一，手机/汽车高速增长",
+        "d": 6.61,
+        "d5": 7.51,
+        "d20": -11.1
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球CIS市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 260,
+        "source_name": "Yole/IC Insights 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "车载CIS出货量_亿颗",
+        "unit": "亿颗",
+        "type": "output"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/design_ip",
+    "layer": 5,
+    "industry": "semiconductor",
+    "heat_d": 2.9,
+    "heat_d5": 5.16,
+    "heat_d20": -9.13,
+    "x": 2235,
+    "y": 597.0
+  },
+  {
+    "id": "semiconductor/semi_mems_sensor",
+    "name": "🔬 MEMS传感器",
+    "position": "midstream",
+    "tier": 2,
+    "description": "MEMS(微机电系统)传感器——加速度计/陀螺仪/压力传感器/麦克风/气体传感器/红外探测器。汽车(安全气囊/TPMS/ESC)、工业、医疗需求旺盛。全球市场被Bosch/ST/TDK/Infineon垄断90%+，国产MEMS在麦克风(敏芯)和红外(睿创)领域率先突破。赛微电子是全球最大MEMS纯代工厂。",
+    "companies": [
+      {
+        "code": "688286",
+        "name": "敏芯股份",
+        "role": "MEMS麦克风+压力传感器国内龙头",
+        "d": 11.42,
+        "d5": 4.24,
+        "d20": 6.33
+      },
+      {
+        "code": "688002",
+        "name": "睿创微纳",
+        "role": "非制冷红外MEMS探测器全球前三，军用+民用双线",
+        "d": 8.93,
+        "d5": 9.51,
+        "d20": 7.92
+      },
+      {
+        "code": "688665",
+        "name": "四方光电",
+        "role": "MEMS气体传感器，汽车(动力电池热失控)/工业双赛道",
+        "d": 2.55,
+        "d5": 5.08,
+        "d20": 11.58
+      },
+      {
+        "code": "688052",
+        "name": "纳芯微",
+        "role": "MEMS压力+温度+磁传感器，车规级批量出货",
+        "d": 2.72,
+        "d5": 5.67,
+        "d20": 5.26
+      },
+      {
+        "code": "300456",
+        "name": "赛微电子",
+        "role": "MEMS纯代工全球第一(瑞典Silex+北京8英寸Fab3)",
+        "d": 4.1,
+        "d5": 4.72,
+        "d20": -16.89
+      },
+      {
+        "code": "688582",
+        "name": "芯动联科",
+        "role": "MEMS陀螺仪/加速度计龙头，高性能惯性传感器",
+        "d": 6.41,
+        "d5": 9.84,
+        "d20": 12.15
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内MEMS传感器市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 220,
+        "source_name": "Yole/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 15,
+        "source_name": "敏芯股份/赛微电子等合计",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/design_ip",
+    "layer": 5,
+    "industry": "semiconductor",
+    "heat_d": 6.02,
+    "heat_d5": 6.51,
+    "heat_d20": 4.39,
+    "x": 2235,
+    "y": 725.0
+  },
+  {
+    "id": "semiconductor/semi_power_discrete",
+    "name": "🔬 功率半导体",
+    "position": "midstream",
+    "tier": 2,
+    "description": "IGBT + SiC MOSFET + 功率二极管，新能源车+AI电源双驱动，SiC渗透率快速提升。",
+    "companies": [
+      {
+        "code": "603290",
+        "name": "斯达半导",
+        "role": "IGBT模块龙头",
+        "d": 5.25,
+        "d5": 4.5,
+        "d20": 3.41
+      },
+      {
+        "code": "300373",
+        "name": "扬杰科技",
+        "role": "功率半导体IDM",
+        "d": 4.87,
+        "d5": 6.26,
+        "d20": 34.72
+      },
+      {
+        "code": "688187",
+        "name": "时代电气",
+        "role": "IGBT+SiC IDM龙头",
+        "d": 2.64,
+        "d5": 1.84,
+        "d20": 7.21
+      },
+      {
+        "code": "605111",
+        "name": "新洁能",
+        "role": "MOSFET+IGBT Fabless",
+        "d": 7.27,
+        "d5": 6.81,
+        "d20": 31.38
+      },
+      {
+        "code": "688396",
+        "name": "华润微",
+        "role": "功率半导体IDM全品类",
+        "d": 2.83,
+        "d5": 4.23,
+        "d20": 12.33
+      },
+      {
+        "code": "688261",
+        "name": "东微半导",
+        "role": "超结MOSFET+SiC+GaN",
+        "d": 8.52,
+        "d5": 3.97,
+        "d20": 11.8
+      },
+      {
+        "code": "600460",
+        "name": "士兰微",
+        "role": "功率半导体IDM龙头，IGBT/SiC/MOSFET全品类",
+        "d": 6.66,
+        "d5": 5.57,
+        "d20": 24.87
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内IGBT市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 500,
+        "source_name": "国金证券 2025",
+        "source_url": "https://m.zhitongcaijing.com/contentnew/appcontentdetail.html?content_id=722977",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "SiC渗透率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 20,
+        "source_name": "NE时代/券商研报 2025",
+        "source_url": "https://www.21ic.com/a/1003169.html",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/design_ip",
+    "layer": 5,
+    "industry": "semiconductor",
+    "heat_d": 5.43,
+    "heat_d5": 4.74,
+    "heat_d20": 17.96,
+    "x": 2235,
+    "y": 853.0
+  },
+  {
+    "id": "semiconductor/semi_wafer_fab",
+    "name": "🔬 晶圆制造",
+    "position": "midstream",
+    "tier": 3,
+    "description": "晶圆代工，半导体产业链核心瓶颈环节，扩产周期2-3年，重资产、高门槛。产能利用率是关键指标。",
+    "companies": [
+      {
+        "code": "688981",
+        "name": "中芯国际",
+        "role": "国产代工龙头(14nm)",
+        "d": 3.5,
+        "d5": 7.2,
+        "d20": 0.67
+      },
+      {
+        "code": "688347",
+        "name": "华虹公司",
+        "role": "特色工艺代工",
+        "d": 9.31,
+        "d5": 10.01,
+        "d20": 46.59
+      },
+      {
+        "code": "688249",
+        "name": "晶合集成",
+        "role": "DDIC+CIS代工",
+        "d": 10.29,
+        "d5": 4.25,
+        "d20": 8.26
+      },
+      {
+        "code": "688172",
+        "name": "燕东微",
+        "role": "6/8/12英寸IDM+代工",
+        "d": 2.55,
+        "d5": 5.24,
+        "d20": 13.2
+      }
+    ],
+    "data_points": [
+      {
+        "name": "产能_万片_月_8英寸等效",
+        "unit": "万片/月",
+        "type": "capacity",
+        "current_value": 320,
+        "source_name": "SEMI 2026E 中国大陆12英寸总产能",
+        "source_url": "https://ee.ofweek.com/2026-05/ART-8420-2816-30688353.html",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "产量_万片_月",
+        "unit": "万片/月",
+        "type": "output",
+        "current_value": 290,
+        "source_name": "基于~90%综合产能利用率估算",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "产能利用率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 93,
+        "source_name": "中芯国际+华虹综合 2026Q1",
+        "source_url": "https://ee.ofweek.com/2026-05/ART-8420-2816-30688353.html",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "全球晶圆代工营收_亿美元",
+        "unit": "亿美元",
+        "type": "market"
+      }
+    ],
+    "new_capacity": [
+      {
+        "company": "中芯国际",
+        "scale": "临港12英寸新产线",
+        "expected_online": "2026-H2",
+        "status": "construction"
+      },
+      {
+        "company": "华虹公司",
+        "scale": "无锡12英寸二期",
+        "expected_online": "2026-Q4",
+        "status": "equipment"
+      }
+    ],
+    "group": "semiconductor/wafer_fab",
+    "layer": 6,
+    "industry": "semiconductor",
+    "heat_d": 6.41,
+    "heat_d5": 6.67,
+    "heat_d20": 17.18,
+    "x": 2670,
+    "y": 853.0
+  },
+  {
+    "id": "semiconductor/semi_packaging",
+    "name": "🔬 封装测试",
+    "position": "midstream",
+    "tier": 3,
+    "description": "传统封装→先进封装(CoWoS/Chiplet/玻璃基板)，AI芯片标配，产能紧缺高景气环节。CoWoS产能是当前最大供需瓶颈之一。",
+    "companies": [
+      {
+        "code": "600584",
+        "name": "长电科技",
+        "role": "全球第三封测龙头",
+        "d": 6.28,
+        "d5": 5.09,
+        "d20": 23.37
+      },
+      {
+        "code": "002156",
+        "name": "通富微电",
+        "role": "AMD深度合作",
+        "d": 6.82,
+        "d5": 11.83,
+        "d20": 8.01
+      },
+      {
+        "code": "002185",
+        "name": "华天科技",
+        "role": "三大封测厂之一",
+        "d": 6.9,
+        "d5": 3.47,
+        "d20": 20.49
+      },
+      {
+        "code": "688362",
+        "name": "甬矽电子",
+        "role": "先进封装标的",
+        "d": 7.02,
+        "d5": 10.92,
+        "d20": 26.54
+      },
+      {
+        "code": "603005",
+        "name": "晶方科技",
+        "role": "WLCSP先进封装龙头",
+        "d": 4.25,
+        "d5": 6.45,
+        "d20": 24.72
+      },
+      {
+        "code": "688216",
+        "name": "气派科技",
+        "role": "QFN/DFN特色封测",
+        "d": 2.7,
+        "d5": 6.0,
+        "d20": 2.1
+      }
+    ],
+    "data_points": [
+      {
+        "name": "先进封装产能_万颗_月",
+        "unit": "万颗/月",
+        "type": "capacity"
+      },
+      {
+        "name": "CoWoS全球产能_万片_月",
+        "unit": "万片/月",
+        "type": "capacity",
+        "current_value": 9,
+        "source_name": "台积电 2026",
+        "source_url": "https://finance.sina.cn/2026-02-09/detail-inhmfqcf9150021.d.html",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "先进封装渗透率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 45,
+        "source_name": "通富微电先进封装收入占比",
+        "source_url": "https://xueqiu.com/1855261132/371844203",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [
+      {
+        "company": "长电科技",
+        "scale": "Chiplet/CoWoS扩产",
+        "expected_online": "2026-Q3",
+        "status": "construction"
+      }
+    ],
+    "group": "semiconductor/packaging",
+    "layer": 7,
+    "industry": "semiconductor",
+    "heat_d": 5.66,
+    "heat_d5": 7.29,
+    "heat_d20": 17.54,
+    "x": 3105,
+    "y": 853.0
+  },
+  {
+    "id": "semiconductor/semi_ai_server",
+    "name": "🔬 AI服务器",
+    "position": "downstream",
+    "tier": 4,
+    "description": "AI算力需求核心驱动力，GPU服务器+推理服务器，全球CAGR 30%+。",
+    "companies": [
+      {
+        "code": "601138",
+        "name": "工业富联",
+        "role": "全球AI服务器代工龙头",
+        "d": -0.36,
+        "d5": 8.18,
+        "d20": 6.29
+      },
+      {
+        "code": "000977",
+        "name": "浪潮信息",
+        "role": "国产AI服务器龙头",
+        "d": 3.53,
+        "d5": 4.25,
+        "d20": -9.79
+      },
+      {
+        "code": "603019",
+        "name": "中科曙光",
+        "role": "国产高性能计算龙头",
+        "d": 2.42,
+        "d5": 5.61,
+        "d20": -11.51
+      },
+      {
+        "code": "000938",
+        "name": "紫光股份",
+        "role": "新华三AI服务器+交换机",
+        "d": 1.61,
+        "d5": 5.01,
+        "d20": -14.85
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球AI服务器出货量_万台",
+        "unit": "万台",
+        "type": "output",
+        "current_value": 220,
+        "source_name": "IDC/TrendForce 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "国内AI服务器市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 1800,
+        "source_name": "IDC/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/end_product",
+    "layer": 8,
+    "industry": "semiconductor",
+    "heat_d": 1.8,
+    "heat_d5": 5.76,
+    "heat_d20": -7.46,
+    "x": 3540,
+    "y": 725.0
+  },
+  {
+    "id": "semiconductor/semi_pcb_ccl",
+    "name": "🔬 PCB与覆铜板",
+    "position": "downstream",
+    "tier": 4,
+    "description": "AI服务器配套PCB/CCL，高速高频材料升级，2026Q1 PCB板块营收+32%。",
+    "companies": [
+      {
+        "code": "300476",
+        "name": "胜宏科技",
+        "role": "AI服务器PCB核心供应商",
+        "d": 1.75,
+        "d5": 5.14,
+        "d20": 8.14
+      },
+      {
+        "code": "002463",
+        "name": "沪电股份",
+        "role": "高端通讯PCB",
+        "d": 4.2,
+        "d5": 16.8,
+        "d20": 40.44
+      },
+      {
+        "code": "688519",
+        "name": "南亚新材",
+        "role": "高速CCL",
+        "d": 10.82,
+        "d5": 32.15,
+        "d20": 110.57
+      },
+      {
+        "code": "002916",
+        "name": "深南电路",
+        "role": "PCB龙头(最高120层背板)",
+        "d": 10.0,
+        "d5": 16.73,
+        "d20": 33.25
+      },
+      {
+        "code": "600183",
+        "name": "生益科技",
+        "role": "全球CCL销量第二",
+        "d": 0.42,
+        "d5": 24.41,
+        "d20": 75.58
+      },
+      {
+        "code": "603228",
+        "name": "景旺电子",
+        "role": "AI服务器PCB+车用PCB",
+        "d": 3.34,
+        "d5": 5.98,
+        "d20": 5.6
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内PCB产值_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 3800,
+        "source_name": "Prismark/CPCA 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "AI服务器PCB占比_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 20,
+        "source_name": "Prismark估算 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/end_product",
+    "layer": 8,
+    "industry": "semiconductor",
+    "heat_d": 5.09,
+    "heat_d5": 16.87,
+    "heat_d20": 45.6,
+    "x": 3540,
+    "y": 853.0
+  },
+  {
+    "id": "semiconductor/semi_auto_electronics",
+    "name": "🔬 汽车电子",
+    "position": "downstream",
+    "tier": 4,
+    "description": "新能源车+智能驾驶推动汽车电子用量爆发。核心产品包括域控制器/智能座舱/ADAS/激光雷达/T-Box/V2X。华为(鸿蒙座舱+MDC智驾平台)和比亚迪(自研+垂直整合)是中国汽车电子两大主线。2026年智驾域控渗透率突破30%，L2+向L3跨越。",
+    "companies": [
+      {
+        "code": "002920",
+        "name": "德赛西威",
+        "role": "智能座舱+智驾域控龙头，英伟达Orin/Thor中国核心Tier1",
+        "d": -0.49,
+        "d5": 3.47,
+        "d20": -8.13
+      },
+      {
+        "code": "601689",
+        "name": "拓普集团",
+        "role": "热管理+智能刹车(IBS)+空悬，特斯拉/华为核心供应商",
+        "d": -1.02,
+        "d5": 4.25,
+        "d20": -13.26
+      },
+      {
+        "code": "688326",
+        "name": "经纬恒润",
+        "role": "汽车电子全栈Tier1(车身域/智驾域/底盘域)",
+        "d": -0.08,
+        "d5": 2.3,
+        "d20": -15.73
+      },
+      {
+        "code": "600699",
+        "name": "均胜电子",
+        "role": "汽车安全+智能座舱+智驾域控，全球化Tier1",
+        "d": -0.16,
+        "d5": 2.2,
+        "d20": -12.88
+      },
+      {
+        "code": "300496",
+        "name": "中科创达",
+        "role": "智能座舱OS+智驾中间件，高通/地平线核心软件伙伴",
+        "d": -0.26,
+        "d5": 2.74,
+        "d20": -8.87
+      },
+      {
+        "code": "603786",
+        "name": "科博达",
+        "role": "底盘/照明/能源管理控制器，大众/比亚迪核心供应商",
+        "d": 0.36,
+        "d5": 3.35,
+        "d20": -10.79
+      }
+    ],
+    "data_points": [
+      {
+        "name": "国内汽车电子市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 2200,
+        "source_name": "盖世汽车/券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      },
+      {
+        "name": "智能座舱渗透率_百分比",
+        "unit": "%",
+        "type": "ratio"
+      },
+      {
+        "name": "智驾域控渗透率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 30,
+        "source_name": "NE时代/高工智能汽车 2026H1",
+        "source_url": "",
+        "last_updated": "2026-06-17"
+      }
+    ],
+    "new_capacity": [],
+    "group": "semiconductor/end_product",
+    "layer": 8,
+    "industry": "semiconductor",
+    "heat_d": -0.28,
+    "heat_d5": 3.05,
+    "heat_d20": -11.61,
+    "x": 3540,
+    "y": 981.0
+  }
+];
+const RAW_EDGES = [
+  {
+    "from": "electronic_chemicals/ec_fluorine_base",
+    "to": "electronic_chemicals/ec_g5_acids",
+    "product": "无水氢氟酸(AHF)/高纯氟气",
+    "notes": "巨化股份是中巨芯第一大股东(26.4%)，AHF→电子级HF/F₂全链条供应",
+    "rel_type": "primary",
+    "industry": "electronic_chemicals"
+  },
+  {
+    "from": "electronic_chemicals/ec_solvents",
+    "to": "electronic_chemicals/ec_pr_resin",
+    "product": "G5级PGMEA(光刻胶溶剂)",
+    "notes": "怡达股份G5 PGMEA供圣泉集团光刻胶树脂配方，电子级溶剂→光刻胶原料核心链接",
+    "rel_type": "primary",
+    "industry": "electronic_chemicals"
+  },
+  {
+    "from": "electronic_chemicals/ec_pb_sources",
+    "to": "electronic_chemicals/ec_g5_acids",
+    "product": "电子级磷酸(湿电子化学品上游)",
+    "notes": "兴发集团电子级黄磷/磷酸供兴福电子生产G5级磷酸，国内最大磷化工→湿电子化学品链条",
+    "rel_type": "primary",
+    "industry": "electronic_chemicals"
+  },
+  {
+    "from": "electronic_chemicals/ec_g5_acids",
+    "to": "electronic_chemicals/ec_cmp_abrasive",
+    "product": "G5级硫酸/双氧水/氨水(CMP抛光液原料)",
+    "notes": "兴福电子G5级酸/双氧水供安集科技CMP抛光液配制，国内最大湿电子化学品→CMP供应链",
+    "rel_type": "primary",
+    "industry": "electronic_chemicals"
+  },
+  {
+    "from": "electronic_chemicals/ec_g5_acids",
+    "to": "electronic_chemicals/ec_electroplating",
+    "product": "G5级硫酸/盐酸(电镀液基础化学品)",
+    "notes": "兴福电子G5级酸供上海新阳铜互连/TSV电镀液配制",
+    "rel_type": "primary",
+    "industry": "electronic_chemicals"
+  },
+  {
+    "from": "electronic_chemicals/ec_solvents",
+    "to": "electronic_chemicals/ec_cmp_abrasive",
+    "product": "G5级双氧水/氨水(CMP抛光液原料)",
+    "notes": "晶瑞电材G5双氧水(国内晶圆厂市占>60%)供安集科技CMP抛光液",
+    "rel_type": "primary",
+    "industry": "electronic_chemicals"
+  },
+  {
+    "from": "nonferrous_metals/nf_hp_copper",
+    "to": "nonferrous_metals/nf_bonding_wire",
+    "product": "6N/7N高纯铜(键合铜丝原料)",
+    "notes": "有研新材高纯铜供康强电子键合铜丝产线",
+    "rel_type": "primary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "nonferrous_metals/nf_hp_copper",
+    "to": "nonferrous_metals/nf_pkg_interconnect",
+    "product": "6N/7N高纯铜(键合铜丝原料)",
+    "notes": "有研新材高纯铜供康强电子键合铜丝产线",
+    "rel_type": "primary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "nonferrous_metals/nf_precious_metal",
+    "to": "nonferrous_metals/nf_bonding_wire",
+    "product": "6N/7N高纯铜(键合铜丝原料)",
+    "notes": "有研新材高纯铜供康强电子键合铜丝产线",
+    "rel_type": "primary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "nonferrous_metals/nf_precious_metal",
+    "to": "nonferrous_metals/nf_pkg_interconnect",
+    "product": "6N/7N高纯铜(键合铜丝原料)",
+    "notes": "有研新材高纯铜供康强电子键合铜丝产线",
+    "rel_type": "primary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "nonferrous_metals/nf_pkg_interconnect",
+    "to": "nonferrous_metals/nf_bonding_wire",
+    "product": "6N/7N高纯铜(键合铜丝原料)",
+    "notes": "有研新材高纯铜供康强电子键合铜丝产线",
+    "rel_type": "primary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "nonferrous_metals/nf_hp_aluminum",
+    "to": "nonferrous_metals/nf_refractory",
+    "product": "6N高纯铝(靶材坯料)",
+    "notes": "新疆众和6N高纯铝供安泰科技/江丰电子等靶材厂商",
+    "rel_type": "primary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "nonferrous_metals/nf_hp_cobalt",
+    "to": "nonferrous_metals/nf_hp_copper",
+    "product": "高纯钴(钴靶坯原料)",
+    "notes": "华友钴业高纯钴供有研新材/江丰电子钴靶材制造，半导体级验证中",
+    "rel_type": "secondary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "nonferrous_metals/nf_hp_cobalt",
+    "to": "nonferrous_metals/nf_precious_metal",
+    "product": "高纯钴(钴靶坯原料)",
+    "notes": "华友钴业高纯钴供有研新材/江丰电子钴靶材制造，半导体级验证中",
+    "rel_type": "secondary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "nonferrous_metals/nf_hp_cobalt",
+    "to": "nonferrous_metals/nf_pkg_interconnect",
+    "product": "高纯钴(钴靶坯原料)",
+    "notes": "华友钴业高纯钴供有研新材/江丰电子钴靶材制造，半导体级验证中",
+    "rel_type": "secondary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "nonferrous_metals/nf_leadframe_alloy",
+    "to": "nonferrous_metals/nf_bonding_wire",
+    "product": "引线框架铜合金带材(C7025/C194/KCF)",
+    "notes": "博威合金铜带供康强电子引线框架冲压，国内最大铜合金→引线框架链条",
+    "rel_type": "primary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "nonferrous_metals/nf_leadframe_alloy",
+    "to": "nonferrous_metals/nf_pkg_interconnect",
+    "product": "引线框架铜合金带材(C7025/C194/KCF)",
+    "notes": "博威合金铜带供康强电子引线框架冲压，国内最大铜合金→引线框架链条",
+    "rel_type": "primary",
+    "industry": "nonferrous_metals"
+  },
+  {
+    "from": "silicon_materials/sm_metallurgical_si",
+    "to": "silicon_materials/sm_elec_polysilicon",
+    "product": "工业硅(多晶硅原料)",
+    "notes": "合盛硅业工业硅供通威股份多晶硅产线(部分外购/光伏级通道)",
+    "rel_type": "secondary",
+    "industry": "silicon_materials"
+  },
+  {
+    "from": "silicon_materials/sm_sic_powder",
+    "to": "silicon_materials/sm_elec_polysilicon",
+    "product": "工业硅(多晶硅原料)",
+    "notes": "合盛硅业工业硅供通威股份多晶硅产线(部分外购/光伏级通道)",
+    "rel_type": "secondary",
+    "industry": "silicon_materials"
+  },
+  {
+    "from": "silicon_materials/sm_sic_powder",
+    "to": "silicon_materials/sm_metallurgical_si",
+    "product": "工业硅(多晶硅原料)",
+    "notes": "合盛硅业工业硅供大全能源多晶硅产线(部分外购)",
+    "rel_type": "secondary",
+    "industry": "silicon_materials"
+  },
+  {
+    "from": "silicon_materials/sm_compound_substrate",
+    "to": "silicon_materials/sm_metallurgical_si",
+    "product": "SiC粉料(内部自供/工艺对标)",
+    "notes": "三安光电SiC粉料自供(全产业链IDM)，合盛硅业对标追赶",
+    "rel_type": "secondary",
+    "industry": "silicon_materials"
+  },
+  {
+    "from": "silicon_materials/sm_compound_substrate",
+    "to": "silicon_materials/sm_sic_powder",
+    "product": "SiC粉料(内部自供/工艺对标)",
+    "notes": "三安光电SiC粉料自供(全产业链IDM)，合盛硅业对标追赶",
+    "rel_type": "secondary",
+    "industry": "silicon_materials"
+  },
+  {
+    "from": "silicon_materials/sm_epitaxial_wafer",
+    "to": "silicon_materials/sm_metallurgical_si",
+    "product": "SiC粉料(内部自供/工艺对标)",
+    "notes": "三安光电SiC粉料自供(全产业链IDM)，合盛硅业对标追赶",
+    "rel_type": "secondary",
+    "industry": "silicon_materials"
+  },
+  {
+    "from": "silicon_materials/sm_epitaxial_wafer",
+    "to": "silicon_materials/sm_sic_powder",
+    "product": "SiC粉料(内部自供/工艺对标)",
+    "notes": "三安光电SiC粉料自供(全产业链IDM)，合盛硅业对标追赶",
+    "rel_type": "secondary",
+    "industry": "silicon_materials"
+  },
+  {
+    "from": "silicon_materials/sm_sic_powder",
+    "to": "silicon_materials/sm_epitaxial_wafer",
+    "product": "SiC外延片(6/8英寸)",
+    "notes": "三安光电(湖南三安)SiC外延片供芯联集成SiC MOSFET器件制造",
+    "rel_type": "primary",
+    "industry": "silicon_materials"
+  },
+  {
+    "from": "silicon_materials/sm_compound_substrate",
+    "to": "silicon_materials/sm_epitaxial_wafer",
+    "product": "SiC外延片(6/8英寸)",
+    "notes": "三安光电(湖南三安)SiC外延片供芯联集成SiC MOSFET器件制造",
+    "rel_type": "primary",
+    "industry": "silicon_materials"
+  },
+  {
+    "from": "pcb_materials/pcb_glass_yarn",
+    "to": "pcb_materials/pcb_glass_cloth",
+    "product": "电子级玻纤纱(E-glass/Low-Dk)",
+    "notes": "中国巨石电子纱供宏和科技织造电子布，国内最大电子纱→电子布链条",
+    "rel_type": "primary",
+    "industry": "pcb_materials"
+  },
+  {
+    "from": "pcb_materials/pcb_glass_cloth",
+    "to": "pcb_materials/pcb_ccl",
+    "product": "电子布(超薄/低介电/Low CTE)",
+    "notes": "宏和科技电子布供生益科技CCL产线，全球最大电子布→CCL供应关系",
+    "rel_type": "primary",
+    "industry": "pcb_materials"
+  },
+  {
+    "from": "pcb_materials/pcb_copper_foil",
+    "to": "pcb_materials/pcb_ccl",
+    "product": "电子铜箔(高频高速/RTF/HVLP)",
+    "notes": "铜冠铜箔电子铜箔供生益科技/南亚新材等CCL厂商",
+    "rel_type": "primary",
+    "industry": "pcb_materials"
+  },
+  {
+    "from": "pcb_materials/pcb_specialty_resin",
+    "to": "pcb_materials/pcb_ccl",
+    "product": "PPE树脂(高频CCL基体)",
+    "notes": "东材科技PPE树脂供生益科技/南亚新材等CCL厂商的高频高速产品线",
+    "rel_type": "primary",
+    "industry": "pcb_materials"
+  },
+  {
+    "from": "semiconductor/semi_silicon_wafer",
+    "to": "semiconductor/semi_wafer_fab",
+    "product": "12英寸硅片",
+    "notes": "沪硅产业是国内主要12英寸硅片供应商，供应中芯国际",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_sic_substrate",
+    "to": "semiconductor/semi_power_discrete",
+    "product": "SiC衬底",
+    "notes": "天岳先进SiC衬底供应斯达半导",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_cmp_materials",
+    "to": "semiconductor/semi_wafer_fab",
+    "product": "CMP抛光液",
+    "notes": "安集科技是中芯国际CMP抛光液核心供应商",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_specialty_gas",
+    "to": "semiconductor/semi_wafer_fab",
+    "product": "高纯电子特气",
+    "notes": "华特气体进入中芯国际供应链，是主要特气供应商",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_target_material",
+    "to": "semiconductor/semi_wafer_fab",
+    "product": "溅射靶材",
+    "notes": "江丰电子溅射靶材供应中芯国际",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_equipment",
+    "to": "semiconductor/semi_wafer_fab",
+    "product": "刻蚀/薄膜/清洗设备",
+    "notes": "北方华创全平台设备供应中芯国际",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_wafer_fab",
+    "to": "semiconductor/semi_storage",
+    "product": "晶圆代工(NOR Flash)",
+    "notes": "中芯国际代工兆易创新NOR Flash芯片",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_wafer_fab",
+    "to": "semiconductor/semi_analog_mcu",
+    "product": "晶圆代工(NOR Flash)",
+    "notes": "中芯国际代工兆易创新NOR Flash芯片",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_wafer_fab",
+    "to": "semiconductor/semi_ai_chip",
+    "product": "晶圆代工(AI芯片)",
+    "notes": "中芯国际为寒武纪提供部分AI芯片代工",
+    "rel_type": "secondary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_wafer_fab",
+    "to": "semiconductor/semi_power_discrete",
+    "product": "特色工艺代工(IGBT)",
+    "notes": "华虹半导体代工斯达半导IGBT芯片",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_wafer_fab",
+    "to": "semiconductor/semi_rf_frontend",
+    "product": "晶圆代工(CIS)",
+    "notes": "中芯国际代工豪威集团CIS芯片",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_wafer_fab",
+    "to": "semiconductor/semi_cis",
+    "product": "晶圆代工(CIS)",
+    "notes": "中芯国际代工豪威集团CIS芯片",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_packaging",
+    "to": "semiconductor/semi_ai_chip",
+    "product": "先进封装(Chiplet)",
+    "notes": "长电科技为寒武纪提供先进封装服务",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_packaging",
+    "to": "semiconductor/semi_storage",
+    "product": "封装测试(NOR Flash)",
+    "notes": "长电科技是兆易创新主要封测供应商",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_packaging",
+    "to": "semiconductor/semi_analog_mcu",
+    "product": "封装测试(NOR Flash)",
+    "notes": "长电科技是兆易创新主要封测供应商",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_ai_chip",
+    "to": "semiconductor/semi_ai_server",
+    "product": "AI训练/推理芯片",
+    "notes": "寒武纪AI芯片搭载于工业富联AI服务器",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_pcb_ccl",
+    "to": "semiconductor/semi_ai_server",
+    "product": "AI服务器PCB",
+    "notes": "胜宏科技是工业富联AI服务器PCB核心供应商",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_packaging",
+    "to": "semiconductor/semi_power_discrete",
+    "product": "IGBT/SiC模块封装",
+    "notes": "通富微电封测时代电气车载IGBT模块",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_packaging",
+    "to": "semiconductor/semi_rf_frontend",
+    "product": "CIS封装测试",
+    "notes": "长电科技封测豪威集团CIS芯片",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_packaging",
+    "to": "semiconductor/semi_cis",
+    "product": "CIS封装测试",
+    "notes": "长电科技封测豪威集团CIS芯片",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_ic_substrate",
+    "to": "semiconductor/semi_ai_server",
+    "product": "120层AI服务器背板",
+    "notes": "深南电路供工业富联/华为AI服务器PCB",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_photoresist",
+    "to": "semiconductor/semi_wafer_fab",
+    "product": "磷烷/砷烷/前驱体/ArF光刻胶",
+    "notes": "南大光电单一客户(中芯国际)贡献超30%营收",
+    "rel_type": "exclusive",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_wet_chemicals",
+    "to": "semiconductor/semi_wafer_fab",
+    "product": "g/i线光刻胶",
+    "notes": "晶瑞电材i线光刻胶已批量供中芯国际",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_ai_chip",
+    "to": "semiconductor/semi_pcb_ccl",
+    "product": "国产GPU芯片配套PCB",
+    "notes": "摩尔线程GPU配套胜宏科技高端PCB",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_photomask",
+    "to": "semiconductor/semi_wafer_fab",
+    "product": "半导体光掩模版",
+    "notes": "路维光电半导体掩模版进入中芯国际验证",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_packaging_materials",
+    "to": "semiconductor/semi_wafer_fab",
+    "product": "电镀液/清洗液",
+    "notes": "上海新阳电镀液供中芯国际铜互连产线",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_equipment_parts",
+    "to": "semiconductor/semi_equipment",
+    "product": "金属件/模组/气体管路",
+    "notes": "富创精密是北方华创核心零部件供应商(金属件/管路)",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_equipment_parts",
+    "to": "semiconductor/semi_wafer_fab",
+    "product": "Gas Box/气体输送系统",
+    "notes": "正帆科技气体系统供中芯国际/长存/长鑫",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_glass_substrate",
+    "to": "semiconductor/semi_packaging",
+    "product": "TGV玻璃基板",
+    "notes": "沃格光电TGV玻璃基板供华天科技封装验证",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_ic_substrate",
+    "to": "semiconductor/semi_packaging",
+    "product": "FC-BGA载板(ABF)",
+    "notes": "深南电路ABF载板供长电科技先进封装",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_pcb_ccl",
+    "to": "semiconductor/semi_packaging",
+    "product": "FC-BGA载板(ABF)",
+    "notes": "深南电路ABF载板供长电科技先进封装",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_packaging_materials",
+    "to": "semiconductor/semi_packaging",
+    "product": "引线框架/键合丝",
+    "notes": "康强电子引线框架+键合丝供长电/华天/通富",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_glass_substrate",
+    "to": "semiconductor/semi_ai_chip",
+    "product": "热界面材料(TIM1/TIM2)",
+    "notes": "中石科技TIM供寒武纪/海光AI芯片散热",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_packaging_materials",
+    "to": "semiconductor/semi_ai_chip",
+    "product": "热界面材料(TIM1/TIM2)",
+    "notes": "中石科技TIM供寒武纪/海光AI芯片散热",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_eda_ip",
+    "to": "semiconductor/semi_ai_chip",
+    "product": "模拟IC全流程EDA",
+    "notes": "华大九天EDA工具供寒武纪/海光信息/兆易创新",
+    "rel_type": "primary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "semiconductor/semi_eda_ip",
+    "to": "semiconductor/semi_equipment",
+    "product": "SPICE仿真/器件建模EDA",
+    "notes": "概伦电子供中微公司设备仿真建模",
+    "rel_type": "secondary",
+    "industry": "semiconductor"
+  },
+  {
+    "from": "electronic_chemicals/ec_pb_sources",
+    "to": "silicon_materials/sm_metallurgical_si",
+    "product": "产业链交叉",
+    "notes": "共享企业: 600141",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_g5_acids",
+    "to": "semiconductor/semi_photoresist",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300655",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_g5_acids",
+    "to": "semiconductor/semi_wet_chemicals",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300655",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_solvents",
+    "to": "semiconductor/semi_photoresist",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300655",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_solvents",
+    "to": "semiconductor/semi_wet_chemicals",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300655",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_si_mo_precursors",
+    "to": "semiconductor/semi_specialty_gas",
+    "product": "产业链交叉",
+    "notes": "共享企业: 002409",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_si_mo_precursors",
+    "to": "semiconductor/semi_photoresist",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300346",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_pr_resin",
+    "to": "semiconductor/semi_photoresist",
+    "product": "产业链交叉",
+    "notes": "共享企业: 002643",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_electroplating",
+    "to": "semiconductor/semi_cmp_materials",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300236",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_electroplating",
+    "to": "semiconductor/semi_photoresist",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300236",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_electroplating",
+    "to": "semiconductor/semi_wet_chemicals",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300236",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_electroplating",
+    "to": "semiconductor/semi_packaging_materials",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300236",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_cmp_abrasive",
+    "to": "semiconductor/semi_cmp_materials",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300236",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_cmp_abrasive",
+    "to": "semiconductor/semi_photoresist",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300236",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_cmp_abrasive",
+    "to": "semiconductor/semi_wet_chemicals",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300236",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_cmp_abrasive",
+    "to": "semiconductor/semi_packaging_materials",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300236",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "electronic_chemicals/ec_packaging_polymer",
+    "to": "semiconductor/semi_wet_chemicals",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300481",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "nonferrous_metals/nf_rare_earth",
+    "to": "electronic_chemicals/ec_cmp_abrasive",
+    "product": "产业链交叉",
+    "notes": "共享企业: 300405",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "nonferrous_metals/nf_hp_copper",
+    "to": "semiconductor/semi_target_material",
+    "product": "产业链交叉",
+    "notes": "共享企业: 600206",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "nonferrous_metals/nf_precious_metal",
+    "to": "semiconductor/semi_target_material",
+    "product": "产业链交叉",
+    "notes": "共享企业: 600206",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "nonferrous_metals/nf_pkg_interconnect",
+    "to": "semiconductor/semi_target_material",
+    "product": "产业链交叉",
+    "notes": "共享企业: 600206",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "pcb_materials/pcb_copper_foil",
+    "to": "nonferrous_metals/nf_hp_cobalt",
+    "product": "产业链交叉",
+    "notes": "共享企业: 603799",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "nonferrous_metals/nf_bonding_wire",
+    "to": "semiconductor/semi_packaging_materials",
+    "product": "产业链交叉",
+    "notes": "共享企业: 002119",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "nonferrous_metals/nf_pkg_interconnect",
+    "to": "semiconductor/semi_packaging_materials",
+    "product": "产业链交叉",
+    "notes": "共享企业: 002119",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "nonferrous_metals/nf_scattered_metals",
+    "to": "silicon_materials/sm_compound_substrate",
+    "product": "产业链交叉",
+    "notes": "共享企业: 002428",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "nonferrous_metals/nf_rare_earth",
+    "to": "silicon_materials/sm_quartz",
+    "product": "产业链交叉",
+    "notes": "共享企业: 600552",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "silicon_materials/sm_sic_powder",
+    "to": "semiconductor/semi_sic_substrate",
+    "product": "产业链交叉",
+    "notes": "共享企业: 600703",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "silicon_materials/sm_compound_substrate",
+    "to": "semiconductor/semi_sic_substrate",
+    "product": "产业链交叉",
+    "notes": "共享企业: 600703",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "silicon_materials/sm_epitaxial_wafer",
+    "to": "semiconductor/semi_sic_substrate",
+    "product": "产业链交叉",
+    "notes": "共享企业: 600703",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "silicon_materials/sm_epitaxial_wafer",
+    "to": "semiconductor/semi_silicon_wafer",
+    "product": "产业链交叉",
+    "notes": "共享企业: 688584",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "silicon_materials/sm_soi_specialty",
+    "to": "semiconductor/semi_silicon_wafer",
+    "product": "产业链交叉",
+    "notes": "共享企业: 688126",
+    "rel_type": "secondary",
+    "industry": "cross"
+  },
+  {
+    "from": "pcb_materials/pcb_ccl",
+    "to": "semiconductor/semi_pcb_ccl",
+    "product": "产业链交叉",
+    "notes": "共享企业: 600183",
+    "rel_type": "secondary",
+    "industry": "cross"
+  }
+];
+const GROUP_LABELS = {"electronic_chemicals/base_chemical": ["🧪 ⚗️ 基础氟化工", "#1e6b4a"], "electronic_chemicals/purified_chemical": ["🧪 🧪 电子级纯化品", "#2e7d32"], "electronic_chemicals/functional_material": ["🧪 🔬 功能性材料", "#1565c0"], "nonferrous_metals/mining_smelting": ["⛏️ ⛏ 矿冶/回收", "#8b6914"], "nonferrous_metals/refined_metal": ["⛏️ 🔩 高纯金属精炼", "#b8860b"], "nonferrous_metals/semi_product": ["⛏️ 🔗 半导体级产品", "#cd853f"], "silicon_materials/raw_material": ["🏭 ⛏ 基础原料", "#6d4c41"], "silicon_materials/refined_material": ["🏭 ⚗️ 精炼与加工", "#8d6e63"], "silicon_materials/consumable": ["🏭 🔧 耗材与制品", "#a1887f"], "pcb_materials/fiber": ["📦 🧵 玻纤与电子布", "#1565c0"], "pcb_materials/metal": ["📦 🔩 电子铜箔", "#c62828"], "pcb_materials/resin": ["📦 🧪 特种树脂", "#2e7d32"], "pcb_materials/ccl": ["📦 📦 覆铜板(CCL)", "#e65100"], "semiconductor/material": ["🔬 🧪 材料/耗材", "#1b6e2e"], "semiconductor/equipment": ["🔬 🔧 设备/零部件", "#43a047"], "semiconductor/packaging_prep": ["🔬 📦 封装上游", "#6d8a70"], "semiconductor/design_ip": ["🔬 🧠 芯片设计", "#546e7a"], "semiconductor/wafer_fab": ["🔬 🏭 晶圆制造", "#e8a840"], "semiconductor/packaging": ["🔬 📦 封装测试", "#e06040"], "semiconductor/end_product": ["🔬 🖥 终端应用", "#c0392b"]};
+const ALL_STOCK_CODES = ["600160", "002407", "603505", "603379", "600096", "600141", "600078", "688545", "300655", "688549", "603078", "300721", "603931", "603938", "002409", "300346", "688106", "002643", "605589", "300429", "688199", "688113", "300236", "688720", "002741", "603002", "300041", "300481", "688019", "300054", "300405", "600206", "600362", "688530", "600888", "002532", "600673", "600489", "000962", "600549", "601958", "000969", "600456", "603799", "300618", "002119", "601137", "002171", "002428", "600497", "601600", "000960", "600961", "000751", "600111", "600552", "603260", "600596", "688303", "600438", "600089", "603688", "001269", "300316", "300554", "300700", "600703", "600330", "600509", "688584", "605358", "688469", "688126", "002129", "688432", "600176", "002080", "603256", "301217", "600110", "601208", "002669", "600183", "688519", "603186", "688783", "688233", "688234", "002617", "603595", "688268", "600378", "688146", "300666", "300263", "300706", "600309", "603650", "688401", "688138", "300395", "688548", "002371", "688012", "688072", "688082", "688120", "688037", "603690", "300567", "688361", "300604", "688200", "600641", "688147", "688409", "300260", "688596", "300820", "688448", "688652", "603773", "688170", "300776", "600707", "300684", "002185", "002916", "002436", "603228", "688535", "688035", "301269", "688206", "301095", "688521", "688262", "688256", "688041", "688802", "002261", "000034", "688795", "603986", "688008", "688525", "301308", "300042", "300223", "688766", "688110", "300661", "688536", "688052", "300327", "688045", "300782", "688153", "688798", "603501", "688403", "002273", "688728", "688213", "688286", "688002", "688665", "300456", "688582", "603290", "300373", "688187", "605111", "688396", "688261", "600460", "688981", "688347", "688249", "688172", "600584", "002156", "688362", "603005", "688216", "601138", "000977", "603019", "000938", "300476", "002463", "002920", "601689", "688326", "600699", "300496", "603786"];
+// ==================== G6 GRAPH SETUP ====================
+const nodeMap = {};
+RAW_NODES.forEach(n => { nodeMap[n.id] = n; });
+
+(function checkG6() {
+  if (typeof G6 === 'undefined') {
+    document.getElementById('mc').textContent = 'ERROR: G6 CDN 未加载';
+    document.getElementById('mc').style.color = 'red';
+    throw new Error('G6 not loaded');
+  }
+})();
+
+const POS_LABELS = {upstream:'上游', midstream:'中游', downstream:'下游'};
+
+// heat → color (clean warm-cool heatmap)
+function heatToColor(h) {
+  if (h >= 20) return {fill:'#fff0f0', stroke:'#e57373', tag_bg:'#ef5350', tag_text:'#fff', text:'#c62828', heat_text:'#d32f2f'};
+  if (h >= 10) return {fill:'#fff5f5', stroke:'#ef8e8e', tag_bg:'#e57373', tag_text:'#fff', text:'#c62828', heat_text:'#e53935'};
+  if (h >= 5)  return {fill:'#fffafa', stroke:'#f4acac', tag_bg:'#ef8e8e', tag_text:'#7f0000', text:'#333', heat_text:'#d32f2f'};
+  if (h >= 2)  return {fill:'#fffafa', stroke:'#f8c8c8', tag_bg:'#f4acac', tag_text:'#8b0000', text:'#333', heat_text:'#c62828'};
+  if (h >= 0)  return {fill:'#fafafa', stroke:'#d0d0d0', tag_bg:'#e8e8e8', tag_text:'#666', text:'#333', heat_text:'#888'};
+  if (h >= -2) return {fill:'#f5fdf6', stroke:'#b3e0b3', tag_bg:'#8ed48e', tag_text:'#1b5e20', text:'#333', heat_text:'#2e7d32'};
+  if (h >= -5) return {fill:'#f0faf2', stroke:'#8ed48e', tag_bg:'#66bb6a', tag_text:'#fff', text:'#1b5e20', heat_text:'#1b5e20'};
+  if (h >= -10)return {fill:'#e8f5e9', stroke:'#66bb6a', tag_bg:'#43a047', tag_text:'#fff', text:'#1b5e20', heat_text:'#155724'};
+  return {fill:'#e0f0e0', stroke:'#4caf50', tag_bg:'#388e3c', tag_text:'#fff', text:'#0a3d0a', heat_text:'#0d3d0d'};
+}
+
+// Edge styling — subtle defaults, bold on focus
+const EDGE_STYLE = {
+  primary:   {stroke:'#a5d6a7', lineWidth:1.2, arrowSize:7},
+  secondary: {stroke:'#bdbdbd', lineWidth:1.0, arrowSize:6},
+  exclusive: {stroke:'#ef9a9a', lineWidth:1.2, lineDash:[8,4], arrowSize:7},
+  // focus colors (same hue, more saturated)
+  focus: {
+    primary:   {stroke:'#2e7d32', lineWidth:2.5, arrowSize:10},
+    secondary: {stroke:'#546e7a', lineWidth:2.0, arrowSize:8},
+    exclusive: {stroke:'#c62828', lineWidth:2.5, arrowSize:10},
+  },
+};
+
+// Register custom node with rich content
+let graph;
+try {
+G6.registerNode('heat-node', {
+  draw(cfg, group) {
+    const w = 160, h = 76, r = 10;
+    const nd = cfg.nodeData || {};
+    const h20 = nd.heat_d20 || 0;
+    const c = heatToColor(h20);
+    const posLabel = POS_LABELS[nd.position] || nd.position;
+
+    // background
+    const keyShape = group.addShape('rect', {
+      attrs: { x: -w/2, y: -h/2, width: w, height: h, radius: r,
+        fill: c.fill, stroke: c.stroke, lineWidth: 2.5, cursor: 'pointer' },
+      name: 'main-box',
+    });
+
+    // id tag
+    group.addShape('text', {
+      attrs: { x: -w/2+12, y: -h/2+14,
+        text: nd.id ? nd.id.replace('semi_','').replace('_',' ') : '',
+        fontSize: 9, fontWeight: 700, fill: c.tag_text, opacity: 0.6,
+        fontFamily: 'Consolas, monospace' },
+      name: 'nid-text',
+    });
+
+    // name
+    group.addShape('text', {
+      attrs: { x: -w/2+12, y: -h/2+32,
+        text: (nd.name||'').length>14 ? (nd.name||'').slice(0,14)+'..' : (nd.name||''),
+        fontSize: 13, fontWeight: 700, fill: c.text||'#333' },
+      name: 'name-text',
+    });
+
+    // heat badge
+    const heatEmoji = h20>10?'🔥':h20>3?'📈':h20<-5?'❄️':h20<0?'📉':'';
+    group.addShape('text', {
+      attrs: { x: -w/2+12, y: -h/2+50,
+        text: `20日 ${h20>=0?'+':''}${h20.toFixed(1)}% ${heatEmoji}`,
+        fontSize: 10, fontWeight: 600, fill: c.heat_text||'#888' },
+      name: 'heat-text',
+    });
+
+    // position tag
+    const tagW = posLabel.length*10+14;
+    group.addShape('rect', {
+      attrs: { x: w/2-tagW-8, y: h/2-20, width: tagW, height: 18, radius: 7,
+        fill: c.tag_bg, opacity: 0.9 },
+      name: 'tag-bg',
+    });
+    group.addShape('text', {
+      attrs: { x: w/2-tagW/2-8, y: h/2-11,
+        text: posLabel, fontSize: 9, fontWeight: 700, fill: c.tag_text, textAlign: 'center' },
+      name: 'tag-text',
+    });
+
+    return keyShape;
+  },
+  getAnchorPoints() {
+    return [[0,0.5],[1,0.5],[0.5,0],[0.5,1]];
+  },
+});
+
+// Convert data
+const g6Nodes = RAW_NODES.map(n => ({
+  id: n.id,
+  type: 'heat-node',
+  group: n.group,
+  nodeData: n,
+  x: n.x || 0,
+  y: n.y || 0,
+}));
+
+const g6Edges = RAW_EDGES.map(e => {
+  const src = nodeMap[e.from];
+  const tgt = nodeMap[e.to];
+  const sameLayer = src && tgt && src.layer === tgt.layer;
+
+  let edgeType, sourceAnchor, targetAnchor;
+  if (sameLayer) {
+    edgeType = 'cubic-vertical';
+    if ((src.y || 0) <= (tgt.y || 0)) {
+      sourceAnchor = 3; targetAnchor = 2;
+    } else {
+      sourceAnchor = 2; targetAnchor = 3;
+    }
+  } else {
+    edgeType = 'cubic-horizontal';
+    if ((src.x || 0) <= (tgt.x || 0)) {
+      sourceAnchor = 1; targetAnchor = 0;
+    } else {
+      sourceAnchor = 0; targetAnchor = 1;
+    }
+  }
+
+  const es = EDGE_STYLE[e.rel_type] || EDGE_STYLE.primary;
+  const as = es.arrowSize || 8;
+  return {
+    source: e.from,
+    target: e.to,
+    type: edgeType,
+    sourceAnchor,
+    targetAnchor,
+    style: {
+      stroke: es.stroke,
+      lineWidth: es.lineWidth,
+      lineDash: es.lineDash,
+      endArrow: {
+        path: G6.Arrow.triangle(as, as * 1.25, 0),
+        fill: es.stroke,
+      },
+    },
+    edgeData: e,
+  };
+});
+
+const container = document.getElementById('g6-container');
+const width = container.scrollWidth || 1200;
+const height = container.scrollHeight || 800;
+
+graph = new G6.Graph({
+  container: 'g6-container',
+  width, height,
+  fitView: true,
+  fitViewPadding: 40,
+  layout: { type: 'preset' },
+  defaultNode: { type: 'heat-node' },
+  defaultEdge: {
+    type: 'cubic-horizontal',
+    style: { endArrow: true, lineWidth: 2 },
+  },
+  edgeStateStyles: {
+    hover: { lineWidth: 4, shadowBlur: 8, shadowColor: 'rgba(67,160,71,0.4)' },
+  },
+  modes: {
+    default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'click-select'],
+  },
+  nodeStateStyles: {
+    selected: { lineWidth: 3, shadowBlur: 16, shadowColor: 'rgba(27,110,46,0.3)' },
+    active: { shadowBlur: 14, shadowColor: 'rgba(46,125,50,0.25)', stroke: '#2e7d32', lineWidth: 2.5 },
+    inactive: { opacity: 0.3 },
+  },
+  edgeStateStyles: {
+    hover: { lineWidth: 4, shadowBlur: 8, shadowColor: 'rgba(67,160,71,0.4)' },
+  },
+});
+
+graph.data({ nodes: g6Nodes, edges: g6Edges });
+graph.render();
+
+} catch(e) {
+  document.getElementById('mc').textContent = 'ERROR: G6 init - ' + e.message;
+  document.getElementById('mc').style.color = 'red';
+  console.error(e);
+  throw e;
+}
+
+// ==================== GROUP LABELS (annotation nodes) ====================
+// Add invisible nodes as group labels at the top of each group's layer
+const groups = {};
+RAW_NODES.forEach(n => {
+  if (!groups[n.group]) groups[n.group] = [];
+  groups[n.group].push(n.id);
+});
+
+// Add group labels after render (positions are computed by dagre)
+setTimeout(() => {
+  const label = GROUP_LABELS[gk];
+  // simplified: render group labels using HTML overlay
+}, 500);
+
+// ==================== FOCUS / HIGHLIGHT ====================
+function focusNode(nodeId) {
+  const connected = new Set();
+  connected.add(nodeId);
+  RAW_EDGES.forEach(e => {
+    if (e.from === nodeId || e.to === nodeId) {
+      connected.add(e.from);
+      connected.add(e.to);
+    }
+  });
+  // Nodes: highlight connected, dim rest
+  RAW_NODES.forEach(n => {
+    const item = graph.findById(n.id);
+    if (!item) return;
+    if (connected.has(n.id)) {
+      item.setState('active', true);
+      item.setState('inactive', false);
+    } else {
+      item.setState('active', false);
+      item.setState('inactive', true);
+    }
+  });
+  // Edges: connected → bold focus color, rest → subtle
+  graph.getEdges().forEach(edge => {
+    const m = edge.getModel();
+    const ed = m.edgeData;
+    if (m.source === nodeId || m.target === nodeId) {
+      const fs = (EDGE_STYLE.focus || {})[ed.rel_type] || EDGE_STYLE.focus.primary;
+      graph.updateItem(edge, {
+        style: {
+          stroke: fs.stroke,
+          lineWidth: fs.lineWidth,
+          lineDash: (EDGE_STYLE[ed.rel_type] || {}).lineDash,
+          endArrow: { path: G6.Arrow.triangle(fs.arrowSize, fs.arrowSize*1.25, 0), fill: fs.stroke },
+          opacity: 1,
+        },
+      });
+    } else {
+      graph.updateItem(edge, {
+        style: {
+          stroke: (EDGE_STYLE[ed.rel_type] || EDGE_STYLE.primary).stroke,
+          lineWidth: 1.0,
+          opacity: 0.25,
+        },
+      });
+    }
+  });
+}
+function clearFocus() {
+  RAW_NODES.forEach(n => {
+    const item = graph.findById(n.id);
+    if (item) { item.setState('active', false); item.setState('inactive', false); }
+  });
+  // Restore all edges to default subtle style
+  graph.getEdges().forEach(edge => {
+    const m = edge.getModel();
+    const ed = m.edgeData;
+    const es = EDGE_STYLE[ed.rel_type] || EDGE_STYLE.primary;
+    graph.updateItem(edge, {
+      style: {
+        stroke: es.stroke,
+        lineWidth: es.lineWidth,
+        lineDash: es.lineDash,
+        endArrow: { path: G6.Arrow.triangle(es.arrowSize, es.arrowSize*1.25, 0), fill: es.stroke },
+        opacity: 1,
+      },
+    });
+  });
+}
+
+// ==================== INTERACTION ====================
+graph.on('canvas:click', () => { closePanel(); clearFocus(); });
+graph.on('node:click', evt => {
+  const nodeId = evt.item.getID();
+  openPanel(nodeId);
+});
+
+graph.on('node:mouseenter', evt => {
+  const nd = evt.item.getModel().nodeData;
+  if (!nd || !nd.companies || nd.companies.length === 0) return;
+  const d = nd.heat_d || 0, d5 = nd.heat_d5 || 0, d20 = nd.heat_d20 || 0;
+  const cd = d>=0?'color:#e53935':'color:#2e7d32';
+  const c5 = d5>=0?'color:#e53935':'color:#2e7d32';
+  const c20 = d20>=0?'color:#e53935':'color:#2e7d32';
+  let html = `<div class="tt-title">${nd.name}</div>`;
+  html += `<div style="display:flex;gap:12px;margin-bottom:6px;font-size:10px">`;
+  html += `<span>当日 <b style="${cd}">${d>=0?'+':''}${d.toFixed(1)}%</b></span>`;
+  html += `<span>5日 <b style="${c5}">${d5>=0?'+':''}${d5.toFixed(1)}%</b></span>`;
+  html += `<span>20日 <b style="${c20}">${d20>=0?'+':''}${d20.toFixed(1)}%</b></span>`;
+  html += `</div>`;
+  nd.companies.slice(0, 8).forEach(c => {
+    const cd2 = (c.d||0)>=0?'color:#e53935':'color:#2e7d32';
+    html += `<div class="tt-co"><span class="tt-code">${c.code}</span>${c.name}<span style="${cd2};margin-left:4px;font-size:9px">${(c.d||0)>=0?'+':''}${(c.d||0).toFixed(1)}%</span></div>`;
+  });
+  if (nd.companies.length > 8) html += `<div class="tt-co" style="color:#999">...还有 ${nd.companies.length-8} 家</div>`;
+  tooltip.innerHTML = html;
+  tooltip.classList.add('show');
+});
+
+graph.on('node:mousemove', evt => {
+  const oe = evt.originalEvent || evt;
+  let tx = (oe.clientX || evt.x || 0) + 14, ty = (oe.clientY || evt.y || 0) + 10;
+  if (tx + 310 > window.innerWidth) tx = (oe.clientX || evt.x || 0) - 310;
+  if (ty + 200 > window.innerHeight) ty = (oe.clientY || evt.y || 0) - 210;
+  tooltip.style.left = tx + 'px';
+  tooltip.style.top = ty + 'px';
+  tooltip.style.transform = 'none';
+});
+
+graph.on('node:mouseleave', () => { tooltip.classList.remove('show'); });
+
+// ==================== PANEL ====================
+const panel = document.getElementById('panel');
+const tooltip = document.getElementById('tooltip');
+let activeNode = null, activeTab = 'overview';
+
+function openPanel(nodeId) {
+  activeNode = nodeMap[nodeId]; if (!activeNode) return;
+  panel.classList.add('open'); activeTab = 'overview';
+  document.querySelectorAll('#panel .pt button').forEach(b => b.classList.remove('on'));
+  document.getElementById('tb-overview').classList.add('on');
+  graph.setItemState(nodeId, 'selected', true);
+  focusNode(nodeId);
+  renderPanel();
+}
+
+function closePanel() {
+  if (activeNode) graph.setItemState(activeNode.id, 'selected', false);
+  panel.classList.remove('open'); activeNode = null;
+  clearFocus();
+}
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('#panel .pt button').forEach(b => b.classList.remove('on'));
+  document.getElementById('tb-' + tab).classList.add('on');
+  renderPanel();
+}
+
+function renderPanel() {
+  if (!activeNode) return;
+  const n = activeNode;
+  const h20 = n.heat_d20 || 0;
+  const c = heatToColor(h20);
+  const posLabel = POS_LABELS[n.position] || n.position;
+  const d = n.heat_d||0, d5 = n.heat_d5||0, d20 = n.heat_d20||0;
+  const cd=d>=0?'#e53935':'#2e7d32', c5=d5>=0?'#e53935':'#2e7d32', c20=d20>=0?'#e53935':'#2e7d32';
+  document.getElementById('p-title').textContent = n.name;
+  document.getElementById('p-sub').innerHTML = `<span style="background:${c.tag_bg};color:${c.tag_text};padding:1px 8px;border-radius:8px;font-size:10px;margin-right:8px">${posLabel}</span>20日 ${d20>=0?'+':''}${d20.toFixed(1)}% · ${n.companies.length} 家上市公司`;
+  const body = document.getElementById('panel-body');
+
+  if (activeTab === 'overview') {
+    let html = `<div class="desc">${n.description}</div>`;
+    html += '<h3>市场热度</h3>';
+    html += `<div style="display:flex;gap:12px;margin:8px 0;flex-wrap:wrap">`;
+    html += `<div style="flex:1;min-width:100px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#888">当日</div><div style="font-size:22px;font-weight:700;color:${cd}">${d>=0?'+':''}${d.toFixed(1)}%</div><div style="font-size:10px;color:${cd}">${d>=0?'🔥火热':'❄️冰冷'}</div></div>`;
+    html += `<div style="flex:1;min-width:100px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#888">近5日</div><div style="font-size:22px;font-weight:700;color:${c5}">${d5>=0?'+':''}${d5.toFixed(1)}%</div><div style="font-size:10px;color:${c5}">${d5>=0?'🔥':'❄️'}</div></div>`;
+    html += `<div style="flex:1;min-width:100px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#888">近20日</div><div style="font-size:22px;font-weight:700;color:${c20}">${d20>=0?'+':''}${d20.toFixed(1)}%</div><div style="font-size:10px;color:${c20}">${d20>=0?'🔥':'❄️'}</div></div>`;
+    html += `</div>`;
+    if (n.new_capacity && n.new_capacity.length > 0) {
+      html += '<h3>在建/扩产产能</h3><table><tr><th>企业</th><th>规模</th><th>预计投产</th><th>状态</th></tr>';
+      const tagMap = {construction:['建设中','tag-const'], ramp_up:['爬坡中','tag-ramp'], equipment:['设备搬入','tag-equip']};
+      n.new_capacity.forEach(nc => {
+        const [txt, cls] = tagMap[nc.status] || ['规划中','tag-plan'];
+        html += `<tr><td>${nc.company}</td><td>${nc.scale}</td><td>${nc.expected_online}</td><td><span class="tag-cap ${cls}">${txt}</span></td></tr>`;
+      });
+      html += '</table>';
+    }
+    body.innerHTML = html;
+  } else if (activeTab === 'companies') {
+    let html = '<table><tr><th>股票代码</th><th>公司名称</th><th>当日</th><th>产业链角色</th></tr>';
+    n.companies.forEach(co => {
+      const cd = (co.d||0)>=0?'color:#e53935':'color:#2e7d32';
+      const ds = ((co.d||0)>=0?'+':'') + (co.d||0).toFixed(1);
+      html += `<tr><td class="code">${co.code}</td><td>${co.name}</td><td style="${cd};font-weight:600">${ds}%</td><td>${co.role}</td></tr>`;
+    });
+    html += '</table>';
+    body.innerHTML = html;
+  } else if (activeTab === 'metrics') {
+    if (n.data_points && n.data_points.length > 0) {
+      const tn = {capacity:'产能',output:'产量',market:'市场规模',ratio:'比率',price_change:'价格变化',order:'订单',lead_time:'交期'};
+      let html = '<table><tr><th>指标名称</th><th>当前值</th><th>单位</th><th>来源</th></tr>';
+      n.data_points.forEach(dp => {
+        const v = dp.current_value;
+        let vd = '—', vc = '';
+        if (v !== undefined && v !== null && v !== '') {
+          const isPct = dp.type === 'ratio' || dp.type === 'price_change';
+          vd = isPct ? `${v}%` : (Number.isInteger(v) ? v.toLocaleString() : String(v));
+          if (v > 0 && isPct) vc = 'color:#e53935;font-weight:600';
+          else if (v < 0 && isPct) vc = 'color:#2e7d32;font-weight:600';
+        }
+        let src = '—';
+        if (dp.source_url) src = `<a href="${dp.source_url}" target="_blank" style="color:#43a047;text-decoration:none;font-size:10px">${dp.source_name||'链接'}</a>`;
+        else if (dp.source_name) src = `<span style="color:#888;font-size:10px">${dp.source_name}</span>`;
+        if (dp.last_updated) src += ` <span style="color:#bbb;font-size:9px">${dp.last_updated}</span>`;
+        html += `<tr><td>${dp.name}</td><td style="${vc}">${vd}</td><td>${dp.unit}</td><td>${src}</td></tr>`;
+      });
+      html += '</table>';
+      body.innerHTML = html;
+    } else { body.innerHTML = '<p style="color:#5a7a8a">暂无定义数据指标。</p>'; }
+  } else if (activeTab === 'edges') {
+    const rel = RAW_EDGES.filter(e => e.from === n.id || e.to === n.id);
+    if (rel.length > 0) {
+      let html = '';
+      rel.forEach(e => {
+        const fn = nodeMap[e.from], tn = nodeMap[e.to];
+        const dir = e.from === n.id ? '→ 下游' : '← 上游';
+        html += `<div class="edge-item"><span class="edir" style="color:${e.from===n.id?'#ffb74d':'#4fc3f7'}">${dir}</span> <strong>${e.product}</strong><br><span style="font-size:10px;color:#6a7d8d">${fn?fn.name:'?'} → ${tn?tn.name:'?'}</span><span style="font-size:10px;color:#5a7a8a;display:block;margin-top:2px">${e.notes}</span></div>`;
+      });
+      body.innerHTML = html;
+    } else { body.innerHTML = '<p style="color:#5a7a8a">暂无该环节的供应关系数据。</p>'; }
+  }
+}
+
+// ==================== FILTER ====================
+let currentGroup = 'all';
+function filterGroup(g) {
+  currentGroup = g;
+  document.querySelectorAll('#topbar button[id^="fg-"]').forEach(b => b.classList.remove('on'));
+  const btn = document.getElementById('fg-' + g); if (btn) btn.classList.add('on');
+  applyFilters();
+}
+function doSearch() { applyFilters(); }
+
+function applyFilters() {
+  closePanel();
+  const query = (document.getElementById('search').value || '').toLowerCase();
+  const hidden = new Set();
+  RAW_NODES.forEach(n => {
+    let hide = false;
+    if (currentGroup !== 'all' && n.group !== currentGroup) hide = true;
+    if (query) {
+      const mN = n.name.includes(query) || n.id.includes(query) || n.description.includes(query);
+      const mC = n.companies.some(c => c.name.includes(query) || c.code.includes(query));
+      if (!mN && !mC) hide = true;
+    }
+    if (hide) hidden.add(n.id);
+  });
+  RAW_NODES.forEach(n => {
+    if (hidden.has(n.id)) graph.hideItem(n.id);
+    else graph.showItem(n.id);
+  });
+  graph.getEdges().forEach(edge => {
+    const m = edge.getModel();
+    if (hidden.has(m.source) || hidden.has(m.target)) graph.hideItem(edge);
+    else graph.showItem(edge);
+  });
+  document.getElementById('mc').textContent = `显示 ${RAW_NODES.filter(n=>!hidden.has(n.id)).length}/${RAW_NODES.length} 环节`;
+}
+
+// ==================== LIVE HEAT ====================
+const LIVE_CACHE_KEY = 'semi_live_heat';
+const LIVE_CACHE_DATE_KEY = 'semi_live_heat_date';
+function todayStr() { return new Date().toISOString().slice(0, 10); }
+function loadCachedHeat() {
+  try {
+    if (localStorage.getItem(LIVE_CACHE_DATE_KEY) === todayStr()) {
+      const d = JSON.parse(localStorage.getItem(LIVE_CACHE_KEY));
+      if (d) return d;
+    }
+  } catch(e) {}
+  return null;
+}
+function saveCachedHeat(data) {
+  try {
+    localStorage.setItem(LIVE_CACHE_DATE_KEY, todayStr());
+    localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify(data));
+  } catch(e) {}
+}
+async function fetchStockHeat(code) {
+  const url = `https://d.10jqka.com.cn/v2/realhead/hs_${code}/last.js`;
+  try {
+    const resp = await fetch(url);
+    const text = await resp.text();
+    const m = text.match(/quotebridge[^(]*\(([\s\S]*)\)/);
+    if (!m) return null;
+    const items = JSON.parse(m[1]).items || {};
+    return { d: parseFloat((items['199112'] || 0)), d5: parseFloat((items['1149395'] || 0)) };
+  } catch(e) { return null; }
+}
+async function fetchAllLiveHeat(codes, onProgress) {
+  const results = {};
+  const B = 8;
+  let done = 0;
+  for (let i = 0; i < codes.length; i += B) {
+    const batch = codes.slice(i, i + B);
+    await Promise.allSettled(batch.map(async c => {
+      const d = await fetchStockHeat(c);
+      if (d) results[c] = d;
+    }));
+    done += batch.length;
+    if (onProgress) onProgress(done, codes.length);
+  }
+  return results;
+}
+function applyLiveHeat(heatData) {
+  RAW_NODES.forEach(node => {
+    let sumD = 0, sumD5 = 0, cnt = 0;
+    node.companies.forEach(co => {
+      const h = heatData[co.code];
+      if (h) { co.d = h.d; co.d5 = h.d5; sumD += h.d; sumD5 += h.d5; cnt++; }
+    });
+    if (cnt > 0) { node.heat_d = sumD / cnt; node.heat_d5 = sumD5 / cnt; }
+  });
+  // Refresh graph to update node colors
+  g6Nodes.forEach(gn => {
+    gn.nodeData = nodeMap[gn.id];
+  });
+  graph.changeData({ nodes: g6Nodes, edges: g6Edges });
+}
+async function initLiveHeat() {
+  const cached = loadCachedHeat();
+  if (cached) applyLiveHeat(cached);
+  if (!ALL_STOCK_CODES || ALL_STOCK_CODES.length === 0) return;
+  const mc = document.getElementById('mc');
+  mc.textContent = `刷新热度 0/${ALL_STOCK_CODES.length}...`;
+  const liveData = await fetchAllLiveHeat(ALL_STOCK_CODES, (done, total) => {
+    mc.textContent = `刷新热度 ${done}/${total}...`;
+  });
+  const merged = Object.assign({}, cached || {}, liveData);
+  saveCachedHeat(merged);
+  applyLiveHeat(merged);
+  mc.textContent = `${RAW_NODES.length} 环节 · ${RAW_EDGES.length} 条供应关系 · 热度已更新`;
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+document.getElementById('mc').textContent = `${RAW_NODES.length} 环节 · ${RAW_EDGES.length} 条供应关系`;
+
+// Resize handler
+window.addEventListener('resize', () => {
+  const c = document.getElementById('g6-container');
+  graph.changeSize(c.clientWidth, c.clientHeight);
+});
+
+setTimeout(initLiveHeat, 200);
+
+</script>
+</body>
+</html>

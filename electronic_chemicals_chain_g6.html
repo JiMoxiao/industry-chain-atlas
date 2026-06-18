@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>⚗️ 电子化工材料（半导体上游）全产业链图谱</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;overflow:hidden;height:100vh;background:#f0f2f5}
+#app{display:flex;height:100vh;width:100vw}
+#topbar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:7px 16px;
+  background:#fff;border-bottom:1px solid #e0e0e0;color:#333;flex-wrap:wrap}
+#topbar h1{font-size:15px;font-weight:600;background:linear-gradient(90deg,#1b6e2e,#43a047,#78909c,#e06040,#c0392b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+#topbar button{padding:5px 12px;border-radius:5px;border:1px solid #d0d0d0;background:#fafafa;color:#555;cursor:pointer;font-size:11px;transition:all .15s}
+#topbar button:hover{background:#e8f5e9;border-color:#43a047;color:#333}
+#topbar button.on{background:#e8f5e9;border-color:#2e7d32;color:#2e7d32}
+#topbar .sep{width:1px;height:16px;background:#e0e0e0}
+#topbar input{padding:5px 12px;border-radius:5px;border:1px solid #d0d0d0;background:#fff;color:#333;font-size:11px;width:170px;outline:none}
+#topbar input:focus{border-color:#43a047}
+#topbar input::placeholder{color:#aaa}
+#canvas-wrap{flex:1;position:relative;overflow:hidden;cursor:grab;background:#f8f9fa}
+#g6-container{width:100%;height:100%}
+#canvas-wrap:active{cursor:grabbing}
+#diagram{position:absolute;top:0;left:0;width:__CANVAS_W__px;height:__CANVAS_H__px;transform-origin:0 0}
+#diagram svg{position:absolute;top:0;left:0;pointer-events:none}
+#diagram svg path{fill:none;stroke-width:1.8;stroke-linecap:round;opacity:0.28}
+#diagram svg .ep{stroke:#43a047}
+#diagram svg .es{stroke:#90a4ae}
+#diagram svg .ex{stroke:#e53935;stroke-dasharray:6 3}
+.node{position:absolute;background:#fff;border:2px solid #bdbdbd;border-radius:10px;padding:10px 14px;
+  cursor:pointer;text-align:center;transition:all .18s;min-width:130px;user-select:none;z-index:1;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.node:hover{border-color:#1b6e2e;box-shadow:0 0 12px rgba(27,110,46,.2);z-index:10}
+.node.sel{border-color:#1b6e2e!important;box-shadow:0 0 20px rgba(27,110,46,.35)!important;z-index:10}
+.node.hidden{display:none}
+.node .nid{font-size:9px;font-weight:700;color:#2e7d32;font-family:'Consolas',monospace}
+.node .nn{font-size:12px;color:#333;margin-top:2px;font-weight:600}
+.node .nc{font-size:9px;color:#888;margin-top:2px}
+.node .pos-tag{display:inline-block;font-size:8px;padding:1px 6px;border-radius:6px;margin-top:3px;font-weight:600}
+.group-label{position:absolute;font-size:10px;padding:2px 10px;border-radius:3px;pointer-events:none;z-index:0;white-space:nowrap;font-weight:600;opacity:0.7;background:#fff}
+#panel{position:fixed;top:42px;right:0;bottom:0;width:460px;background:#fff;border-left:1px solid #e0e0e0;
+  display:flex;flex-direction:column;z-index:15;transform:translateX(100%);transition:transform .3s;box-shadow:-2px 0 16px rgba(0,0,0,.08)}
+#panel.open{transform:translateX(0)}
+#panel .ph{padding:12px 16px;background:#fafafa;border-bottom:1px solid #e8e8e8;display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0}
+#panel .ph h2{font-size:16px;color:#1b6e2e}
+#panel .ph .sub{font-size:11px;color:#888;margin-top:4px}
+#panel .ph button{background:none;border:none;color:#999;font-size:22px;cursor:pointer;flex-shrink:0}
+#panel .pt{display:flex;border-bottom:1px solid #e8e8e8;flex-shrink:0}
+#panel .pt button{flex:1;padding:9px 4px;border:none;background:transparent;color:#888;cursor:pointer;font-size:11px;border-bottom:2px solid transparent;transition:all .15s}
+#panel .pt button:hover{color:#555}
+#panel .pt button.on{color:#2e7d32;border-bottom-color:#2e7d32}
+#panel .pb{flex:1;overflow-y:auto;padding:16px;color:#444;font-size:13px;line-height:1.75}
+#panel .pb h3{color:#2e7d32;font-size:13px;margin:14px 0 8px}
+#panel .pb h3:first-child{margin-top:0}
+#panel .pb .desc{background:#f5fdf6;border-left:3px solid #43a047;padding:10px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:12px;line-height:1.8}
+#panel .pb table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
+#panel .pb table a:hover{text-decoration:underline!important}
+#panel .pb td.val-up{color:#e53935;font-weight:600}
+#panel .pb td.val-down{color:#2e7d32;font-weight:600}
+#panel .pb th{background:#f5f5f5;color:#2e7d32;padding:6px 10px;text-align:left;font-weight:600}
+#panel .pb td{padding:5px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+#panel .pb .code{color:#2e7d32;font-family:'Consolas',monospace;font-size:11px}
+#panel .pb .edge-item{background:#fafafa;padding:8px 12px;margin:4px 0;border-radius:6px;border-left:2px solid #e0e0e0;font-size:11px}
+#panel .pb .edge-item .edir{font-weight:600}
+.tag-cap{display:inline-block;padding:1px 8px;border-radius:8px;font-size:10px;margin:2px}
+.tag-plan{background:#fff3e0;color:#e65100;border:1px solid #ffe0b2}
+.tag-const{background:#fff8e1;color:#f57f17;border:1px solid #ffecb3}
+.tag-ramp{background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9}
+.tag-equip{background:#f3e5f5;color:#7b1fa2;border:1px solid #e1bee7}
+#legends{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:16px;color:#999;font-size:10px;pointer-events:none;z-index:0}
+#legends span{display:flex;align-items:center;gap:5px}
+#legends .ld{width:10px;height:2px;border-radius:1px}
+#flow-arrows{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:8px;color:#bbb;font-size:13px;pointer-events:none;z-index:0}
+.tooltip{position:fixed;z-index:100;background:#fff;border:1px solid #43a047;border-radius:8px;padding:10px 14px;pointer-events:none;opacity:0;transition:opacity .15s;max-width:300px;box-shadow:0 4px 24px rgba(0,0,0,.15)}
+.tooltip.show{opacity:1}
+.tooltip .tt-title{font-size:12px;color:#2e7d32;font-weight:600;margin-bottom:6px}
+.tooltip .tt-co{font-size:10px;color:#555;margin:2px 0}
+.tooltip .tt-code{color:#888;font-family:'Consolas',monospace;margin-right:6px}
+#svg-layer path.edge-hl{opacity:0.85!important;stroke-width:2.8!important;filter:drop-shadow(0 0 4px rgba(46,125,50,.4))}
+#svg-layer path.edge-dim{opacity:0.05!important}
+.node-connected{border-color:#2e7d32!important;box-shadow:0 0 14px rgba(46,125,50,.25)!important}
+.node-dim{opacity:0.3}
+.node.dragging{cursor:grabbing!important;z-index:20!important;box-shadow:0 0 20px rgba(0,0,0,.15)!important}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@antv/g6@4/dist/g6.min.js"></script>
+</head>
+<body>
+<div id="app">
+<div id="topbar">
+  <h1>⚗️ 电子化工材料（半导体上游）全产业链图谱</h1>
+  <div class="sep"></div>
+  <button onclick="filterGroup('all')" id="fg-all" class="on">全部</button>
+<button onclick="filterGroup('base_chemical')" id="fg-base_chemical">⚗️ 基础氟化工</button>
+<button onclick="filterGroup('purified_chemical')" id="fg-purified_chemical">🧪 电子级纯化品</button>
+<button onclick="filterGroup('functional_material')" id="fg-functional_material">🔬 功能性材料</button>
+  <div class="sep"></div>
+  <input type="text" id="search" placeholder="搜索环节/公司/股票代码..." oninput="doSearch()">
+  <span style="flex:1"></span>
+  <span id="mc" style="font-size:11px;color:#4a6070"></span>
+</div>
+<div id="canvas-wrap">
+  <div id="g6-container"></div>
+  <div id="tooltip" class="tooltip"></div>
+  <div id="legends">
+    <span><span class="ld" style="background:#4fc3f7"></span> 主要供应</span>
+    <span><span class="ld" style="background:#5a7a8a"></span> 次要供应</span>
+    <span><span class="ld" style="border-top:2px dashed #ff7043;background:none"></span> 独家供应</span>
+  </div>
+</div>
+<div id="panel"><div class="ph"><div><h2 id="p-title"></h2><div class="sub" id="p-sub"></div></div><button onclick="closePanel()">✕</button></div>
+<div class="pt">
+  <button onclick="switchTab('overview')" id="tb-overview" class="on">概述</button>
+  <button onclick="switchTab('companies')" id="tb-companies">上市公司</button>
+  <button onclick="switchTab('metrics')" id="tb-metrics">数据指标</button>
+  <button onclick="switchTab('edges')" id="tb-edges">供应关系</button>
+</div>
+<div class="pb" id="panel-body"></div></div>
+</div>
+
+<script>
+// ==================== DATA ====================
+const RAW_NODES = [
+  {
+    "id": "ec_fluorine_base",
+    "name": "氟化工基础材料",
+    "position": "upstream",
+    "tier": 1,
+    "description": "萤石→无水氢氟酸(AHF)→高纯氟气(F₂)是半导体含氟材料的根基。F₂用于合成NF₃(清洗)、WF₆(钨沉积)、C₄F₆(刻蚀)等电子特气，AHF提纯为G5级氢氟酸用于晶圆清洗/蚀刻。萤石是国家级战略资源，中国储量全球第二。",
+    "companies": [
+      {
+        "code": "600160",
+        "name": "巨化股份",
+        "role": "国内唯一萤石→AHF→高纯F₂→电子特气全产业链，G5 HF 2.1万吨/年进台积电/三星/中芯国际",
+        "d": 2.14,
+        "d5": 5.96,
+        "d20": 43.6
+      },
+      {
+        "code": "002407",
+        "name": "多氟多",
+        "role": "电子级HF 6万吨/年(G5半导体级2万吨)，唯一同时进台积电+三星+中芯国际",
+        "d": -2.19,
+        "d5": 5.22,
+        "d20": -5.18
+      },
+      {
+        "code": "603505",
+        "name": "金石资源",
+        "role": "中国萤石矿龙头，储量>2700万吨占国内20%，供中船特气等含氟特气企业",
+        "d": 0.5,
+        "d5": 8.84,
+        "d20": -9.24
+      },
+      {
+        "code": "603379",
+        "name": "三美股份",
+        "role": "AHF产能22.1万吨/年，合资日本森田化学产电子级HF(2万吨/年)",
+        "d": 3.2,
+        "d5": 4.88,
+        "d20": 24.23
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国电子级氢氟酸市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 103,
+        "source_name": "华经产业研究院 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "半导体级G5氢氟酸国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 28,
+        "source_name": "CEMIA 2023 G5级~25-30%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "base_chemical",
+    "layer": 0,
+    "heat_d": 0.91,
+    "heat_d5": 6.22,
+    "heat_d20": 13.35,
+    "x": 60,
+    "y": 188.0
+  },
+  {
+    "id": "ec_pb_sources",
+    "name": "电子级磷/硼源化学品",
+    "position": "upstream",
+    "tier": 1,
+    "description": "电子级磷酸(H₃PO₄)、三氯氧磷(POCl₃)、三溴化硼(BBr₃)是半导体掺杂/扩散工艺核心化学品。黄磷→热法磷酸→电子级磷酸提纯，电子级磷酸金属杂质<10ppb。硼源用于p型掺杂，磷源用于n型掺杂和PSG/BPSG钝化层。全球电子级磷酸市场被日本Rasa工业/美国CMC Materials主导，国产电子级磷酸在存储芯片领域已大规模导入。",
+    "companies": [
+      {
+        "code": "600096",
+        "name": "云天化",
+        "role": "磷矿→黄磷→电子级磷酸全链条，国内磷化工综合龙头，半导体级磷酸扩产",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "600141",
+        "name": "兴发集团",
+        "role": "磷化工+硅化工双主业，电子级磷酸/黄磷通过中芯国际验证",
+        "d": -3.91,
+        "d5": 1.81,
+        "d20": 15.07
+      },
+      {
+        "code": "600078",
+        "name": "澄星股份",
+        "role": "黄磷→磷酸龙头，电子级磷酸产品开发送样中，半导体级延伸",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国电子级磷酸市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 18,
+        "source_name": "华经产业研究院 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "半导体级磷酸国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 35,
+        "source_name": "券商研报 存储芯片已规模化导入",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "base_chemical",
+    "layer": 0,
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 60,
+    "y": 316.0
+  },
+  {
+    "id": "ec_g5_acids",
+    "name": "G5电子级酸",
+    "position": "upstream",
+    "tier": 1,
+    "description": "G5级(金属杂质<0.1ppb)高纯酸是晶圆清洗/蚀刻/剥离的核心工艺化学品。包括硫酸(H₂SO₄)、盐酸(HCl)、硝酸(HNO₃)、氢氟酸(HF)、磷酸(H₃PO₄)、双氧水(H₂O₂)、氨水(NH₄OH)。G5认证周期18-24个月，是国产替代深水区。2026Q1国产G5硫酸产能集中释放。",
+    "companies": [
+      {
+        "code": "688545",
+        "name": "兴福电子",
+        "role": "G5磷酸国内市占>80%(连续3年第一)，G5硫酸国内市占~31%，进台积电/SK海力士/GF/中芯国际",
+        "d": 4.5,
+        "d5": 13.6,
+        "d20": 32.06
+      },
+      {
+        "code": "300655",
+        "name": "晶瑞电材",
+        "role": "G5双氧水国内唯一量产(市占>40%/晶圆厂>60%)，G5硫酸通过中芯国际验证",
+        "d": 2.85,
+        "d5": 7.28,
+        "d20": 0.36
+      },
+      {
+        "code": "688549",
+        "name": "中巨芯",
+        "role": "G5氢氟酸国内首个1x nm量产，进SK海力士/台积电/中芯国际，2024营收10.3亿",
+        "d": 13.62,
+        "d5": 16.66,
+        "d20": 89.41
+      },
+      {
+        "code": "603078",
+        "name": "江化微",
+        "role": "G5/C8级酸碱有机溶剂全平台，G5硫酸镇江基地2025投产爬坡",
+        "d": 0.64,
+        "d5": 9.14,
+        "d20": 33.86
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国半导体湿电子化学品市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 130,
+        "source_name": "CEMIA 2024",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "集成电路级湿化学品综合国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 44,
+        "source_name": "CEMIA 2023 12英寸存储>80%/逻辑>40%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "purified_chemical",
+    "layer": 1,
+    "heat_d": 5.4,
+    "heat_d5": 11.67,
+    "heat_d20": 38.92,
+    "x": 495,
+    "y": 124.0
+  },
+  {
+    "id": "ec_solvents",
+    "name": "电子级溶剂与显影液",
+    "position": "upstream",
+    "tier": 1,
+    "description": "PGMEA(丙二醇甲醚醋酸酯)是光刻胶主溶剂和晶圆边缘清洗剂，PGME是其前驱体。NMP(N-甲基吡咯烷酮)用于晶圆清洗/剥离。TMAH(四甲基氢氧化铵)是正性光刻胶显影液核心成分。8/12英寸晶圆用TMAH几乎100%进口，国产替代空间极大。",
+    "companies": [
+      {
+        "code": "300721",
+        "name": "怡达股份",
+        "role": "G5级PGMEA/PGME 8万吨/年，进中芯国际28nm，通过ASML供应链审计，出口日韩",
+        "d": -0.82,
+        "d5": 4.45,
+        "d20": -8.05
+      },
+      {
+        "code": "603931",
+        "name": "格林达",
+        "role": "TMAH显影液国内唯一G5级，国家单项冠军企业，面板→半导体升级中",
+        "d": 0.51,
+        "d5": 5.74,
+        "d20": 13.05
+      },
+      {
+        "code": "300655",
+        "name": "晶瑞电材",
+        "role": "G5 NMP技术储备(全球少数)，在建10万吨电子级NMP+2万吨回收",
+        "d": 2.85,
+        "d5": 7.28,
+        "d20": 0.36
+      }
+    ],
+    "data_points": [
+      {
+        "name": "半导体级TMAH国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 5,
+        "source_name": "中信建投 8/12英寸几乎全进口",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "中国电子级PGMEA市场需求_万吨_年",
+        "unit": "万吨/年",
+        "type": "market",
+        "current_value": 15,
+        "source_name": "券商估算 2025半导体+面板",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "purified_chemical",
+    "layer": 1,
+    "heat_d": 0.85,
+    "heat_d5": 5.82,
+    "heat_d20": 1.79,
+    "x": 495,
+    "y": 252.0
+  },
+  {
+    "id": "ec_si_mo_precursors",
+    "name": "电子级硅基与金属有机源",
+    "position": "upstream",
+    "tier": 1,
+    "description": "三氯氢硅(SiHCl₃/TCS)是硅烷(SiH₄)和多晶硅的关键中间体，经歧化反应制取电子级硅烷。TEOS(正硅酸乙酯)是CVD SiO₂介质层核心硅源。金属有机源(MO源：TMGa/TMAl/TMIn/TEGa)是化合物半导体MOCVD外延必需原料——决定外延层纯度和光电性能。全球MO源90%+被AkzoNobel(荷兰)和Dockweiler(德国)垄断，南大光电是国内唯一批量化MO源供应商(全球市占~8%)。",
+    "companies": [
+      {
+        "code": "603938",
+        "name": "三孚股份",
+        "role": "电子级三氯氢硅(TCS)国内最大（~6.5万吨/年），SiHCl₃→SiH₄核心前驱体",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "002409",
+        "name": "雅克科技",
+        "role": "SOD/High-K前驱体(TEMAH/TEMAZ)全球供应商，ALD/CVD前驱体平台化",
+        "d": 7.38,
+        "d5": 8.69,
+        "d20": 22.47
+      },
+      {
+        "code": "300346",
+        "name": "南大光电",
+        "role": "MO源(TEGa/TMGa/TMAl/TMIn)国内龙头，全球市占~8%，化合物半导体MOCVD核心原料",
+        "d": 3.19,
+        "d5": 12.54,
+        "d20": 8.77
+      },
+      {
+        "code": "688106",
+        "name": "金宏气体",
+        "role": "电子级TEOS(正硅酸乙酯)量产，CVD SiO₂工艺核心硅源",
+        "d": 3.62,
+        "d5": 4.63,
+        "d20": -3.19
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国电子级TCS市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 25,
+        "source_name": "券商估算 半导体+光伏级",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "半导体ALD/CVD前驱体国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 20,
+        "source_name": "券商研报 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "MO源全球市占率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 8,
+        "source_name": "南大光电2025年报",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "purified_chemical",
+    "layer": 1,
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 495,
+    "y": 380.0
+  },
+  {
+    "id": "ec_pr_resin",
+    "name": "光刻胶核心原料",
+    "position": "upstream",
+    "tier": 1,
+    "description": "光刻胶树脂(成膜骨架)+PAG(光产酸剂)占光刻胶原料成本60%+。树脂按波长分酚醛(g/i线)、PHS(KrF)、丙烯酸酯(ArF)。PAG是KrF/ArF/EUV化学放大光刻胶的\"光开关\"。全球PAG 75%依赖进口，日本三井化学/三菱化学垄断单体，住友/Dow垄断树脂。",
+    "companies": [
+      {
+        "code": "002643",
+        "name": "万润股份",
+        "role": "国内唯一百吨级ArF高端树脂量产(~65吨/年)，二期规划935吨/年成全国最大",
+        "d": 4.38,
+        "d5": 2.28,
+        "d20": -2.27
+      },
+      {
+        "code": "605589",
+        "name": "圣泉集团",
+        "role": "光刻胶酚醛树脂国内唯一>1吨批产量产(~200吨/年)，KrF+g/i线主力",
+        "d": -0.98,
+        "d5": 5.15,
+        "d20": 38.77
+      },
+      {
+        "code": "300429",
+        "name": "强力新材",
+        "role": "KrF PAG光产酸剂及单体，PCB光刻胶化学品全球龙头",
+        "d": 2.1,
+        "d5": 5.2,
+        "d20": -1.5
+      },
+      {
+        "code": "688199",
+        "name": "久日新材",
+        "role": "DNQ重氮萘醌感光剂(g/i线)，PAG开发中",
+        "d": 0.73,
+        "d5": 1.9,
+        "d20": -0.67
+      },
+      {
+        "code": "688113",
+        "name": "八亿时空",
+        "role": "KrF PHS树脂~50吨/年",
+        "d": -1.69,
+        "d5": 2.48,
+        "d20": -14.76
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国光刻胶树脂市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 50,
+        "source_name": "券商估算 树脂占光刻胶成本40-75%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "PAG进口依赖度_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 75,
+        "source_name": "天风证券 PAG国产化率~25%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "光刻胶树脂单体国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 50,
+        "source_name": "行业数据 2025 专利份额从5%升至22%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "functional_material",
+    "layer": 2,
+    "heat_d": 0.91,
+    "heat_d5": 3.4,
+    "heat_d20": 3.91,
+    "x": 930,
+    "y": 188.0
+  },
+  {
+    "id": "ec_electroplating",
+    "name": "半导体电镀与湿法沉积化学品",
+    "position": "upstream",
+    "tier": 1,
+    "description": "半导体电镀液(铜互连大马士革镀铜液、TSV深孔镀铜液、铜柱凸块镀液、锡银镀液)是实现芯片三维互连的核心湿法化学品。与CMP(减材)互补——电镀是增材工艺。镀铜液由硫酸铜+硫酸+氯离子+有机添加剂(抑制剂/加速剂/整平剂)组成，添加剂配方是核心壁垒，全球90%+被Atotech(德国)、DuPont(美国)垄断。先进封装TSV/Bumping需求爆发驱动电镀液用量增长。",
+    "companies": [
+      {
+        "code": "300236",
+        "name": "上海新阳",
+        "role": "铜互连电镀液+TSV铜电镀液国内领先，进中芯国际铜互连产线，半导体电镀+清洗平台化",
+        "d": 6.54,
+        "d5": 6.94,
+        "d20": 1.36
+      },
+      {
+        "code": "688720",
+        "name": "艾森股份",
+        "role": "先进封装电镀液(铜柱/锡银电镀)龙头，电镀液+光刻胶双轮驱动，供长电科技/通富微电",
+        "d": 13.21,
+        "d5": 9.89,
+        "d20": 11.27
+      },
+      {
+        "code": "002741",
+        "name": "光华科技",
+        "role": "PCB电子化学品龙头(沉铜/电镀/化金)，半导体级电镀液延伸，先进封装电镀验证中",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球半导体电镀液市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 12,
+        "source_name": "TECHCET 2025 含先进封装电镀",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "铜互连电镀液国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 25,
+        "source_name": "券商研报 上海新阳/艾森合计",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "functional_material",
+    "layer": 2,
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 930,
+    "y": 316.0
+  },
+  {
+    "id": "ec_packaging_polymer",
+    "name": "电子封装高分子材料",
+    "position": "upstream",
+    "tier": 1,
+    "description": "环氧塑封料(EMC)占IC封装材料成本90%以上，其核心原料包括：邻甲酚醛环氧树脂(CNE，提供机械强度和耐热性)、酚醛树脂固化剂(形成交联网络)、酸酐固化剂(低应力封装)、球形硅微粉填料(降低CTE热膨胀)。先进封装Underfill底部填充胶需要低粘度(<10Pa·s)、高Tg(>150°C)、低CTE。全球CNE树脂被日本化药/DIC/三菱化学垄断70%+，球形硅微粉被日本电化/龙森垄断。",
+    "companies": [
+      {
+        "code": "603002",
+        "name": "宏昌电子",
+        "role": "电子级环氧树脂龙头(半导体封装用)，年产~15万吨，EMC核心树脂供应商",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "300041",
+        "name": "回天新材",
+        "role": "电子胶粘剂龙头，底部填充胶(Underfill)+芯片粘接胶(DAP)，已通过长电/华天验证",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      },
+      {
+        "code": "300481",
+        "name": "濮阳惠成",
+        "role": "电子级酸酐固化剂(四氢苯酐/六氢苯酐)国内市占>60%，EMC硬化体系核心",
+        "d": 2.87,
+        "d5": 2.31,
+        "d20": 23.29
+      }
+    ],
+    "data_points": [
+      {
+        "name": "中国EMC用环氧树脂市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 35,
+        "source_name": "券商估算 封装用环氧树脂",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "先进封装Underfill国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 15,
+        "source_name": "券商研报 底部填充胶国产化",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "球形硅微粉进口依赖度_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 70,
+        "source_name": "日本电化/龙森垄断，国产联瑞新材(非上市)突破中",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "functional_material",
+    "layer": 2,
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0,
+    "x": 930,
+    "y": 444.0
+  },
+  {
+    "id": "ec_cmp_abrasive",
+    "name": "CMP纳米磨料与添加剂",
+    "position": "upstream",
+    "tier": 1,
+    "description": "CMP抛光液由纳米磨料(55%成本)+化学添加剂(氧化剂/缓蚀剂/pH调节剂/表面活性剂)组成。磨料分纳米氧化铈CeO₂(氧化物/STI抛光)、胶体二氧化硅SiO₂(介质/金属抛光)、氧化铝Al₂O₃(硬质材料)。全球铈基磨料85%被德国Merck垄断，中国产量仅占3.2%。",
+    "companies": [
+      {
+        "code": "688019",
+        "name": "安集科技",
+        "role": "CMP抛光液全球市占~13%，自研国产铈基磨料量产大幅提升客户良率",
+        "d": 5.47,
+        "d5": 12.18,
+        "d20": -1.24
+      },
+      {
+        "code": "300054",
+        "name": "鼎龙股份",
+        "role": "自产CMP磨料粒子获千万级批量订单(2024.07)，仙桃基地磨料+抛光液一体化",
+        "d": 7.97,
+        "d5": 15.82,
+        "d20": 18.59
+      },
+      {
+        "code": "300405",
+        "name": "科隆股份",
+        "role": "纳米氧化铈CMP小规模订单，与抛光液企业持续验证测试",
+        "d": -3.36,
+        "d5": 4.21,
+        "d20": -19.66
+      },
+      {
+        "code": "300236",
+        "name": "上海新阳",
+        "role": "铜/钨CMP抛光液+电镀液+TSV铜电镀，半导体材料平台化",
+        "d": 6.54,
+        "d5": 6.94,
+        "d20": 1.36
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球CMP抛光液市场规模_亿美元",
+        "unit": "亿美元",
+        "type": "market",
+        "current_value": 38,
+        "source_name": "国金证券/华经产业研究院 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "全球铈基CMP磨料国产占比_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 3.2,
+        "source_name": "行业数据 Merck垄断85%",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "functional_material",
+    "layer": 2,
+    "heat_d": 4.16,
+    "heat_d5": 9.79,
+    "heat_d20": -0.24,
+    "x": 930,
+    "y": 60.0
+  }
+];
+const RAW_EDGES = [
+  {
+    "from": "ec_fluorine_base",
+    "to": "ec_g5_acids",
+    "product": "无水氢氟酸(AHF)/高纯氟气",
+    "notes": "巨化股份是中巨芯第一大股东(26.4%)，AHF→电子级HF/F₂全链条供应",
+    "rel_type": "primary"
+  },
+  {
+    "from": "ec_solvents",
+    "to": "ec_pr_resin",
+    "product": "G5级PGMEA(光刻胶溶剂)",
+    "notes": "怡达股份G5 PGMEA供圣泉集团光刻胶树脂配方，电子级溶剂→光刻胶原料核心链接",
+    "rel_type": "primary"
+  },
+  {
+    "from": "ec_pb_sources",
+    "to": "ec_g5_acids",
+    "product": "电子级磷酸(湿电子化学品上游)",
+    "notes": "兴发集团电子级黄磷/磷酸供兴福电子生产G5级磷酸，国内最大磷化工→湿电子化学品链条",
+    "rel_type": "primary"
+  },
+  {
+    "from": "ec_g5_acids",
+    "to": "ec_cmp_abrasive",
+    "product": "G5级硫酸/双氧水/氨水(CMP抛光液原料)",
+    "notes": "兴福电子G5级酸/双氧水供安集科技CMP抛光液配制，国内最大湿电子化学品→CMP供应链",
+    "rel_type": "primary"
+  },
+  {
+    "from": "ec_g5_acids",
+    "to": "ec_electroplating",
+    "product": "G5级硫酸/盐酸(电镀液基础化学品)",
+    "notes": "兴福电子G5级酸供上海新阳铜互连/TSV电镀液配制",
+    "rel_type": "primary"
+  },
+  {
+    "from": "ec_solvents",
+    "to": "ec_cmp_abrasive",
+    "product": "G5级双氧水/氨水(CMP抛光液原料)",
+    "notes": "晶瑞电材G5双氧水(国内晶圆厂市占>60%)供安集科技CMP抛光液",
+    "rel_type": "primary"
+  }
+];
+const GROUP_LABELS = {"base_chemical": ["⚗️ 基础氟化工", "#1e6b4a"], "purified_chemical": ["🧪 电子级纯化品", "#2e7d32"], "functional_material": ["🔬 功能性材料", "#1565c0"]};
+const ALL_STOCK_CODES = ["600160", "002407", "603505", "603379", "600096", "600141", "600078", "688545", "300655", "688549", "603078", "300721", "603931", "603938", "002409", "300346", "688106", "002643", "605589", "300429", "688199", "688113", "300236", "688720", "002741", "603002", "300041", "300481", "688019", "300054", "300405"];
+// ==================== G6 GRAPH SETUP ====================
+const nodeMap = {};
+RAW_NODES.forEach(n => { nodeMap[n.id] = n; });
+
+(function checkG6() {
+  if (typeof G6 === 'undefined') {
+    document.getElementById('mc').textContent = 'ERROR: G6 CDN 未加载';
+    document.getElementById('mc').style.color = 'red';
+    throw new Error('G6 not loaded');
+  }
+})();
+
+const POS_LABELS = {upstream:'上游', midstream:'中游', downstream:'下游'};
+
+// heat → color (clean warm-cool heatmap)
+function heatToColor(h) {
+  if (h >= 20) return {fill:'#fff0f0', stroke:'#e57373', tag_bg:'#ef5350', tag_text:'#fff', text:'#c62828', heat_text:'#d32f2f'};
+  if (h >= 10) return {fill:'#fff5f5', stroke:'#ef8e8e', tag_bg:'#e57373', tag_text:'#fff', text:'#c62828', heat_text:'#e53935'};
+  if (h >= 5)  return {fill:'#fffafa', stroke:'#f4acac', tag_bg:'#ef8e8e', tag_text:'#7f0000', text:'#333', heat_text:'#d32f2f'};
+  if (h >= 2)  return {fill:'#fffafa', stroke:'#f8c8c8', tag_bg:'#f4acac', tag_text:'#8b0000', text:'#333', heat_text:'#c62828'};
+  if (h >= 0)  return {fill:'#fafafa', stroke:'#d0d0d0', tag_bg:'#e8e8e8', tag_text:'#666', text:'#333', heat_text:'#888'};
+  if (h >= -2) return {fill:'#f5fdf6', stroke:'#b3e0b3', tag_bg:'#8ed48e', tag_text:'#1b5e20', text:'#333', heat_text:'#2e7d32'};
+  if (h >= -5) return {fill:'#f0faf2', stroke:'#8ed48e', tag_bg:'#66bb6a', tag_text:'#fff', text:'#1b5e20', heat_text:'#1b5e20'};
+  if (h >= -10)return {fill:'#e8f5e9', stroke:'#66bb6a', tag_bg:'#43a047', tag_text:'#fff', text:'#1b5e20', heat_text:'#155724'};
+  return {fill:'#e0f0e0', stroke:'#4caf50', tag_bg:'#388e3c', tag_text:'#fff', text:'#0a3d0a', heat_text:'#0d3d0d'};
+}
+
+// Edge styling — subtle defaults, bold on focus
+const EDGE_STYLE = {
+  primary:   {stroke:'#a5d6a7', lineWidth:1.2, arrowSize:7},
+  secondary: {stroke:'#bdbdbd', lineWidth:1.0, arrowSize:6},
+  exclusive: {stroke:'#ef9a9a', lineWidth:1.2, lineDash:[8,4], arrowSize:7},
+  // focus colors (same hue, more saturated)
+  focus: {
+    primary:   {stroke:'#2e7d32', lineWidth:2.5, arrowSize:10},
+    secondary: {stroke:'#546e7a', lineWidth:2.0, arrowSize:8},
+    exclusive: {stroke:'#c62828', lineWidth:2.5, arrowSize:10},
+  },
+};
+
+// Register custom node with rich content
+let graph;
+try {
+G6.registerNode('heat-node', {
+  draw(cfg, group) {
+    const w = 160, h = 76, r = 10;
+    const nd = cfg.nodeData || {};
+    const h20 = nd.heat_d20 || 0;
+    const c = heatToColor(h20);
+    const posLabel = POS_LABELS[nd.position] || nd.position;
+
+    // background
+    const keyShape = group.addShape('rect', {
+      attrs: { x: -w/2, y: -h/2, width: w, height: h, radius: r,
+        fill: c.fill, stroke: c.stroke, lineWidth: 2.5, cursor: 'pointer' },
+      name: 'main-box',
+    });
+
+    // id tag
+    group.addShape('text', {
+      attrs: { x: -w/2+12, y: -h/2+14,
+        text: nd.id ? nd.id.replace('semi_','').replace('_',' ') : '',
+        fontSize: 9, fontWeight: 700, fill: c.tag_text, opacity: 0.6,
+        fontFamily: 'Consolas, monospace' },
+      name: 'nid-text',
+    });
+
+    // name
+    group.addShape('text', {
+      attrs: { x: -w/2+12, y: -h/2+32,
+        text: (nd.name||'').length>14 ? (nd.name||'').slice(0,14)+'..' : (nd.name||''),
+        fontSize: 13, fontWeight: 700, fill: c.text||'#333' },
+      name: 'name-text',
+    });
+
+    // heat badge
+    const heatEmoji = h20>10?'🔥':h20>3?'📈':h20<-5?'❄️':h20<0?'📉':'';
+    group.addShape('text', {
+      attrs: { x: -w/2+12, y: -h/2+50,
+        text: `20日 ${h20>=0?'+':''}${h20.toFixed(1)}% ${heatEmoji}`,
+        fontSize: 10, fontWeight: 600, fill: c.heat_text||'#888' },
+      name: 'heat-text',
+    });
+
+    // position tag
+    const tagW = posLabel.length*10+14;
+    group.addShape('rect', {
+      attrs: { x: w/2-tagW-8, y: h/2-20, width: tagW, height: 18, radius: 7,
+        fill: c.tag_bg, opacity: 0.9 },
+      name: 'tag-bg',
+    });
+    group.addShape('text', {
+      attrs: { x: w/2-tagW/2-8, y: h/2-11,
+        text: posLabel, fontSize: 9, fontWeight: 700, fill: c.tag_text, textAlign: 'center' },
+      name: 'tag-text',
+    });
+
+    return keyShape;
+  },
+  getAnchorPoints() {
+    return [[0,0.5],[1,0.5],[0.5,0],[0.5,1]];
+  },
+});
+
+// Convert data
+const g6Nodes = RAW_NODES.map(n => ({
+  id: n.id,
+  type: 'heat-node',
+  group: n.group,
+  nodeData: n,
+  x: n.x || 0,
+  y: n.y || 0,
+}));
+
+const g6Edges = RAW_EDGES.map(e => {
+  const src = nodeMap[e.from];
+  const tgt = nodeMap[e.to];
+  const sameLayer = src && tgt && src.layer === tgt.layer;
+
+  let edgeType, sourceAnchor, targetAnchor;
+  if (sameLayer) {
+    edgeType = 'cubic-vertical';
+    if ((src.y || 0) <= (tgt.y || 0)) {
+      sourceAnchor = 3; targetAnchor = 2;
+    } else {
+      sourceAnchor = 2; targetAnchor = 3;
+    }
+  } else {
+    edgeType = 'cubic-horizontal';
+    if ((src.x || 0) <= (tgt.x || 0)) {
+      sourceAnchor = 1; targetAnchor = 0;
+    } else {
+      sourceAnchor = 0; targetAnchor = 1;
+    }
+  }
+
+  const es = EDGE_STYLE[e.rel_type] || EDGE_STYLE.primary;
+  const as = es.arrowSize || 8;
+  return {
+    source: e.from,
+    target: e.to,
+    type: edgeType,
+    sourceAnchor,
+    targetAnchor,
+    style: {
+      stroke: es.stroke,
+      lineWidth: es.lineWidth,
+      lineDash: es.lineDash,
+      endArrow: {
+        path: G6.Arrow.triangle(as, as * 1.25, 0),
+        fill: es.stroke,
+      },
+    },
+    edgeData: e,
+  };
+});
+
+const container = document.getElementById('g6-container');
+const width = container.scrollWidth || 1200;
+const height = container.scrollHeight || 800;
+
+graph = new G6.Graph({
+  container: 'g6-container',
+  width, height,
+  fitView: true,
+  fitViewPadding: 40,
+  layout: { type: 'preset' },
+  defaultNode: { type: 'heat-node' },
+  defaultEdge: {
+    type: 'cubic-horizontal',
+    style: { endArrow: true, lineWidth: 2 },
+  },
+  edgeStateStyles: {
+    hover: { lineWidth: 4, shadowBlur: 8, shadowColor: 'rgba(67,160,71,0.4)' },
+  },
+  modes: {
+    default: ['drag-canvas', 'zoom-canvas', 'drag-node', 'click-select'],
+  },
+  nodeStateStyles: {
+    selected: { lineWidth: 3, shadowBlur: 16, shadowColor: 'rgba(27,110,46,0.3)' },
+    active: { shadowBlur: 14, shadowColor: 'rgba(46,125,50,0.25)', stroke: '#2e7d32', lineWidth: 2.5 },
+    inactive: { opacity: 0.3 },
+  },
+  edgeStateStyles: {
+    hover: { lineWidth: 4, shadowBlur: 8, shadowColor: 'rgba(67,160,71,0.4)' },
+  },
+});
+
+graph.data({ nodes: g6Nodes, edges: g6Edges });
+graph.render();
+
+} catch(e) {
+  document.getElementById('mc').textContent = 'ERROR: G6 init - ' + e.message;
+  document.getElementById('mc').style.color = 'red';
+  console.error(e);
+  throw e;
+}
+
+// ==================== GROUP LABELS (annotation nodes) ====================
+// Add invisible nodes as group labels at the top of each group's layer
+const groups = {};
+RAW_NODES.forEach(n => {
+  if (!groups[n.group]) groups[n.group] = [];
+  groups[n.group].push(n.id);
+});
+
+// Add group labels after render (positions are computed by dagre)
+setTimeout(() => {
+  const label = GROUP_LABELS[gk];
+  // simplified: render group labels using HTML overlay
+}, 500);
+
+// ==================== FOCUS / HIGHLIGHT ====================
+function focusNode(nodeId) {
+  const connected = new Set();
+  connected.add(nodeId);
+  RAW_EDGES.forEach(e => {
+    if (e.from === nodeId || e.to === nodeId) {
+      connected.add(e.from);
+      connected.add(e.to);
+    }
+  });
+  // Nodes: highlight connected, dim rest
+  RAW_NODES.forEach(n => {
+    const item = graph.findById(n.id);
+    if (!item) return;
+    if (connected.has(n.id)) {
+      item.setState('active', true);
+      item.setState('inactive', false);
+    } else {
+      item.setState('active', false);
+      item.setState('inactive', true);
+    }
+  });
+  // Edges: connected → bold focus color, rest → subtle
+  graph.getEdges().forEach(edge => {
+    const m = edge.getModel();
+    const ed = m.edgeData;
+    if (m.source === nodeId || m.target === nodeId) {
+      const fs = (EDGE_STYLE.focus || {})[ed.rel_type] || EDGE_STYLE.focus.primary;
+      graph.updateItem(edge, {
+        style: {
+          stroke: fs.stroke,
+          lineWidth: fs.lineWidth,
+          lineDash: (EDGE_STYLE[ed.rel_type] || {}).lineDash,
+          endArrow: { path: G6.Arrow.triangle(fs.arrowSize, fs.arrowSize*1.25, 0), fill: fs.stroke },
+          opacity: 1,
+        },
+      });
+    } else {
+      graph.updateItem(edge, {
+        style: {
+          stroke: (EDGE_STYLE[ed.rel_type] || EDGE_STYLE.primary).stroke,
+          lineWidth: 1.0,
+          opacity: 0.25,
+        },
+      });
+    }
+  });
+}
+function clearFocus() {
+  RAW_NODES.forEach(n => {
+    const item = graph.findById(n.id);
+    if (item) { item.setState('active', false); item.setState('inactive', false); }
+  });
+  // Restore all edges to default subtle style
+  graph.getEdges().forEach(edge => {
+    const m = edge.getModel();
+    const ed = m.edgeData;
+    const es = EDGE_STYLE[ed.rel_type] || EDGE_STYLE.primary;
+    graph.updateItem(edge, {
+      style: {
+        stroke: es.stroke,
+        lineWidth: es.lineWidth,
+        lineDash: es.lineDash,
+        endArrow: { path: G6.Arrow.triangle(es.arrowSize, es.arrowSize*1.25, 0), fill: es.stroke },
+        opacity: 1,
+      },
+    });
+  });
+}
+
+// ==================== INTERACTION ====================
+graph.on('canvas:click', () => { closePanel(); clearFocus(); });
+graph.on('node:click', evt => {
+  const nodeId = evt.item.getID();
+  openPanel(nodeId);
+});
+
+graph.on('node:mouseenter', evt => {
+  const nd = evt.item.getModel().nodeData;
+  if (!nd || !nd.companies || nd.companies.length === 0) return;
+  const d = nd.heat_d || 0, d5 = nd.heat_d5 || 0, d20 = nd.heat_d20 || 0;
+  const cd = d>=0?'color:#e53935':'color:#2e7d32';
+  const c5 = d5>=0?'color:#e53935':'color:#2e7d32';
+  const c20 = d20>=0?'color:#e53935':'color:#2e7d32';
+  let html = `<div class="tt-title">${nd.name}</div>`;
+  html += `<div style="display:flex;gap:12px;margin-bottom:6px;font-size:10px">`;
+  html += `<span>当日 <b style="${cd}">${d>=0?'+':''}${d.toFixed(1)}%</b></span>`;
+  html += `<span>5日 <b style="${c5}">${d5>=0?'+':''}${d5.toFixed(1)}%</b></span>`;
+  html += `<span>20日 <b style="${c20}">${d20>=0?'+':''}${d20.toFixed(1)}%</b></span>`;
+  html += `</div>`;
+  nd.companies.slice(0, 8).forEach(c => {
+    const cd2 = (c.d||0)>=0?'color:#e53935':'color:#2e7d32';
+    html += `<div class="tt-co"><span class="tt-code">${c.code}</span>${c.name}<span style="${cd2};margin-left:4px;font-size:9px">${(c.d||0)>=0?'+':''}${(c.d||0).toFixed(1)}%</span></div>`;
+  });
+  if (nd.companies.length > 8) html += `<div class="tt-co" style="color:#999">...还有 ${nd.companies.length-8} 家</div>`;
+  tooltip.innerHTML = html;
+  tooltip.classList.add('show');
+});
+
+graph.on('node:mousemove', evt => {
+  const oe = evt.originalEvent || evt;
+  let tx = (oe.clientX || evt.x || 0) + 14, ty = (oe.clientY || evt.y || 0) + 10;
+  if (tx + 310 > window.innerWidth) tx = (oe.clientX || evt.x || 0) - 310;
+  if (ty + 200 > window.innerHeight) ty = (oe.clientY || evt.y || 0) - 210;
+  tooltip.style.left = tx + 'px';
+  tooltip.style.top = ty + 'px';
+  tooltip.style.transform = 'none';
+});
+
+graph.on('node:mouseleave', () => { tooltip.classList.remove('show'); });
+
+// ==================== PANEL ====================
+const panel = document.getElementById('panel');
+const tooltip = document.getElementById('tooltip');
+let activeNode = null, activeTab = 'overview';
+
+function openPanel(nodeId) {
+  activeNode = nodeMap[nodeId]; if (!activeNode) return;
+  panel.classList.add('open'); activeTab = 'overview';
+  document.querySelectorAll('#panel .pt button').forEach(b => b.classList.remove('on'));
+  document.getElementById('tb-overview').classList.add('on');
+  graph.setItemState(nodeId, 'selected', true);
+  focusNode(nodeId);
+  renderPanel();
+}
+
+function closePanel() {
+  if (activeNode) graph.setItemState(activeNode.id, 'selected', false);
+  panel.classList.remove('open'); activeNode = null;
+  clearFocus();
+}
+
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('#panel .pt button').forEach(b => b.classList.remove('on'));
+  document.getElementById('tb-' + tab).classList.add('on');
+  renderPanel();
+}
+
+function renderPanel() {
+  if (!activeNode) return;
+  const n = activeNode;
+  const h20 = n.heat_d20 || 0;
+  const c = heatToColor(h20);
+  const posLabel = POS_LABELS[n.position] || n.position;
+  const d = n.heat_d||0, d5 = n.heat_d5||0, d20 = n.heat_d20||0;
+  const cd=d>=0?'#e53935':'#2e7d32', c5=d5>=0?'#e53935':'#2e7d32', c20=d20>=0?'#e53935':'#2e7d32';
+  document.getElementById('p-title').textContent = n.name;
+  document.getElementById('p-sub').innerHTML = `<span style="background:${c.tag_bg};color:${c.tag_text};padding:1px 8px;border-radius:8px;font-size:10px;margin-right:8px">${posLabel}</span>20日 ${d20>=0?'+':''}${d20.toFixed(1)}% · ${n.companies.length} 家上市公司`;
+  const body = document.getElementById('panel-body');
+
+  if (activeTab === 'overview') {
+    let html = `<div class="desc">${n.description}</div>`;
+    html += '<h3>市场热度</h3>';
+    html += `<div style="display:flex;gap:12px;margin:8px 0;flex-wrap:wrap">`;
+    html += `<div style="flex:1;min-width:100px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#888">当日</div><div style="font-size:22px;font-weight:700;color:${cd}">${d>=0?'+':''}${d.toFixed(1)}%</div><div style="font-size:10px;color:${cd}">${d>=0?'🔥火热':'❄️冰冷'}</div></div>`;
+    html += `<div style="flex:1;min-width:100px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#888">近5日</div><div style="font-size:22px;font-weight:700;color:${c5}">${d5>=0?'+':''}${d5.toFixed(1)}%</div><div style="font-size:10px;color:${c5}">${d5>=0?'🔥':'❄️'}</div></div>`;
+    html += `<div style="flex:1;min-width:100px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#888">近20日</div><div style="font-size:22px;font-weight:700;color:${c20}">${d20>=0?'+':''}${d20.toFixed(1)}%</div><div style="font-size:10px;color:${c20}">${d20>=0?'🔥':'❄️'}</div></div>`;
+    html += `</div>`;
+    if (n.new_capacity && n.new_capacity.length > 0) {
+      html += '<h3>在建/扩产产能</h3><table><tr><th>企业</th><th>规模</th><th>预计投产</th><th>状态</th></tr>';
+      const tagMap = {construction:['建设中','tag-const'], ramp_up:['爬坡中','tag-ramp'], equipment:['设备搬入','tag-equip']};
+      n.new_capacity.forEach(nc => {
+        const [txt, cls] = tagMap[nc.status] || ['规划中','tag-plan'];
+        html += `<tr><td>${nc.company}</td><td>${nc.scale}</td><td>${nc.expected_online}</td><td><span class="tag-cap ${cls}">${txt}</span></td></tr>`;
+      });
+      html += '</table>';
+    }
+    body.innerHTML = html;
+  } else if (activeTab === 'companies') {
+    let html = '<table><tr><th>股票代码</th><th>公司名称</th><th>当日</th><th>产业链角色</th></tr>';
+    n.companies.forEach(co => {
+      const cd = (co.d||0)>=0?'color:#e53935':'color:#2e7d32';
+      const ds = ((co.d||0)>=0?'+':'') + (co.d||0).toFixed(1);
+      html += `<tr><td class="code">${co.code}</td><td>${co.name}</td><td style="${cd};font-weight:600">${ds}%</td><td>${co.role}</td></tr>`;
+    });
+    html += '</table>';
+    body.innerHTML = html;
+  } else if (activeTab === 'metrics') {
+    if (n.data_points && n.data_points.length > 0) {
+      const tn = {capacity:'产能',output:'产量',market:'市场规模',ratio:'比率',price_change:'价格变化',order:'订单',lead_time:'交期'};
+      let html = '<table><tr><th>指标名称</th><th>当前值</th><th>单位</th><th>来源</th></tr>';
+      n.data_points.forEach(dp => {
+        const v = dp.current_value;
+        let vd = '—', vc = '';
+        if (v !== undefined && v !== null && v !== '') {
+          const isPct = dp.type === 'ratio' || dp.type === 'price_change';
+          vd = isPct ? `${v}%` : (Number.isInteger(v) ? v.toLocaleString() : String(v));
+          if (v > 0 && isPct) vc = 'color:#e53935;font-weight:600';
+          else if (v < 0 && isPct) vc = 'color:#2e7d32;font-weight:600';
+        }
+        let src = '—';
+        if (dp.source_url) src = `<a href="${dp.source_url}" target="_blank" style="color:#43a047;text-decoration:none;font-size:10px">${dp.source_name||'链接'}</a>`;
+        else if (dp.source_name) src = `<span style="color:#888;font-size:10px">${dp.source_name}</span>`;
+        if (dp.last_updated) src += ` <span style="color:#bbb;font-size:9px">${dp.last_updated}</span>`;
+        html += `<tr><td>${dp.name}</td><td style="${vc}">${vd}</td><td>${dp.unit}</td><td>${src}</td></tr>`;
+      });
+      html += '</table>';
+      body.innerHTML = html;
+    } else { body.innerHTML = '<p style="color:#5a7a8a">暂无定义数据指标。</p>'; }
+  } else if (activeTab === 'edges') {
+    const rel = RAW_EDGES.filter(e => e.from === n.id || e.to === n.id);
+    if (rel.length > 0) {
+      let html = '';
+      rel.forEach(e => {
+        const fn = nodeMap[e.from], tn = nodeMap[e.to];
+        const dir = e.from === n.id ? '→ 下游' : '← 上游';
+        html += `<div class="edge-item"><span class="edir" style="color:${e.from===n.id?'#ffb74d':'#4fc3f7'}">${dir}</span> <strong>${e.product}</strong><br><span style="font-size:10px;color:#6a7d8d">${fn?fn.name:'?'} → ${tn?tn.name:'?'}</span><span style="font-size:10px;color:#5a7a8a;display:block;margin-top:2px">${e.notes}</span></div>`;
+      });
+      body.innerHTML = html;
+    } else { body.innerHTML = '<p style="color:#5a7a8a">暂无该环节的供应关系数据。</p>'; }
+  }
+}
+
+// ==================== FILTER ====================
+let currentGroup = 'all';
+function filterGroup(g) {
+  currentGroup = g;
+  document.querySelectorAll('#topbar button[id^="fg-"]').forEach(b => b.classList.remove('on'));
+  const btn = document.getElementById('fg-' + g); if (btn) btn.classList.add('on');
+  applyFilters();
+}
+function doSearch() { applyFilters(); }
+
+function applyFilters() {
+  closePanel();
+  const query = (document.getElementById('search').value || '').toLowerCase();
+  const hidden = new Set();
+  RAW_NODES.forEach(n => {
+    let hide = false;
+    if (currentGroup !== 'all' && n.group !== currentGroup) hide = true;
+    if (query) {
+      const mN = n.name.includes(query) || n.id.includes(query) || n.description.includes(query);
+      const mC = n.companies.some(c => c.name.includes(query) || c.code.includes(query));
+      if (!mN && !mC) hide = true;
+    }
+    if (hide) hidden.add(n.id);
+  });
+  RAW_NODES.forEach(n => {
+    if (hidden.has(n.id)) graph.hideItem(n.id);
+    else graph.showItem(n.id);
+  });
+  graph.getEdges().forEach(edge => {
+    const m = edge.getModel();
+    if (hidden.has(m.source) || hidden.has(m.target)) graph.hideItem(edge);
+    else graph.showItem(edge);
+  });
+  document.getElementById('mc').textContent = `显示 ${RAW_NODES.filter(n=>!hidden.has(n.id)).length}/${RAW_NODES.length} 环节`;
+}
+
+// ==================== LIVE HEAT ====================
+const LIVE_CACHE_KEY = 'semi_live_heat';
+const LIVE_CACHE_DATE_KEY = 'semi_live_heat_date';
+function todayStr() { return new Date().toISOString().slice(0, 10); }
+function loadCachedHeat() {
+  try {
+    if (localStorage.getItem(LIVE_CACHE_DATE_KEY) === todayStr()) {
+      const d = JSON.parse(localStorage.getItem(LIVE_CACHE_KEY));
+      if (d) return d;
+    }
+  } catch(e) {}
+  return null;
+}
+function saveCachedHeat(data) {
+  try {
+    localStorage.setItem(LIVE_CACHE_DATE_KEY, todayStr());
+    localStorage.setItem(LIVE_CACHE_KEY, JSON.stringify(data));
+  } catch(e) {}
+}
+async function fetchStockHeat(code) {
+  const url = `https://d.10jqka.com.cn/v2/realhead/hs_${code}/last.js`;
+  try {
+    const resp = await fetch(url);
+    const text = await resp.text();
+    const m = text.match(/quotebridge[^(]*\(([\s\S]*)\)/);
+    if (!m) return null;
+    const items = JSON.parse(m[1]).items || {};
+    return { d: parseFloat((items['199112'] || 0)), d5: parseFloat((items['1149395'] || 0)) };
+  } catch(e) { return null; }
+}
+async function fetchAllLiveHeat(codes, onProgress) {
+  const results = {};
+  const B = 8;
+  let done = 0;
+  for (let i = 0; i < codes.length; i += B) {
+    const batch = codes.slice(i, i + B);
+    await Promise.allSettled(batch.map(async c => {
+      const d = await fetchStockHeat(c);
+      if (d) results[c] = d;
+    }));
+    done += batch.length;
+    if (onProgress) onProgress(done, codes.length);
+  }
+  return results;
+}
+function applyLiveHeat(heatData) {
+  RAW_NODES.forEach(node => {
+    let sumD = 0, sumD5 = 0, cnt = 0;
+    node.companies.forEach(co => {
+      const h = heatData[co.code];
+      if (h) { co.d = h.d; co.d5 = h.d5; sumD += h.d; sumD5 += h.d5; cnt++; }
+    });
+    if (cnt > 0) { node.heat_d = sumD / cnt; node.heat_d5 = sumD5 / cnt; }
+  });
+  // Refresh graph to update node colors
+  g6Nodes.forEach(gn => {
+    gn.nodeData = nodeMap[gn.id];
+  });
+  graph.changeData({ nodes: g6Nodes, edges: g6Edges });
+}
+async function initLiveHeat() {
+  const cached = loadCachedHeat();
+  if (cached) applyLiveHeat(cached);
+  if (!ALL_STOCK_CODES || ALL_STOCK_CODES.length === 0) return;
+  const mc = document.getElementById('mc');
+  mc.textContent = `刷新热度 0/${ALL_STOCK_CODES.length}...`;
+  const liveData = await fetchAllLiveHeat(ALL_STOCK_CODES, (done, total) => {
+    mc.textContent = `刷新热度 ${done}/${total}...`;
+  });
+  const merged = Object.assign({}, cached || {}, liveData);
+  saveCachedHeat(merged);
+  applyLiveHeat(merged);
+  mc.textContent = `${RAW_NODES.length} 环节 · ${RAW_EDGES.length} 条供应关系 · 热度已更新`;
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+document.getElementById('mc').textContent = `${RAW_NODES.length} 环节 · ${RAW_EDGES.length} 条供应关系`;
+
+// Resize handler
+window.addEventListener('resize', () => {
+  const c = document.getElementById('g6-container');
+  graph.changeSize(c.clientWidth, c.clientHeight);
+});
+
+setTimeout(initLiveHeat, 200);
+
+</script>
+</body>
+</html>

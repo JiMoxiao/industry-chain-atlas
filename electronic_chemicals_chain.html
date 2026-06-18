@@ -734,6 +734,41 @@ const EDGES = [
     "product": "无水氢氟酸(AHF)/高纯氟气",
     "notes": "巨化股份是中巨芯第一大股东(26.4%)，AHF→电子级HF/F₂全链条供应",
     "rel_type": "primary"
+  },
+  {
+    "from": "ec_solvents",
+    "to": "ec_pr_resin",
+    "product": "G5级PGMEA(光刻胶溶剂)",
+    "notes": "怡达股份G5 PGMEA供圣泉集团光刻胶树脂配方，电子级溶剂→光刻胶原料核心链接",
+    "rel_type": "primary"
+  },
+  {
+    "from": "ec_pb_sources",
+    "to": "ec_g5_acids",
+    "product": "电子级磷酸(湿电子化学品上游)",
+    "notes": "兴发集团电子级黄磷/磷酸供兴福电子生产G5级磷酸，国内最大磷化工→湿电子化学品链条",
+    "rel_type": "primary"
+  },
+  {
+    "from": "ec_g5_acids",
+    "to": "ec_cmp_abrasive",
+    "product": "G5级硫酸/双氧水/氨水(CMP抛光液原料)",
+    "notes": "兴福电子G5级酸/双氧水供安集科技CMP抛光液配制，国内最大湿电子化学品→CMP供应链",
+    "rel_type": "primary"
+  },
+  {
+    "from": "ec_g5_acids",
+    "to": "ec_electroplating",
+    "product": "G5级硫酸/盐酸(电镀液基础化学品)",
+    "notes": "兴福电子G5级酸供上海新阳铜互连/TSV电镀液配制",
+    "rel_type": "primary"
+  },
+  {
+    "from": "ec_solvents",
+    "to": "ec_cmp_abrasive",
+    "product": "G5级双氧水/氨水(CMP抛光液原料)",
+    "notes": "晶瑞电材G5双氧水(国内晶圆厂市占>60%)供安集科技CMP抛光液",
+    "rel_type": "primary"
   }
 ];
 const POSITIONS = {"ec_fluorine_base": {"x": 60, "y": 188.0}, "ec_pb_sources": {"x": 60, "y": 316.0}, "ec_g5_acids": {"x": 495, "y": 124.0}, "ec_solvents": {"x": 495, "y": 252.0}, "ec_si_mo_precursors": {"x": 495, "y": 380.0}, "ec_cmp_abrasive": {"x": 930, "y": 60.0}, "ec_pr_resin": {"x": 930, "y": 188.0}, "ec_electroplating": {"x": 930, "y": 316.0}, "ec_packaging_polymer": {"x": 930, "y": 444.0}};

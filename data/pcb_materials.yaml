@@ -131,6 +131,39 @@ segments:
   group: resin
   layer: 1
 
+- id: pcb_ccl
+  name: 覆铜板(CCL)
+  position: upstream
+  tier: 1
+  description: 覆铜板(Copper Clad Laminate)是将电子布浸渍树脂后与铜箔热压而成的复合材料，是PCB的核心基板。CCL占PCB成本30-40%，其介电性能(Dk/Df)、热膨胀系数(CTE)、玻璃化转变温度(Tg)直接决定PCB性能等级。AI服务器用M6/M7/M8级CCL要求超低损耗(Df<0.002@10GHz)，全球90%+被松下电工(Megtron系列)、AGC、Rogers垄断。生益科技是国内唯一进入AI服务器供应链的CCL厂商（全球销量第二）。
+  key_companies:
+  - code: '600183'
+    name: 生益科技
+    role: 全球CCL销量第二，国内唯一进入AI服务器M7级CCL供应链，产品覆盖全系列
+  - code: '688519'
+    name: 南亚新材
+    role: 高速CCL国内前三，M6级AI服务器CCL批量供货
+  - code: '603186'
+    name: 华正新材
+    role: 高频CCL+铝基板，AI服务器CCL布局中
+  data_points:
+  - name: 全球CCL市场规模_亿元
+    unit: 亿元
+    type: market
+    current_value: 1400
+    source_name: Prismark 2025
+    source_url: ''
+    last_updated: '2026-06-18'
+  - name: AI服务器CCL国产化率_百分比
+    unit: '%'
+    type: ratio
+    current_value: 15
+    source_name: 券商研报 松下/AGC/Rogers垄断高端
+    source_url: ''
+    last_updated: '2026-06-18'
+  group: ccl
+  layer: 2
+
 supply_relationships:
 - supplier_code: '600176'
   buyer_code: '603256'
@@ -145,16 +178,19 @@ supply_relationships:
   confidence: 4
   notes: 泰山玻纤(中材科技子公司)Low-Dk电子纱供宏和科技高端电子布
 - supplier_code: '603256'
+  buyer_code: '600183'
   product: 电子布(超薄/低介电/Low CTE)
   relationship_type: primary
   confidence: 5
-  notes: 宏和科技电子布供生益科技/南亚新材/联茂等CCL厂商，最终用于AI服务器/5G基站PCB
+  notes: 宏和科技电子布供生益科技CCL产线，全球最大电子布→CCL供应关系
 - supplier_code: '301217'
+  buyer_code: '600183'
   product: 电子铜箔(高频高速/RTF/HVLP)
   relationship_type: primary
   confidence: 5
-  notes: 铜冠铜箔电子铜箔供生益科技/南亚新材/华正新材等CCL厂商
+  notes: 铜冠铜箔电子铜箔供生益科技/南亚新材等CCL厂商
 - supplier_code: '601208'
+  buyer_code: '600183'
   product: PPE树脂(高频CCL基体)
   relationship_type: primary
   confidence: 4
@@ -176,7 +212,11 @@ group_labels:
   resin:
   - 🧪 特种树脂
   - '#2e7d32'
+  ccl:
+  - 📦 覆铜板(CCL)
+  - '#e65100'
 group_order:
 - fiber
 - metal
 - resin
+- ccl

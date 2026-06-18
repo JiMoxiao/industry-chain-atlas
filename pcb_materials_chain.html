@@ -19,7 +19,7 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;overflow:hidden;height:
 #topbar input::placeholder{color:#aaa}
 #canvas-wrap{flex:1;position:relative;overflow:hidden;cursor:grab;background:#f8f9fa}
 #canvas-wrap:active{cursor:grabbing}
-#diagram{position:absolute;top:0;left:0;width:710px;height:336px;transform-origin:0 0}
+#diagram{position:absolute;top:0;left:0;width:1145px;height:336px;transform-origin:0 0}
 #diagram svg{position:absolute;top:0;left:0;pointer-events:none}
 #diagram svg path{fill:none;stroke-width:1.8;stroke-linecap:round;opacity:0.28}
 #diagram svg .ep{stroke:#43a047}
@@ -90,6 +90,7 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;overflow:hidden;height:
 <button onclick="filterGroup('fiber')" id="fg-fiber">🧵 玻纤与电子布</button>
 <button onclick="filterGroup('metal')" id="fg-metal">🔩 电子铜箔</button>
 <button onclick="filterGroup('resin')" id="fg-resin">🧪 特种树脂</button>
+<button onclick="filterGroup('ccl')" id="fg-ccl">📦 覆铜板(CCL)</button>
   <div class="sep"></div>
   <input type="text" id="search" placeholder="搜索环节/公司/股票代码..." oninput="doSearch()">
   <span style="flex:1"></span>
@@ -97,7 +98,7 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;overflow:hidden;height:
 </div>
 <div id="canvas-wrap">
   <div id="diagram">
-    <svg id="svg-layer" width="710" height="336"></svg>
+    <svg id="svg-layer" width="1145" height="336"></svg>
     <div id="legends">
       <span><span class="ld" style="background:#4fc3f7"></span> 主要供应</span>
       <span><span class="ld" style="background:#5a7a8a"></span> 次要供应</span>
@@ -340,6 +341,65 @@ const NODES = [
     "heat_d": 0,
     "heat_d5": 0,
     "heat_d20": 0
+  },
+  {
+    "id": "pcb_ccl",
+    "name": "覆铜板(CCL)",
+    "position": "upstream",
+    "tier": 1,
+    "description": "覆铜板(Copper Clad Laminate)是将电子布浸渍树脂后与铜箔热压而成的复合材料，是PCB的核心基板。CCL占PCB成本30-40%，其介电性能(Dk/Df)、热膨胀系数(CTE)、玻璃化转变温度(Tg)直接决定PCB性能等级。AI服务器用M6/M7/M8级CCL要求超低损耗(Df<0.002@10GHz)，全球90%+被松下电工(Megtron系列)、AGC、Rogers垄断。生益科技是国内唯一进入AI服务器供应链的CCL厂商（全球销量第二）。",
+    "companies": [
+      {
+        "code": "600183",
+        "name": "生益科技",
+        "role": "全球CCL销量第二，国内唯一进入AI服务器M7级CCL供应链，产品覆盖全系列",
+        "d": 0.42,
+        "d5": 24.41,
+        "d20": 75.58
+      },
+      {
+        "code": "688519",
+        "name": "南亚新材",
+        "role": "高速CCL国内前三，M6级AI服务器CCL批量供货",
+        "d": 10.82,
+        "d5": 32.15,
+        "d20": 110.57
+      },
+      {
+        "code": "603186",
+        "name": "华正新材",
+        "role": "高频CCL+铝基板，AI服务器CCL布局中",
+        "d": 0,
+        "d5": 0,
+        "d20": 0
+      }
+    ],
+    "data_points": [
+      {
+        "name": "全球CCL市场规模_亿元",
+        "unit": "亿元",
+        "type": "market",
+        "current_value": 1400,
+        "source_name": "Prismark 2025",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      },
+      {
+        "name": "AI服务器CCL国产化率_百分比",
+        "unit": "%",
+        "type": "ratio",
+        "current_value": 15,
+        "source_name": "券商研报 松下/AGC/Rogers垄断高端",
+        "source_url": "",
+        "last_updated": "2026-06-18"
+      }
+    ],
+    "new_capacity": [],
+    "group": "ccl",
+    "layer": 2,
+    "heat_d": 0,
+    "heat_d5": 0,
+    "heat_d20": 0
   }
 ];
 const EDGES = [
@@ -349,12 +409,33 @@ const EDGES = [
     "product": "电子级玻纤纱(E-glass/Low-Dk)",
     "notes": "中国巨石电子纱供宏和科技织造电子布，国内最大电子纱→电子布链条",
     "rel_type": "primary"
+  },
+  {
+    "from": "pcb_glass_cloth",
+    "to": "pcb_ccl",
+    "product": "电子布(超薄/低介电/Low CTE)",
+    "notes": "宏和科技电子布供生益科技CCL产线，全球最大电子布→CCL供应关系",
+    "rel_type": "primary"
+  },
+  {
+    "from": "pcb_copper_foil",
+    "to": "pcb_ccl",
+    "product": "电子铜箔(高频高速/RTF/HVLP)",
+    "notes": "铜冠铜箔电子铜箔供生益科技/南亚新材等CCL厂商",
+    "rel_type": "primary"
+  },
+  {
+    "from": "pcb_specialty_resin",
+    "to": "pcb_ccl",
+    "product": "PPE树脂(高频CCL基体)",
+    "notes": "东材科技PPE树脂供生益科技/南亚新材等CCL厂商的高频高速产品线",
+    "rel_type": "primary"
   }
 ];
-const POSITIONS = {"pcb_glass_yarn": {"x": 60, "y": 60.0}, "pcb_copper_foil": {"x": 60, "y": 248.0}, "pcb_glass_cloth": {"x": 495, "y": 60.0}, "pcb_specialty_resin": {"x": 495, "y": 248.0}};
-const GROUP_LABELS = {"fiber": ["🧵 玻纤与电子布", "#1565c0"], "metal": ["🔩 电子铜箔", "#c62828"], "resin": ["🧪 特种树脂", "#2e7d32"]};
-const CANVAS_W = 710, CANVAS_H = 336;
-const ALL_STOCK_CODES = ["600176", "002080", "603256", "301217", "600110", "603799", "601208", "002669"];
+const POSITIONS = {"pcb_glass_yarn": {"x": 60, "y": 60.0}, "pcb_copper_foil": {"x": 60, "y": 248.0}, "pcb_glass_cloth": {"x": 495, "y": 60.0}, "pcb_specialty_resin": {"x": 495, "y": 248.0}, "pcb_ccl": {"x": 930, "y": 129.0}};
+const GROUP_LABELS = {"fiber": ["🧵 玻纤与电子布", "#1565c0"], "metal": ["🔩 电子铜箔", "#c62828"], "resin": ["🧪 特种树脂", "#2e7d32"], "ccl": ["📦 覆铜板(CCL)", "#e65100"]};
+const CANVAS_W = 1145, CANVAS_H = 336;
+const ALL_STOCK_CODES = ["600176", "002080", "603256", "301217", "600110", "603799", "601208", "002669", "600183", "688519", "603186"];
 // ==================== CONSTANTS ====================
 const NODE_W = 155, NODE_H = 78;
 const nodeMap = {};

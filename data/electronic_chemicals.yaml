@@ -376,21 +376,28 @@ supply_relationships:
   confidence: 3
   notes: 科隆股份纳米氧化铈送样安集科技CMP抛光液验证
 - supplier_code: '300721'
+  buyer_code: '605589'
+  product: G5级PGMEA(光刻胶溶剂)
+  relationship_type: primary
+  confidence: 5
+  notes: 怡达股份G5 PGMEA供圣泉集团光刻胶树脂配方，电子级溶剂→光刻胶原料核心链接
+- supplier_code: '300721'
   product: G5级PGMEA/PGME溶剂
   relationship_type: primary
   confidence: 4
   notes: 怡达股份G5 PGMEA供晶瑞电材/彤程新材光刻胶配方，进中芯国际28nm
+- supplier_code: '600141'
+  buyer_code: '688545'
+  product: 电子级磷酸(湿电子化学品上游)
+  relationship_type: primary
+  confidence: 5
+  notes: 兴发集团电子级黄磷/磷酸供兴福电子生产G5级磷酸，国内最大磷化工→湿电子化学品链条
 - supplier_code: '600141'
   buyer_code: '600096'
   product: 黄磷/湿法磷酸(交叉供应)
   relationship_type: secondary
   confidence: 3
   notes: 兴发集团与云天化磷化工上游互采/行业协作，电子级磷酸共用市场
-- supplier_code: '600141'
-  product: 电子级磷酸(晶圆掺杂/清洗用)
-  relationship_type: primary
-  confidence: 4
-  notes: 兴发集团电子级磷酸供中芯国际/华虹等晶圆厂掺杂扩散工序
 - supplier_code: '603938'
   buyer_code: '002409'
   product: 电子级三氯氢硅(TCS，前驱体硅源)
@@ -428,6 +435,24 @@ supply_relationships:
   relationship_type: primary
   confidence: 5
   notes: 濮阳惠成酸酐固化剂供华海诚科/德邦科技等EMC/Underfill配方，国内市占>60%
+- supplier_code: '688545'
+  buyer_code: '688019'
+  product: G5级硫酸/双氧水/氨水(CMP抛光液原料)
+  relationship_type: primary
+  confidence: 5
+  notes: 兴福电子G5级酸/双氧水供安集科技CMP抛光液配制，国内最大湿电子化学品→CMP供应链
+- supplier_code: '688545'
+  buyer_code: '300236'
+  product: G5级硫酸/盐酸(电镀液基础化学品)
+  relationship_type: primary
+  confidence: 4
+  notes: 兴福电子G5级酸供上海新阳铜互连/TSV电镀液配制
+- supplier_code: '300655'
+  buyer_code: '688019'
+  product: G5级双氧水/氨水(CMP抛光液原料)
+  relationship_type: primary
+  confidence: 4
+  notes: 晶瑞电材G5双氧水(国内晶圆厂市占>60%)供安集科技CMP抛光液
 
 group_labels:
   base_chemical:

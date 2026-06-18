@@ -5,76 +5,79 @@
 <title>⚗️ 电子化工材料（半导体上游）全产业链图谱</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;overflow:hidden;height:100vh;background:#0a1219}
+body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;overflow:hidden;height:100vh;background:#f0f2f5}
 #app{display:flex;height:100vh;width:100vw}
 #topbar{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:10px;padding:7px 16px;
-  background:linear-gradient(180deg,#152230,#0f1a25);border-bottom:1px solid #1e3040;color:#c0d0d0;flex-wrap:wrap}
-#topbar h1{font-size:15px;font-weight:600;background:linear-gradient(90deg,#4fc3f7,#66bb6a,#ffb74d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
-#topbar button{padding:5px 12px;border-radius:5px;border:1px solid #2a3d50;background:#152535;color:#90a0b0;cursor:pointer;font-size:11px;transition:all .15s}
-#topbar button:hover{background:#1e3045;border-color:#4a6d90;color:#c0d0d0}
-#topbar button.on{background:#15354a;border-color:#4fc3f7;color:#4fc3f7}
-#topbar .sep{width:1px;height:16px;background:#2a3d50}
-#topbar input{padding:5px 12px;border-radius:5px;border:1px solid #2a3d50;background:#0d1922;color:#c0d0d0;font-size:11px;width:170px;outline:none}
-#topbar input:focus{border-color:#4fc3f7}
-#topbar input::placeholder{color:#3a5060}
-#canvas-wrap{flex:1;position:relative;overflow:hidden;cursor:grab;background:transparent}
+  background:#fff;border-bottom:1px solid #e0e0e0;color:#333;flex-wrap:wrap}
+#topbar h1{font-size:15px;font-weight:600;background:linear-gradient(90deg,#1b6e2e,#43a047,#78909c,#e06040,#c0392b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;white-space:nowrap}
+#topbar button{padding:5px 12px;border-radius:5px;border:1px solid #d0d0d0;background:#fafafa;color:#555;cursor:pointer;font-size:11px;transition:all .15s}
+#topbar button:hover{background:#e8f5e9;border-color:#43a047;color:#333}
+#topbar button.on{background:#e8f5e9;border-color:#2e7d32;color:#2e7d32}
+#topbar .sep{width:1px;height:16px;background:#e0e0e0}
+#topbar input{padding:5px 12px;border-radius:5px;border:1px solid #d0d0d0;background:#fff;color:#333;font-size:11px;width:170px;outline:none}
+#topbar input:focus{border-color:#43a047}
+#topbar input::placeholder{color:#aaa}
+#canvas-wrap{flex:1;position:relative;overflow:hidden;cursor:grab;background:#f8f9fa}
 #canvas-wrap:active{cursor:grabbing}
-#diagram{position:absolute;top:0;left:0;width:930px;height:432px;transform-origin:0 0}
+#diagram{position:absolute;top:0;left:0;width:1145px;height:582px;transform-origin:0 0}
 #diagram svg{position:absolute;top:0;left:0;pointer-events:none}
-#diagram svg path{fill:none;stroke-width:1.8;stroke-linecap:round;opacity:0.35}
-#diagram svg .ep{stroke:#4fc3f7}
-#diagram svg .es{stroke:#5a7a8a}
-#diagram svg .ex{stroke:#ff7043;stroke-dasharray:6 3}
-.node{position:absolute;background:#152535;border:2px solid #2a4a6a;border-radius:10px;padding:10px 14px;
-  cursor:pointer;text-align:center;transition:all .18s;min-width:130px;user-select:none;z-index:1}
-.node:hover{border-color:#4fc3f7;box-shadow:0 0 16px rgba(79,195,247,.3);z-index:10}
-.node.sel{border-color:#4fc3f7!important;box-shadow:0 0 24px rgba(79,195,247,.45)!important;z-index:10}
+#diagram svg path{fill:none;stroke-width:1.8;stroke-linecap:round;opacity:0.28}
+#diagram svg .ep{stroke:#43a047}
+#diagram svg .es{stroke:#90a4ae}
+#diagram svg .ex{stroke:#e53935;stroke-dasharray:6 3}
+.node{position:absolute;background:#fff;border:2px solid #bdbdbd;border-radius:10px;padding:10px 14px;
+  cursor:pointer;text-align:center;transition:all .18s;min-width:130px;user-select:none;z-index:1;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.node:hover{border-color:#1b6e2e;box-shadow:0 0 12px rgba(27,110,46,.2);z-index:10}
+.node.sel{border-color:#1b6e2e!important;box-shadow:0 0 20px rgba(27,110,46,.35)!important;z-index:10}
 .node.hidden{display:none}
-.node .nid{font-size:9px;font-weight:700;color:#4fc3f7;font-family:'Consolas',monospace}
-.node .nn{font-size:12px;color:#d0e0e0;margin-top:2px;font-weight:600}
-.node .nc{font-size:9px;color:#7890a0;margin-top:2px}
+.node .nid{font-size:9px;font-weight:700;color:#2e7d32;font-family:'Consolas',monospace}
+.node .nn{font-size:12px;color:#333;margin-top:2px;font-weight:600}
+.node .nc{font-size:9px;color:#888;margin-top:2px}
 .node .pos-tag{display:inline-block;font-size:8px;padding:1px 6px;border-radius:6px;margin-top:3px;font-weight:600}
-.group-label{position:absolute;font-size:10px;padding:2px 10px;border-radius:3px;pointer-events:none;z-index:0;white-space:nowrap;font-weight:600;opacity:0.55}
-#panel{position:fixed;top:42px;right:0;bottom:0;width:460px;background:#0d1922;border-left:1px solid #1e3040;
-  display:flex;flex-direction:column;z-index:15;transform:translateX(100%);transition:transform .3s}
+.group-label{position:absolute;font-size:10px;padding:2px 10px;border-radius:3px;pointer-events:none;z-index:0;white-space:nowrap;font-weight:600;opacity:0.7;background:#fff}
+#panel{position:fixed;top:42px;right:0;bottom:0;width:460px;background:#fff;border-left:1px solid #e0e0e0;
+  display:flex;flex-direction:column;z-index:15;transform:translateX(100%);transition:transform .3s;box-shadow:-2px 0 16px rgba(0,0,0,.08)}
 #panel.open{transform:translateX(0)}
-#panel .ph{padding:12px 16px;background:#111d28;border-bottom:1px solid #1e3040;display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0}
-#panel .ph h2{font-size:16px;color:#4fc3f7}
-#panel .ph .sub{font-size:11px;color:#6a7d8d;margin-top:4px}
-#panel .ph button{background:none;border:none;color:#6a7d8d;font-size:22px;cursor:pointer;flex-shrink:0}
-#panel .pt{display:flex;border-bottom:1px solid #1e3040;flex-shrink:0}
-#panel .pt button{flex:1;padding:9px 4px;border:none;background:transparent;color:#6a7d8d;cursor:pointer;font-size:11px;border-bottom:2px solid transparent;transition:all .15s}
-#panel .pt button:hover{color:#b0c0c0}
-#panel .pt button.on{color:#4fc3f7;border-bottom-color:#4fc3f7}
-#panel .pb{flex:1;overflow-y:auto;padding:16px;color:#b0c0c0;font-size:13px;line-height:1.75}
-#panel .pb h3{color:#66bb6a;font-size:13px;margin:14px 0 8px}
+#panel .ph{padding:12px 16px;background:#fafafa;border-bottom:1px solid #e8e8e8;display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0}
+#panel .ph h2{font-size:16px;color:#1b6e2e}
+#panel .ph .sub{font-size:11px;color:#888;margin-top:4px}
+#panel .ph button{background:none;border:none;color:#999;font-size:22px;cursor:pointer;flex-shrink:0}
+#panel .pt{display:flex;border-bottom:1px solid #e8e8e8;flex-shrink:0}
+#panel .pt button{flex:1;padding:9px 4px;border:none;background:transparent;color:#888;cursor:pointer;font-size:11px;border-bottom:2px solid transparent;transition:all .15s}
+#panel .pt button:hover{color:#555}
+#panel .pt button.on{color:#2e7d32;border-bottom-color:#2e7d32}
+#panel .pb{flex:1;overflow-y:auto;padding:16px;color:#444;font-size:13px;line-height:1.75}
+#panel .pb h3{color:#2e7d32;font-size:13px;margin:14px 0 8px}
 #panel .pb h3:first-child{margin-top:0}
-#panel .pb .desc{background:#152a20;border-left:3px solid #66bb6a;padding:10px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:12px;line-height:1.8}
+#panel .pb .desc{background:#f5fdf6;border-left:3px solid #43a047;padding:10px 12px;margin:8px 0;border-radius:0 6px 6px 0;font-size:12px;line-height:1.8}
 #panel .pb table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
-#panel .pb th{background:#152535;color:#66bb6a;padding:6px 10px;text-align:left;font-weight:600}
-#panel .pb td{padding:5px 10px;border-bottom:1px solid #152535;vertical-align:top}
-#panel .pb .code{color:#4fc3f7;font-family:'Consolas',monospace;font-size:11px}
-#panel .pb .edge-item{background:#152535;padding:8px 12px;margin:4px 0;border-radius:6px;border-left:2px solid #2a4a6a;font-size:11px}
+#panel .pb table a:hover{text-decoration:underline!important}
+#panel .pb td.val-up{color:#e53935;font-weight:600}
+#panel .pb td.val-down{color:#2e7d32;font-weight:600}
+#panel .pb th{background:#f5f5f5;color:#2e7d32;padding:6px 10px;text-align:left;font-weight:600}
+#panel .pb td{padding:5px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+#panel .pb .code{color:#2e7d32;font-family:'Consolas',monospace;font-size:11px}
+#panel .pb .edge-item{background:#fafafa;padding:8px 12px;margin:4px 0;border-radius:6px;border-left:2px solid #e0e0e0;font-size:11px}
 #panel .pb .edge-item .edir{font-weight:600}
 .tag-cap{display:inline-block;padding:1px 8px;border-radius:8px;font-size:10px;margin:2px}
-.tag-plan{background:#302a15;color:#ffb74d;border:1px solid #4a3a20}
-.tag-const{background:#302015;color:#ff9800;border:1px solid #4a3020}
-.tag-ramp{background:#153020;color:#66bb6a;border:1px solid #1e4a30}
-.tag-equip{background:#2a1530;color:#ba68c8;border:1px solid #3a2050}
-#legends{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:16px;color:#3a5060;font-size:10px;pointer-events:none;z-index:0}
+.tag-plan{background:#fff3e0;color:#e65100;border:1px solid #ffe0b2}
+.tag-const{background:#fff8e1;color:#f57f17;border:1px solid #ffecb3}
+.tag-ramp{background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9}
+.tag-equip{background:#f3e5f5;color:#7b1fa2;border:1px solid #e1bee7}
+#legends{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:16px;color:#999;font-size:10px;pointer-events:none;z-index:0}
 #legends span{display:flex;align-items:center;gap:5px}
 #legends .ld{width:10px;height:2px;border-radius:1px}
-#flow-arrows{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:8px;color:#3a5060;font-size:13px;pointer-events:none;z-index:0}
-.tooltip{position:fixed;z-index:100;background:#152535;border:1px solid #4fc3f7;border-radius:8px;padding:10px 14px;pointer-events:none;opacity:0;transition:opacity .15s;max-width:300px;box-shadow:0 4px 24px rgba(0,0,0,.4)}
+#flow-arrows{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);display:flex;gap:8px;color:#bbb;font-size:13px;pointer-events:none;z-index:0}
+.tooltip{position:fixed;z-index:100;background:#fff;border:1px solid #43a047;border-radius:8px;padding:10px 14px;pointer-events:none;opacity:0;transition:opacity .15s;max-width:300px;box-shadow:0 4px 24px rgba(0,0,0,.15)}
 .tooltip.show{opacity:1}
-.tooltip .tt-title{font-size:12px;color:#4fc3f7;font-weight:600;margin-bottom:6px}
-.tooltip .tt-co{font-size:10px;color:#b0c0c0;margin:2px 0}
-.tooltip .tt-code{color:#4fc3f7;font-family:'Consolas',monospace;margin-right:6px}
-#svg-layer path.edge-hl{opacity:0.85!important;stroke-width:2.8!important;filter:drop-shadow(0 0 4px rgba(79,195,247,.4))}
+.tooltip .tt-title{font-size:12px;color:#2e7d32;font-weight:600;margin-bottom:6px}
+.tooltip .tt-co{font-size:10px;color:#555;margin:2px 0}
+.tooltip .tt-code{color:#888;font-family:'Consolas',monospace;margin-right:6px}
+#svg-layer path.edge-hl{opacity:0.85!important;stroke-width:2.8!important;filter:drop-shadow(0 0 4px rgba(46,125,50,.4))}
 #svg-layer path.edge-dim{opacity:0.05!important}
-.node-connected{border-color:#4fc3f7!important;box-shadow:0 0 14px rgba(79,195,247,.25)!important}
+.node-connected{border-color:#2e7d32!important;box-shadow:0 0 14px rgba(46,125,50,.25)!important}
 .node-dim{opacity:0.3}
-.node.dragging{cursor:grabbing!important;z-index:20!important;box-shadow:0 0 20px rgba(0,0,0,.3)!important}
+.node.dragging{cursor:grabbing!important;z-index:20!important;box-shadow:0 0 20px rgba(0,0,0,.15)!important}
 
 </style>
 </head>
@@ -94,7 +97,7 @@ body{font-family:'Segoe UI','Microsoft YaHei',sans-serif;overflow:hidden;height:
 </div>
 <div id="canvas-wrap">
   <div id="diagram">
-    <svg id="svg-layer" width="930" height="432"></svg>
+    <svg id="svg-layer" width="1145" height="582"></svg>
     <div id="legends">
       <span><span class="ld" style="background:#4fc3f7"></span> 主要供应</span>
       <span><span class="ld" style="background:#5a7a8a"></span> 次要供应</span>
@@ -768,17 +771,62 @@ const EDGES = [
     "rel_type": "primary"
   }
 ];
-const POSITIONS = {"ec_fluorine_base": {"x": 60, "y": 140.0}, "ec_pb_sources": {"x": 60, "y": 220.0}, "ec_g5_acids": {"x": 390, "y": 100.0}, "ec_solvents": {"x": 390, "y": 180.0}, "ec_si_mo_precursors": {"x": 390, "y": 260.0}, "ec_cmp_abrasive": {"x": 720, "y": 60.0}, "ec_pr_resin": {"x": 720, "y": 140.0}, "ec_electroplating": {"x": 720, "y": 220.0}, "ec_packaging_polymer": {"x": 720, "y": 300.0}};
+const POSITIONS = {"ec_fluorine_base": {"x": 60, "y": 188.0}, "ec_pb_sources": {"x": 60, "y": 316.0}, "ec_g5_acids": {"x": 495, "y": 124.0}, "ec_solvents": {"x": 495, "y": 252.0}, "ec_si_mo_precursors": {"x": 495, "y": 380.0}, "ec_cmp_abrasive": {"x": 930, "y": 60.0}, "ec_pr_resin": {"x": 930, "y": 188.0}, "ec_electroplating": {"x": 930, "y": 316.0}, "ec_packaging_polymer": {"x": 930, "y": 444.0}};
 const GROUP_LABELS = {"base_chemical": ["⚗️ 基础氟化工", "#1e6b4a"], "purified_chemical": ["🧪 电子级纯化品", "#2e7d32"], "functional_material": ["🔬 功能性材料", "#1565c0"]};
-const POS_COLORS = {"upstream": {"border": "#2a5a7a", "bg": "#152535", "tag_bg": "#152a38", "tag_text": "#4fc3f7"}, "midstream": {"border": "#2a5a3a", "bg": "#152535", "tag_bg": "#153020", "tag_text": "#66bb6a"}, "downstream": {"border": "#5a4a2a", "bg": "#152535", "tag_bg": "#302a15", "tag_text": "#ffb74d"}, "equipment": {"border": "#4a2a5a", "bg": "#152535", "tag_bg": "#281530", "tag_text": "#ce93d8"}};
-const CANVAS_W = 930, CANVAS_H = 432;
+const CANVAS_W = 1145, CANVAS_H = 582;
 const ALL_STOCK_CODES = ["600160", "002407", "603505", "603379", "600096", "600141", "600078", "688545", "300655", "688549", "603078", "300721", "603931", "603938", "002409", "300346", "688106", "002643", "605589", "300429", "688199", "688113", "300236", "688720", "002741", "603002", "300041", "300481", "688019", "300054", "300405"];
 // ==================== CONSTANTS ====================
-const NODE_W = 150, NODE_H = 72;
+const NODE_W = 155, NODE_H = 78;
 const nodeMap = {};
 NODES.forEach(n => { nodeMap[n.id] = n; });
 
-// POS_COLORS is injected by renderer in page.html
+const POS_LABELS = {upstream:'上游', midstream:'中游', downstream:'下游'};
+
+// heat → color: 红涨绿跌 (red=up=hot, green=down=cold)
+function heatToColor(h) {
+  if (h >= 20) return {border:'#b71c1c',bg:'#ffebee',tag_bg:'#ffcdd2',tag_text:'#7f0000'};
+  if (h >= 10) return {border:'#e53935',bg:'#ffebee',tag_bg:'#ffcdd2',tag_text:'#8b0000'};
+  if (h >= 5)  return {border:'#ef5350',bg:'#fff5f5',tag_bg:'#ffebee',tag_text:'#c62828'};
+  if (h >= 2)  return {border:'#ef9a9a',bg:'#fffafa',tag_bg:'#ffebee',tag_text:'#b71c1c'};
+  if (h >= 0)  return {border:'#e0e0e0',bg:'#fafafa',tag_bg:'#f5f5f5',tag_text:'#757575'};
+  if (h >= -2) return {border:'#a5d6a7',bg:'#f5fdf6',tag_bg:'#e8f5e9',tag_text:'#2e7d32'};
+  if (h >= -5) return {border:'#66bb6a',bg:'#e8f5e9',tag_bg:'#c8e6c9',tag_text:'#1b5e20'};
+  if (h >= -10)return {border:'#43a047',bg:'#e8f5e9',tag_bg:'#c8e6c9',tag_text:'#1b5e20'};
+  return {border:'#2e7d32',bg:'#e0f0e0',tag_bg:'#a5d6a7',tag_text:'#0a3d0a'};
+}
+
+// drag state
+let dragNode = null, dragStartX, dragStartY, dragOrigX, dragOrigY, hasDragged = false;
+const DRAG_THRESHOLD = 3;
+const edgeKeys = new Map(); // "from|||to" → count for duplicate y-offset
+
+// edge path: smooth S-curve, arrow stops before target node border
+function makeEdgePath(fromId, toId, dupIdx) {
+  const f = POSITIONS[fromId], t = POSITIONS[toId];
+  if (!f || !t) return '';
+  const yOff = dupIdx > 1 ? 5 : 0;
+  const scx = f.x + NODE_W/2, tcx = t.x + NODE_W/2;
+  const forward = tcx >= scx;
+  const x1 = forward ? f.x + NODE_W : f.x;
+  const y1 = f.y + NODE_H/2 + yOff;
+  const x2 = forward ? t.x - 18 : t.x + NODE_W + 18;
+  const y2 = t.y + NODE_H/2 + yOff;
+  const dx = x2 - x1;
+  const cx1 = x1 + dx * 0.42;
+  const cx2 = x2 - dx * 0.42;
+  return `M${x1},${y1} C${cx1},${y1} ${cx2},${y2} ${x2},${y2}`;
+}
+
+function redrawEdges(nodeId) {
+  const paths = document.querySelectorAll(`#svg-layer path[data-from="${nodeId}"], #svg-layer path[data-to="${nodeId}"]`);
+  paths.forEach(p => {
+    const from = p.getAttribute('data-from');
+    const to = p.getAttribute('data-to');
+    const key = from + '|||' + to;
+    const dupIdx = edgeKeys.get(key) || 1;
+    p.setAttribute('d', makeEdgePath(from, to, dupIdx));
+  });
+}
 
 // ==================== RENDER ====================
 const diagram = document.getElementById('diagram');
@@ -808,27 +856,44 @@ Object.values(layerGroupPositions).forEach(lp => {
   groupLabelEls.push(div);
 });
 
+// --- Connection ports (SVG circles at node edges) ---
+const PORT_R = 3;
+const portEls = {}; // nodeId → {exit: circle, entry: circle}
+let portHTML = '';
+Object.entries(POSITIONS).forEach(([nid, pos]) => {
+  portHTML += `<circle id="port-ex-${nid}" cx="${pos.x + NODE_W}" cy="${pos.y + NODE_H/2}" r="${PORT_R}" fill="#999" stroke="#fff" stroke-width="1.5" class="port port-exit" data-node="${nid}"/>`;
+  portHTML += `<circle id="port-en-${nid}" cx="${pos.x}" cy="${pos.y + NODE_H/2}" r="${PORT_R}" fill="#999" stroke="#fff" stroke-width="1.5" class="port port-entry" data-node="${nid}"/>`;
+});
+
+function updatePorts(nodeId) {
+  const p = POSITIONS[nodeId]; if (!p) return;
+  const ex = document.getElementById('port-ex-' + nodeId);
+  const en = document.getElementById('port-en-' + nodeId);
+  if (ex) { ex.setAttribute('cx', p.x + NODE_W); ex.setAttribute('cy', p.y + NODE_H/2); }
+  if (en) { en.setAttribute('cx', p.x); en.setAttribute('cy', p.y + NODE_H/2); }
+}
+
 // --- Nodes ---
 NODES.forEach(n => {
   const pos = POSITIONS[n.id]; if (!pos) return;
-  const c = POS_COLORS[n.position] || POS_COLORS.midstream;
-  const d = n.heat_d || 0, d5 = n.heat_d5 || 0;
-  const hd = d >= 0 ? '+' : '', hd5 = d5 >= 0 ? '+' : '';
-  const heatEmoji = d > 5 ? ' 🔥' : d > 1 ? ' 📈' : d < -5 ? ' ❄️' : d < -1 ? ' 📉' : '';
+  const h20 = n.heat_d20 || 0;
+  const c = heatToColor(h20);
   const div = document.createElement('div');
   div.className = 'node';
   div.id = 'n-' + n.id;
   div.style.cssText = `left:${pos.x}px;top:${pos.y}px;width:${NODE_W}px;min-height:${NODE_H}px;border-color:${c.border};background:${c.bg}`;
-  div.innerHTML = `<div class="nid">${n.id.replace('semi_','')}</div><div class="nn">${n.name}</div><div class="nc">${hd}${d.toFixed(1)}%${heatEmoji}</div><span class="pos-tag" style="background:${c.tag_bg};color:${c.tag_text}">${n.position}</span>`;
-  div.addEventListener('click', e => { e.stopPropagation(); openPanel(n.id); });
+  const posLabel = POS_LABELS[n.position] || n.position;
+  const heatEmoji = h20 > 10 ? '🔥' : h20 > 3 ? '📈' : h20 < -5 ? '❄️' : h20 < 0 ? '📉' : '';
+  div.innerHTML = `<div class="nid">${n.id.replace('semi_','')}</div><div class="nn">${n.name}</div><div class="nc">20日 ${h20.toFixed(1)}% ${heatEmoji}</div><span class="pos-tag" style="background:${c.tag_bg};color:${c.tag_text}">${posLabel}</span>`;
+  div.addEventListener('click', e => { e.stopPropagation(); if (hasDragged) return; openPanel(n.id); });
   div.setAttribute('data-group', n.group);
   // tooltip — multi-period heat + company list
   div.addEventListener('mouseenter', () => {
     if (!n.companies || n.companies.length === 0) return;
     const d = n.heat_d || 0, d5 = n.heat_d5 || 0, d20 = n.heat_d20 || 0;
-    const cd = d>=0?'color:#ff7043':'color:#66bb6a';
-    const c5 = d5>=0?'color:#ff7043':'color:#66bb6a';
-    const c20 = d20>=0?'color:#ff7043':'color:#66bb6a';
+    const cd = d>=0?'color:#e53935':'color:#2e7d32';
+    const c5 = d5>=0?'color:#e53935':'color:#2e7d32';
+    const c20 = d20>=0?'color:#e53935':'color:#2e7d32';
     let html = `<div class="tt-title">${n.name}</div>`;
     html += `<div style="display:flex;gap:12px;margin-bottom:6px;font-size:10px">`;
     html += `<span>当日 <b style="${cd}">${d>=0?'+':''}${d.toFixed(1)}%</b></span>`;
@@ -836,10 +901,10 @@ NODES.forEach(n => {
     html += `<span>20日 <b style="${c20}">${d20>=0?'+':''}${d20.toFixed(1)}%</b></span>`;
     html += `</div>`;
     n.companies.slice(0, 8).forEach(c => {
-      const cd2 = (c.d||0)>=0?'color:#ff7043':'color:#66bb6a';
+      const cd2 = (c.d||0)>=0?'color:#e53935':'color:#2e7d32';
       html += `<div class="tt-co"><span class="tt-code">${c.code}</span>${c.name}<span style="${cd2};margin-left:4px;font-size:9px">${(c.d||0)>=0?'+':''}${(c.d||0).toFixed(1)}%</span></div>`;
     });
-    if (n.companies.length > 8) html += `<div class="tt-co" style="color:#5a7a8a">...还有 ${n.companies.length-8} 家</div>`;
+    if (n.companies.length > 8) html += `<div class="tt-co" style="color:#999">...还有 ${n.companies.length-8} 家</div>`;
     tooltip.innerHTML = html;
     tooltip.classList.add('show');
   });
@@ -852,27 +917,38 @@ NODES.forEach(n => {
     tooltip.style.transform = 'none';
   });
   div.addEventListener('mouseleave', () => { tooltip.classList.remove('show'); });
+  // drag
+  div.addEventListener('mousedown', e => {
+    if (e.button !== 0) return;
+    dragNode = n.id; hasDragged = false;
+    dragStartX = e.clientX; dragStartY = e.clientY;
+    dragOrigX = POSITIONS[n.id].x; dragOrigY = POSITIONS[n.id].y;
+    div.classList.add('dragging');
+    e.stopPropagation();
+  });
   diagram.appendChild(div);
   nodeEls[n.id] = div;
 });
 
-// --- Edges (symmetric midpoint curve, no arrows) ---
+// --- Edges ---
 const EDGE_CLASS = {primary:'ep', secondary:'es', exclusive:'ex'};
+const ARROW_COLORS = {ep:'#43a047', es:'#90a4ae', ex:'#e53935'};
+let svgDefs = `<defs>${['ep','es','ex'].map(cls => `
+  <marker id="arrow-${cls}" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="14" markerHeight="11" orient="auto" markerUnits="userSpaceOnUse">
+    <polygon points="0,0 10,4 0,8" fill="${ARROW_COLORS[cls]}"/>
+  </marker>`).join('')}</defs>`;
 let svgHTML = '';
-const drawnEdges = new Set();
 EDGES.forEach(e => {
   const f = POSITIONS[e.from], t = POSITIONS[e.to];
   if (!f || !t) return;
   const key = e.from + '|||' + e.to;
-  const isDup = drawnEdges.has(key);
-  drawnEdges.add(key);
-  const x1 = f.x + NODE_W, y1 = f.y + NODE_H/2 + (isDup ? 4 : 0);
-  const x2 = t.x, y2 = t.y + NODE_H/2 + (isDup ? 4 : 0);
-  const midX = (x1 + x2) / 2;
+  const dupIdx = (edgeKeys.get(key) || 0) + 1;
+  edgeKeys.set(key, dupIdx);
+  const pathD = makeEdgePath(e.from, e.to, dupIdx);
   const cls = EDGE_CLASS[e.rel_type] || 'ep';
-  svgHTML += `<path d="M${x1},${y1} C${midX},${y1} ${midX},${y2} ${x2},${y2}" class="${cls}" id="edge-${e.from}-${e.to}" data-from="${e.from}" data-to="${e.to}"/>`;
+  svgHTML += `<path d="${pathD}" class="${cls}" id="edge-${e.from}-${e.to}" data-from="${e.from}" data-to="${e.to}" marker-end="url(#arrow-${cls})"/>`;
 });
-svgLayer.innerHTML = svgHTML;
+svgLayer.innerHTML = svgDefs + svgHTML + portHTML;
 
 // ==================== PAN & ZOOM ====================
 let scale = 1, panX = 0, panY = 0;
@@ -894,8 +970,27 @@ canvasWrap.addEventListener('mousedown', e => {
     dragging = true; dragX = e.clientX - panX; dragY = e.clientY - panY; canvasWrap.style.cursor = 'grabbing';
   }
 });
-window.addEventListener('mousemove', e => { if (!dragging) return; panX = e.clientX - dragX; panY = e.clientY - dragY; applyTransform(); });
-window.addEventListener('mouseup', () => { dragging = false; canvasWrap.style.cursor = 'grab'; });
+window.addEventListener('mousemove', e => {
+  if (dragNode) {
+    const dx = e.clientX - dragStartX, dy = e.clientY - dragStartY;
+    if (Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) return;
+    hasDragged = true;
+    POSITIONS[dragNode].x = dragOrigX + dx / scale;
+    POSITIONS[dragNode].y = dragOrigY + dy / scale;
+    const el = nodeEls[dragNode];
+    if (el) { el.style.left = POSITIONS[dragNode].x + 'px'; el.style.top = POSITIONS[dragNode].y + 'px'; }
+    updatePorts(dragNode);
+    redrawEdges(dragNode);
+    return;
+  }
+  if (!dragging) return;
+  panX = e.clientX - dragX; panY = e.clientY - dragY; applyTransform();
+});
+window.addEventListener('mouseup', () => {
+  if (dragNode && nodeEls[dragNode]) nodeEls[dragNode].classList.remove('dragging');
+  dragNode = null;
+  dragging = false; canvasWrap.style.cursor = 'grab';
+});
 
 function fitScreen() {
   const w = canvasWrap.clientWidth, h = canvasWrap.clientHeight;
@@ -951,20 +1046,26 @@ function switchTab(tab) {
 function renderPanel() {
   if (!activeNode) return;
   const n = activeNode;
-  const c = POS_COLORS[n.position] || POS_COLORS.midstream;
-  const d = n.heat_d||0, d5 = n.heat_d5||0, d20 = n.heat_d20||0;
-  const cd=d>=0?'#ff7043':'#66bb6a', c5=d5>=0?'#ff7043':'#66bb6a', c20=d20>=0?'#ff7043':'#66bb6a';
+  const h20 = n.heat_d20 || 0;
+  const c = heatToColor(h20);
+  const posLabel = POS_LABELS[n.position] || n.position;
+  const d = ((n.heat_d||0)>=0?'+':'') + (n.heat_d||0).toFixed(1);
+  const d5 = ((n.heat_d5||0)>=0?'+':'') + (n.heat_d5||0).toFixed(1);
+  const d20 = ((n.heat_d20||0)>=0?'+':'') + (n.heat_d20||0).toFixed(1);
   document.getElementById('p-title').textContent = n.name;
-  document.getElementById('p-sub').innerHTML = `<span style="background:${c.tag_bg};color:${c.tag_text};padding:1px 8px;border-radius:8px;font-size:10px;margin-right:8px">${n.position}</span>Tier ${n.tier} · ${n.companies.length} 家上市公司`;
+  document.getElementById('p-sub').innerHTML = `<span style="background:${c.tag_bg};color:${c.tag_text};padding:1px 8px;border-radius:8px;font-size:10px;margin-right:8px">${posLabel}</span>20日 ${d20}% · ${n.companies.length} 家上市公司`;
   const body = document.getElementById('panel-body');
 
   if (activeTab === 'overview') {
+    const d = n.heat_d||0, d5 = n.heat_d5||0, d20 = n.heat_d20||0;
+    const cd=d>=0?'#e53935':'#2e7d32', c5=d5>=0?'#e53935':'#2e7d32', c20=d20>=0?'#e53935':'#2e7d32';
+    const hd=d>=0?'🔥火热':'❄️冰冷', h5=d5>=0?'🔥':'❄️', h20v=d20>=0?'🔥':'❄️';
     let html = `<div class="desc">${n.description}</div>`;
     html += '<h3>市场热度</h3>';
     html += `<div style="display:flex;gap:12px;margin:8px 0;flex-wrap:wrap">`;
-    html += `<div style="flex:1;min-width:100px;background:#152535;border:1px solid #2a4a6a;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#6a7d8d">当日</div><div style="font-size:22px;font-weight:700;color:${cd}">${d>=0?'+':''}${d.toFixed(1)}%</div><div style="font-size:10px;color:${cd}">${d>=0?'🔥火热':'❄️冰冷'}</div></div>`;
-    html += `<div style="flex:1;min-width:100px;background:#152535;border:1px solid #2a4a6a;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#6a7d8d">近5日</div><div style="font-size:22px;font-weight:700;color:${c5}">${d5>=0?'+':''}${d5.toFixed(1)}%</div><div style="font-size:10px;color:${c5}">${d5>=0?'🔥':'❄️'}</div></div>`;
-    html += `<div style="flex:1;min-width:100px;background:#152535;border:1px solid #2a4a6a;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#6a7d8d">近20日</div><div style="font-size:22px;font-weight:700;color:${c20}">${d20>=0?'+':''}${d20.toFixed(1)}%</div><div style="font-size:10px;color:${c20}">${d20>=0?'🔥':'❄️'}</div></div>`;
+    html += `<div style="flex:1;min-width:100px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#888">当日</div><div style="font-size:22px;font-weight:700;color:${cd}">${d>=0?'+':''}${d.toFixed(1)}%</div><div style="font-size:10px;color:${cd}">${hd}</div></div>`;
+    html += `<div style="flex:1;min-width:100px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#888">近5日</div><div style="font-size:22px;font-weight:700;color:${c5}">${d5>=0?'+':''}${d5.toFixed(1)}%</div><div style="font-size:10px;color:${c5}">${h5}</div></div>`;
+    html += `<div style="flex:1;min-width:100px;background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:10px;text-align:center"><div style="font-size:10px;color:#888">近20日</div><div style="font-size:22px;font-weight:700;color:${c20}">${d20>=0?'+':''}${d20.toFixed(1)}%</div><div style="font-size:10px;color:${c20}">${h20v}</div></div>`;
     html += `</div>`;
     if (n.new_capacity && n.new_capacity.length > 0) {
       html += '<h3>在建/扩产产能</h3><table><tr><th>企业</th><th>规模</th><th>预计投产</th><th>状态</th></tr>';
@@ -979,7 +1080,7 @@ function renderPanel() {
   } else if (activeTab === 'companies') {
     let html = '<table><tr><th>股票代码</th><th>公司名称</th><th>当日</th><th>产业链角色</th></tr>';
     n.companies.forEach(co => {
-      const cd = (co.d||0)>=0?'color:#ff7043':'color:#66bb6a';
+      const cd = (co.d||0)>=0?'color:#e53935':'color:#2e7d32';
       const ds = ((co.d||0)>=0?'+':'') + (co.d||0).toFixed(1);
       html += `<tr><td class="code">${co.code}</td><td>${co.name}</td><td style="${cd};font-weight:600">${ds}%</td><td>${co.role}</td></tr>`;
     });
@@ -988,21 +1089,24 @@ function renderPanel() {
   } else if (activeTab === 'metrics') {
     if (n.data_points && n.data_points.length > 0) {
       const tn = {capacity:'产能',output:'产量',market:'市场规模',ratio:'比率',price_change:'价格变化',order:'订单',lead_time:'交期'};
-      let html = '<table><tr><th>指标名称</th><th>当前值</th><th>单位</th><th>来源</th></tr>';
+      let html = '<p style="color:#6a7d8d;font-size:11px;margin-bottom:8px">该环节需追踪的关键数据指标：</p><table><tr><th>指标名称</th><th>当前值</th><th>单位</th><th>来源</th></tr>';
       n.data_points.forEach(dp => {
         const v = dp.current_value;
+        // format value: ratio/price_change with % sign, others with locale formatting
         let vd = '—';
         let vc = '';
         if (v !== undefined && v !== null && v !== '') {
           const isPct = dp.type === 'ratio' || dp.type === 'price_change';
           vd = isPct ? `${v}%` : (Number.isInteger(v) ? v.toLocaleString() : String(v));
-          if (v > 0 && isPct) vc = 'color:#ff7043;font-weight:600';
-          else if (v < 0 && isPct) vc = 'color:#66bb6a;font-weight:600';
+          // color: red for positive ratio/price_change, green for negative
+          if (v > 0 && isPct) vc = 'color:#e53935;font-weight:600';
+          else if (v < 0 && isPct) vc = 'color:#2e7d32;font-weight:600';
         }
+        // source column
         let src = '—';
-        if (dp.source_url) src = `<a href="${dp.source_url}" target="_blank" style="color:#4fc3f7;text-decoration:none;font-size:10px" title="${dp.source_name||''}">${dp.source_name||'链接'}</a>`;
-        else if (dp.source_name) src = `<span style="color:#6a7d8d;font-size:10px">${dp.source_name}</span>`;
-        if (dp.last_updated) src += ` <span style="color:#3a5060;font-size:9px">${dp.last_updated}</span>`;
+        if (dp.source_url) src = `<a href="${dp.source_url}" target="_blank" style="color:#43a047;text-decoration:none;font-size:10px" title="${dp.source_name||''}">${dp.source_name||'链接'}</a>`;
+        else if (dp.source_name) src = `<span style="color:#888;font-size:10px">${dp.source_name}</span>`;
+        if (dp.last_updated) src += ` <span style="color:#bbb;font-size:9px">${dp.last_updated}</span>`;
         html += `<tr><td>${dp.name}</td><td style="${vc}">${vd}</td><td>${dp.unit}</td><td>${src}</td></tr>`;
       });
       html += '</table>';
@@ -1047,6 +1151,9 @@ function applyFilters() {
     if (hide) hidden.add(n.id);
   });
   NODES.forEach(n => { const el = nodeEls[n.id]; if (el) el.classList.toggle('hidden', hidden.has(n.id)); });
+  document.querySelectorAll('#svg-layer circle.port').forEach(c => {
+    c.style.display = hidden.has(c.getAttribute('data-node')) ? 'none' : '';
+  });
   document.querySelectorAll('#svg-layer path').forEach(p => {
     const hid = hidden.has(p.getAttribute('data-from')) || hidden.has(p.getAttribute('data-to'));
     p.style.display = hid ? 'none' : '';
@@ -1061,7 +1168,6 @@ function applyFilters() {
   });
   document.getElementById('mc').textContent = `显示 ${NODES.filter(n=>!hidden.has(n.id)).length}/${NODES.length} 环节`;
 }
-
 // ==================== LIVE HEAT ====================
 const LIVE_CACHE_KEY = 'semi_live_heat';
 const LIVE_CACHE_DATE_KEY = 'semi_live_heat_date';
@@ -1124,14 +1230,6 @@ function applyLiveHeat(heatData) {
       if (h) { co.d = h.d; co.d5 = h.d5; sumD += h.d; sumD5 += h.d5; cnt++; }
     });
     if (cnt > 0) { node.heat_d = sumD / cnt; node.heat_d5 = sumD5 / cnt; }
-    // Update nc display
-    const el = nodeEls[node.id];
-    if (el) {
-      const d = node.heat_d || 0;
-      const hd = d >= 0 ? '+' : '';
-      const heatEmoji = d > 5 ? ' 🔥' : d > 1 ? ' 📈' : d < -5 ? ' ❄️' : d < -1 ? ' 📉' : '';
-      el.querySelector('.nc').textContent = `${hd}${d.toFixed(1)}%${heatEmoji}`;
-    }
   });
 }
 

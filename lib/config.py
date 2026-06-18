@@ -5,17 +5,17 @@
 """
 
 # ── 布局参数 ────────────────────
-NODE_W = 155
-NODE_H = 78
-LAYER_GAP = 280
-GROUP_GAP = 60
-ROW_GAP = 50
+NODE_W = 150
+NODE_H = 72
+LAYER_GAP = 180
+GROUP_GAP = 20
+ROW_GAP = 8
 PADDING = 60
 
 # ── 位置颜色方案（通用，可被 YAML 覆盖）─────────
 POSITION_COLORS = {
-    "upstream":   {"border": "#1b6e2e", "bg": "#f0faf3", "tag_bg": "#d4edda", "tag_text": "#155724"},
-    "midstream":  {"border": "#78909c", "bg": "#f8fafb", "tag_bg": "#eceff1", "tag_text": "#455a64"},
-    "downstream": {"border": "#c0392b", "bg": "#fef5f5", "tag_bg": "#fde8e8", "tag_text": "#8b0000"},
-    "equipment":  {"border": "#43a047", "bg": "#f5fdf6", "tag_bg": "#e8f5e9", "tag_text": "#2e7d32"},
+    "upstream":   {"border": "#2a5a7a", "bg": "#152535", "tag_bg": "#152a38", "tag_text": "#4fc3f7"},
+    "midstream":  {"border": "#2a5a3a", "bg": "#152535", "tag_bg": "#153020", "tag_text": "#66bb6a"},
+    "downstream": {"border": "#5a4a2a", "bg": "#152535", "tag_bg": "#302a15", "tag_text": "#ffb74d"},
+    "equipment":  {"border": "#4a2a5a", "bg": "#152535", "tag_bg": "#281530", "tag_text": "#ce93d8"},
 }

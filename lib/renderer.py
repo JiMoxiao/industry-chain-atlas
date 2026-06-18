@@ -7,6 +7,7 @@
 import json
 import os
 
+from .config import POSITION_COLORS
 from .layout import layout_nodes
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "templates")
@@ -69,6 +70,7 @@ def gen_html(flat_data):
                 stock_codes.append(c["code"])
 
     page = page.replace("__STOCK_CODES__", json.dumps(stock_codes))
+    page = page.replace("__POS_COLORS_JSON__", json.dumps(POSITION_COLORS, ensure_ascii=False))
     page = page.replace("__CANVAS_W__", str(int(canvas_w)))
     page = page.replace("__CANVAS_H__", str(int(canvas_h)))
 

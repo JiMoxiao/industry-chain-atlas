@@ -57,12 +57,7 @@ def gen_html(fusion_data):
     nodes_json = json.dumps(nodes, ensure_ascii=False, indent=2)
     edges_json = json.dumps(edges, ensure_ascii=False, indent=2)
 
-    styles = _read_template("styles.css")
-    app_js = _read_template("g6_app.js")
     page = _read_template("g6_page.html")
-
-    page = page.replace("__STYLES__", styles)
-    page = page.replace("__APP_JS__", app_js)
 
     page = page.replace("__PAGE_TITLE__", "半导体全产业链融合图谱")
     page = page.replace("__PAGE_HEADER__", "🔬 半导体全产业链融合图谱")

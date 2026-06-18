@@ -211,15 +211,29 @@ setTimeout(() => {
 }, 500);
 
 // ==================== FOCUS / HIGHLIGHT ====================
+// Build adjacency maps once (edges are directional: from → to = upstream → downstream)
+const upstreamOf = {};   // upstreamOf[B] = [A, ...]  means A supplies B
+const downstreamOf = {}; // downstreamOf[A] = [B, ...] means A supplies B
+RAW_EDGES.forEach(e => {
+  if (!upstreamOf[e.to]) upstreamOf[e.to] = [];
+  upstreamOf[e.to].push(e.from);
+  if (!downstreamOf[e.from]) downstreamOf[e.from] = [];
+  downstreamOf[e.from].push(e.to);
+});
+
+function traverseUpstream(startId) {
+  return new Set(upstreamOf[startId] || []);
+}
+
+function traverseDownstream(startId) {
+  return new Set(downstreamOf[startId] || []);
+}
+
 function focusNode(nodeId) {
-  const connected = new Set();
-  connected.add(nodeId);
-  RAW_EDGES.forEach(e => {
-    if (e.from === nodeId || e.to === nodeId) {
-      connected.add(e.from);
-      connected.add(e.to);
-    }
-  });
+  const upstreamNodes = traverseUpstream(nodeId);
+  const downstreamNodes = traverseDownstream(nodeId);
+  const connected = new Set([nodeId, ...upstreamNodes, ...downstreamNodes]);
+
   // Nodes: highlight connected, dim rest
   RAW_NODES.forEach(n => {
     const item = graph.findById(n.id);
@@ -232,11 +246,12 @@ function focusNode(nodeId) {
       item.setState('inactive', true);
     }
   });
-  // Edges: connected → bold focus color, rest → subtle
+
+  // Edges: highlight if both endpoints are in the connected set
   graph.getEdges().forEach(edge => {
     const m = edge.getModel();
     const ed = m.edgeData;
-    if (m.source === nodeId || m.target === nodeId) {
+    if (connected.has(m.source) && connected.has(m.target)) {
       const fs = (EDGE_STYLE.focus || {})[ed.rel_type] || EDGE_STYLE.focus.primary;
       graph.updateItem(edge, {
         style: {
@@ -458,6 +473,7 @@ function applyFilters() {
     else graph.showItem(edge);
   });
   document.getElementById('mc').textContent = `显示 ${RAW_NODES.filter(n=>!hidden.has(n.id)).length}/${RAW_NODES.length} 环节`;
+  setTimeout(() => graph.fitView(40), 50);
 }
 
 // ==================== LIVE HEAT ====================

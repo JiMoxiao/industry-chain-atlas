@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>__PAGE_TITLE__</title>
-<style>
-__STYLES__
-</style>
+<link rel="stylesheet" href="templates/styles.css">
 <script src="https://cdn.jsdelivr.net/npm/@antv/g6@4/dist/g6.min.js"></script>
 </head>
 <body>
@@ -19,6 +17,14 @@ __STYLES__
   <span style="flex:1"></span>
   <span id="mc" style="font-size:11px;color:#4a6070"></span>
 </div>
+<nav id="navbar">
+  <a href="fusion_chain.html" data-page="fusion">🌐 融合总览</a>
+  <a href="semiconductor_chain_g6.html" data-page="semiconductor">🔬 半导体</a>
+  <a href="electronic_chemicals_chain_g6.html" data-page="electronic_chemicals">🧪 电子化学品</a>
+  <a href="nonferrous_metals_chain_g6.html" data-page="nonferrous_metals">⛏ 有色金属</a>
+  <a href="silicon_materials_chain_g6.html" data-page="silicon_materials">💎 硅材料</a>
+  <a href="pcb_materials_chain_g6.html" data-page="pcb_materials">📗 PCB材料</a>
+</nav>
 <div id="canvas-wrap">
   <div id="g6-container"></div>
   <div id="tooltip" class="tooltip"></div>
@@ -44,7 +50,14 @@ const RAW_NODES = __NODES_JSON__;
 const RAW_EDGES = __EDGES_JSON__;
 const GROUP_LABELS = __GROUP_LABELS_JSON__;
 const ALL_STOCK_CODES = __STOCK_CODES__;
-__APP_JS__
+// Highlight current page in navbar
+(function(){
+  const f = (window.location.pathname.split('/').pop() || '').replace('.html','');
+  document.querySelectorAll('#navbar a').forEach(a => {
+    if (a.dataset.page === f || (f === '' && a.dataset.page === 'semiconductor')) a.classList.add('active');
+  });
+})();
 </script>
+<script src="templates/g6_app.js"></script>
 </body>
 </html>

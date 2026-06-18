@@ -36,7 +36,7 @@ def _build_filter_buttons(group_labels, group_order):
 
 
 def gen_html(flat_data):
-    """生成完整的自包含 G6 HTML 字符串."""
+    """生成 G6 HTML 字符串，外链引用 templates/ 下的共享 CSS/JS."""
     nodes = flat_data["nodes"]
     edges = flat_data["edges"]
     group_order = flat_data["group_order"]
@@ -56,12 +56,7 @@ def gen_html(flat_data):
     nodes_json = json.dumps(nodes, ensure_ascii=False, indent=2)
     edges_json = json.dumps(edges, ensure_ascii=False, indent=2)
 
-    styles = _read_template("styles.css")
-    app_js = _read_template("g6_app.js")
     page = _read_template("g6_page.html")
-
-    page = page.replace("__STYLES__", styles)
-    page = page.replace("__APP_JS__", app_js)
 
     page = page.replace("__PAGE_TITLE__", f"{icon} {industry}全产业链图谱")
     page = page.replace("__PAGE_HEADER__", f"{icon} {industry}全产业链图谱")

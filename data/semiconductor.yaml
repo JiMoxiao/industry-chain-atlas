@@ -1,4 +1,6 @@
 industry: 半导体
+icon: 🔬
+flow_description: '<div id="flow-arrows">原材料 → 设备/设计 → 晶圆制造 → 封装测试 → 终端应用</div>'
 segments:
 - id: semi_silicon_wafer
   name: 硅片
@@ -21,21 +23,41 @@ segments:
   - code: '688584'
     name: 上海合晶
     role: 6/8/12英寸外延片专精
+  - code: '688783'
+    name: 西安奕材
+    role: 12英寸硅片国产主力（国内第一/全球第六，~85万片/月）
+  - code: '688233'
+    name: 神工股份
+    role: 刻蚀用大直径硅材料龙头，硅零部件国产替代
   data_points:
   - name: 产能_万片_月
     unit: 万片/月
     type: capacity
+    current_value: 270
+    source_name: Bernstein Research / C114
+    source_url: https://www.c114.com.cn/news/51/a1309702.html
+    last_updated: '2026-06-17'
   - name: 产量_万片_月
     unit: 万片/月
     type: output
+    current_value: 240
+    source_name: SEMI / 券商研报估算
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 全球硅片出货面积_百万平方英寸
     unit: MSI
     type: market
+    current_value: 14500
+    source_name: SEMI 2025
+    source_url: https://www.semi.org
+    last_updated: '2026-06-17'
   new_capacity:
   - company: 沪硅产业
     scale: 30万片/月(12英寸)
     expected_online: 2026-Q4
     status: construction
+  group: material
+  layer: 0
 - id: semi_sic_substrate
   name: SiC衬底
   position: upstream
@@ -61,12 +83,26 @@ segments:
   - name: 产能_万片_年
     unit: 万片/年
     type: capacity
+    current_value: 100
+    source_name: 天岳先进+天科合达年报
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 产量_万片_年
     unit: 万片/年
     type: output
+    current_value: 80
+    source_name: 天岳先进2025年报(69万片)+天科合达估算
+    source_url: http://stock.finance.sina.com.cn/stock/go.php/vReport_Show/kind/company/rptid/831313421639/index.phtml
+    last_updated: '2026-06-17'
   - name: 全球SiC衬底市场规模_亿美元
     unit: 亿美元
     type: market
+    current_value: 30
+    source_name: Yole / 券商研报
+    source_url: ''
+    last_updated: '2026-06-17'
+  group: material
+  layer: 0
 - id: semi_specialty_gas
   name: 电子特气
   position: upstream
@@ -88,13 +124,26 @@ segments:
   - code: '300346'
     name: 南大光电
     role: 磷烷/砷烷全球领先
+  - code: '688146'
+    name: 中船特气
+    role: 电子特气国内第一/全球第九，NF3+WF6产能全球最大，已入台积电3nm供应链
   data_points:
   - name: 国内电子特气市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 320
+    source_name: 华泰证券 2026
+    source_url: https://hk.stockstar.com/IG2026051900010380.shtml
+    last_updated: '2026-06-17'
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 30
+    source_name: 华泰证券/SEMI
+    source_url: https://fund.eastmoney.com/a/202605073730238452.html
+    last_updated: '2026-06-17'
+  group: material
+  layer: 0
 - id: semi_target_material
   name: 溅射靶材
   position: upstream
@@ -117,9 +166,19 @@ segments:
   - name: 全球靶材市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 180
+    source_name: 券商研报
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 特殊靶材价格涨幅_百分比
     unit: '%'
     type: price_change
+    current_value: 8
+    source_name: 券商研报估算
+    source_url: ''
+    last_updated: '2026-06-17'
+  group: material
+  layer: 0
 - id: semi_cmp_materials
   name: CMP抛光材料
   position: upstream
@@ -142,9 +201,19 @@ segments:
   - name: 产能_吨_年
     unit: 吨/年
     type: capacity
+    current_value: 5000
+    source_name: 安集科技+鼎龙股份产能估算
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 20
+    source_name: 抛光液~20%/抛光垫<10% 综合
+    source_url: https://fund.eastmoney.com/a/202605073730238452.html
+    last_updated: '2026-06-17'
+  group: material
+  layer: 0
 - id: semi_photoresist
   name: 光刻胶
   position: upstream
@@ -166,13 +235,26 @@ segments:
   - code: '300236'
     name: 上海新阳
     role: KrF光刻胶批量供货+TSV封装胶
+  - code: '688720'
+    name: 艾森股份
+    role: 先进封装光刻胶主力，电镀液+光刻胶双轮驱动
   data_points:
   - name: 全球光刻胶市场规模_亿美元
     unit: 亿美元
     type: market
+    current_value: 28
+    source_name: 富士经济/券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 15
+    source_name: KrF~12%/ArF~5% 综合
+    source_url: https://fund.eastmoney.com/a/202605073730238452.html
+    last_updated: '2026-06-17'
+  group: material
+  layer: 0
 - id: semi_photomask
   name: 光掩模/光罩
   position: upstream
@@ -195,9 +277,19 @@ segments:
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 10
+    source_name: 华泰证券 整体国产化率
+    source_url: https://hk.stockstar.com/IG2026051900010380.shtml
+    last_updated: '2026-06-17'
   - name: 全球半导体光掩模市场规模_亿美元
     unit: 亿美元
     type: market
+    current_value: 52
+    source_name: SEMI/券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
+  group: material
+  layer: 0
 - id: semi_wet_chemicals
   name: 湿电子化学品
   position: upstream
@@ -219,13 +311,26 @@ segments:
   - code: '300481'
     name: 濮阳惠成
     role: 功能电子材料(酸酐固化剂/芴类材料)
+  - code: '603931'
+    name: 格林达
+    role: TMAH显影液龙头，国内市占率第一
   data_points:
   - name: 国内湿电子化学品市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 180
+    source_name: 华泰证券
+    source_url: https://hk.stockstar.com/IG2026051900010380.shtml
+    last_updated: '2026-06-17'
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 44
+    source_name: 华泰证券 G3-G4级综合
+    source_url: https://fund.eastmoney.com/a/202605073730238452.html
+    last_updated: '2026-06-17'
+  group: material
+  layer: 0
 - id: semi_equipment
   name: 半导体设备
   position: upstream
@@ -256,19 +361,44 @@ segments:
   - code: '300567'
     name: 精测电子
     role: 半导体量检测设备龙头
+  - code: '688361'
+    name: 中科飞测
+    role: 半导体缺陷检测/量测设备龙头，国内唯一2Xnm光学检测
+  - code: '300604'
+    name: 长川科技
+    role: 封测设备龙头，测试机/分选机/探针台/AOI全平台
+  - code: '688200'
+    name: 华峰测控
+    role: 模拟/功率半导体测试机龙头，车规级AEC-Q100认证
+  - code: '600641'
+    name: 万业企业
+    role: 离子注入机（凯世通），国产离子注入唯一量产
+  - code: '688147'
+    name: 微导纳米
+    role: ALD原子层沉积设备国内第一，已导入华虹集团
   data_points:
   - name: 国产设备采购额_亿元
     unit: 亿元
     type: market
+    current_value: 520
+    source_name: SEMI/券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 25
+    source_name: SEMI 2025 综合国产化率
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 头部企业订单额_亿元
     unit: 亿元
     type: order
   - name: 设备交期_月
     unit: 月
     type: lead_time
+  group: equipment
+  layer: 1
 - id: semi_equipment_parts
   name: 半导体设备零部件
   position: upstream
@@ -290,13 +420,26 @@ segments:
   - code: '688448'
     name: 磁谷科技
     role: 磁悬浮真空泵，替代进口干泵
+  - code: '688652'
+    name: 京仪装备
+    role: 半导体温控设备/废气处理设备龙头
   data_points:
   - name: 国内半导体设备零部件市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 250
+    source_name: 券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 15
+    source_name: 华泰证券 核心零部件
+    source_url: https://hk.stockstar.com/IG2026051900010380.shtml
+    last_updated: '2026-06-17'
+  group: equipment
+  layer: 1
 - id: semi_glass_substrate
   name: 玻璃基板(先进封装)
   position: upstream
@@ -318,23 +461,29 @@ segments:
   - code: '300684'
     name: 中石科技
     role: TGV玻璃基板导热界面材料(TIM)
-  - code: '002185'
+  - code: 002185
     name: 华天科技
     role: 玻璃基板封装工艺研发
   data_points:
   - name: 全球TGV玻璃基板市场规模_预测_亿美元
     unit: 亿美元
     type: market
+    current_value: 5
+    source_name: Yole 2026E (早期商业化)
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: TGV产能_万片_年
     unit: 万片/年
     type: capacity
+  group: packaging_prep
+  layer: 1
 - id: semi_ic_substrate
   name: IC载板/封装基板
   position: upstream
   tier: 1
   description: IC载板是连接芯片与PCB的关键桥梁。ABF载板(Ajinomoto Build-up Film)用于CPU/GPU/AI芯片，BT载板用于存储/MEMS。AI服务器引爆ABF载板需求，全球产能紧缺，是玻璃基板的"前浪"（玻璃替代的就是ABF）。味之素是全球ABF膜唯一供应商。
   key_companies:
-  - code: '002916'
+  - code: 002916
     name: 深南电路
     role: PCB+IC载板双龙头，ABF载板FC-BGA批量供货
   - code: '002436'
@@ -347,16 +496,26 @@ segments:
   - name: 全球IC载板市场规模_亿美元
     unit: 亿美元
     type: market
+    current_value: 160
+    source_name: Prismark/券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: ABF载板国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 5
+    source_name: 华泰证券 <5%
+    source_url: https://hk.stockstar.com/IG2026051900010380.shtml
+    last_updated: '2026-06-17'
+  group: packaging_prep
+  layer: 1
 - id: semi_packaging_materials
   name: 封装材料
   position: upstream
   tier: 1
   description: 半导体封装所需核心材料：键合丝(金/银/铜/钯铜)、引线框架、环氧塑封料(EMC/GMC/LMC)、底部填充胶(Underfill)、热界面材料(TIM1/TIM2)。先进封装(Chiplet/3D/HBM)对TIM和Underfill要求极高，是CoWoS必需消耗品，HBM堆叠封装拉动了TIM需求暴增。
   key_companies:
-  - code: '002119'
+  - code: 002119
     name: 康强电子
     role: 引线框架+键合丝龙头，国内市占率第一
   - code: '688535'
@@ -375,9 +534,19 @@ segments:
   - name: 国内半导体封装材料市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 450
+    source_name: 券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 先进封装材料国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 18
+    source_name: 华泰证券估算
+    source_url: https://hk.stockstar.com/IG2026051900010380.shtml
+    last_updated: '2026-06-17'
+  group: packaging_prep
+  layer: 1
 - id: semi_eda_ip
   name: EDA与IP核
   position: midstream
@@ -403,9 +572,15 @@ segments:
   - name: 国内EDA市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 180
+    source_name: 券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 国产EDA市占率_百分比
     unit: '%'
     type: ratio
+  group: design_ip
+  layer: 1
 - id: semi_ai_chip
   name: AI算力芯片
   position: midstream
@@ -437,17 +612,31 @@ segments:
   - name: 国内AI芯片市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 2398
+    source_name: IDC/券商研报 2025
+    source_url: https://www.tmtpost.com/8006210.html
+    last_updated: '2026-06-17'
   - name: 出货量_万颗
     unit: 万颗
     type: output
+    current_value: 400
+    source_name: IDC 2025 加速卡出货量
+    source_url: https://www.tmtpost.com/8006210.html
+    last_updated: '2026-06-17'
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 41
+    source_name: Bernstein Research 2025出货量口径
+    source_url: https://www.pconline.com.cn/ai/2153/21532351.html
+    last_updated: '2026-06-17'
   new_capacity:
   - company: 寒武纪
     scale: 思元系列新一代量产
     expected_online: 2026-H2
     status: ramp_up
+  group: design_ip
+  layer: 2
 - id: semi_storage
   name: 存储芯片
   position: midstream
@@ -482,15 +671,29 @@ segments:
   - name: DRAM合约价涨跌幅_百分比
     unit: '%'
     type: price_change
+    current_value: 58
+    source_name: TrendForce 2026E
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: NAND合约价涨跌幅_百分比
     unit: '%'
     type: price_change
+    current_value: 32
+    source_name: TrendForce 2026E
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 全球DRAM市场规模_亿美元
     unit: 亿美元
     type: market
+    current_value: 978
+    source_name: WSTS/券商研报 2025
+    source_url: https://ee.ofweek.com/2026-06/ART-8110-2812-30690836.html
+    last_updated: '2026-06-17'
   - name: HBM市场规模_亿美元
     unit: 亿美元
     type: market
+  group: design_ip
+  layer: 2
 - id: semi_analog_mcu
   name: 模拟芯片与MCU
   position: midstream
@@ -519,12 +722,22 @@ segments:
   - name: 国内模拟芯片市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 520
+    source_name: IC Insights/券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 18
+    source_name: 券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 平均交期_周
     unit: 周
     type: lead_time
+  group: design_ip
+  layer: 2
 - id: semi_rf_frontend
   name: 射频前端
   position: midstream
@@ -550,9 +763,19 @@ segments:
   - name: 国内射频前端市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 350
+    source_name: Yole/券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 25
+    source_name: 卓胜微/唯捷创芯等合计市占率
+    source_url: ''
+    last_updated: '2026-06-17'
+  group: design_ip
+  layer: 2
 - id: semi_cis
   name: CIS图像传感器
   position: midstream
@@ -568,13 +791,22 @@ segments:
   - code: '688728'
     name: 格科微
     role: 手机CIS全球第二(23%份额)
+  - code: '688213'
+    name: 思特威
+    role: CIS芯片设计龙头，安防/无人机全球第一，手机/汽车高速增长
   data_points:
   - name: 全球CIS市场规模_亿美元
     unit: 亿美元
     type: market
+    current_value: 260
+    source_name: Yole/IC Insights 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 车载CIS出货量_亿颗
     unit: 亿颗
     type: output
+  group: design_ip
+  layer: 2
 - id: semi_mems_sensor
   name: MEMS传感器
   position: midstream
@@ -596,13 +828,26 @@ segments:
   - code: '300456'
     name: 赛微电子
     role: MEMS纯代工全球第一(瑞典Silex+北京8英寸Fab3)
+  - code: '688582'
+    name: 芯动联科
+    role: MEMS陀螺仪/加速度计龙头，高性能惯性传感器
   data_points:
   - name: 国内MEMS传感器市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 220
+    source_name: Yole/券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 国产化率_百分比
     unit: '%'
     type: ratio
+    current_value: 15
+    source_name: 敏芯股份/赛微电子等合计
+    source_url: ''
+    last_updated: '2026-06-17'
+  group: design_ip
+  layer: 2
 - id: semi_power_discrete
   name: 功率半导体
   position: midstream
@@ -627,13 +872,26 @@ segments:
   - code: '688261'
     name: 东微半导
     role: 超结MOSFET+SiC+GaN
+  - code: '600460'
+    name: 士兰微
+    role: 功率半导体IDM龙头，IGBT/SiC/MOSFET全品类
   data_points:
   - name: 国内IGBT市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 500
+    source_name: 国金证券 2025
+    source_url: https://m.zhitongcaijing.com/contentnew/appcontentdetail.html?content_id=722977
+    last_updated: '2026-06-17'
   - name: SiC渗透率_百分比
     unit: '%'
     type: ratio
+    current_value: 20
+    source_name: NE时代/券商研报 2025
+    source_url: https://www.21ic.com/a/1003169.html
+    last_updated: '2026-06-17'
+  group: design_ip
+  layer: 2
 - id: semi_wafer_fab
   name: 晶圆制造
   position: midstream
@@ -656,12 +914,24 @@ segments:
   - name: 产能_万片_月_8英寸等效
     unit: 万片/月
     type: capacity
+    current_value: 320
+    source_name: SEMI 2026E 中国大陆12英寸总产能
+    source_url: https://ee.ofweek.com/2026-05/ART-8420-2816-30688353.html
+    last_updated: '2026-06-17'
   - name: 产量_万片_月
     unit: 万片/月
     type: output
+    current_value: 290
+    source_name: 基于~90%综合产能利用率估算
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 产能利用率_百分比
     unit: '%'
     type: ratio
+    current_value: 93
+    source_name: 中芯国际+华虹综合 2026Q1
+    source_url: https://ee.ofweek.com/2026-05/ART-8420-2816-30688353.html
+    last_updated: '2026-06-17'
   - name: 全球晶圆代工营收_亿美元
     unit: 亿美元
     type: market
@@ -674,6 +944,8 @@ segments:
     scale: 无锡12英寸二期
     expected_online: 2026-Q4
     status: equipment
+  group: wafer_fab
+  layer: 3
 - id: semi_packaging
   name: 封装测试
   position: midstream
@@ -705,14 +977,24 @@ segments:
   - name: CoWoS全球产能_万片_月
     unit: 万片/月
     type: capacity
+    current_value: 9
+    source_name: 台积电 2026
+    source_url: https://finance.sina.cn/2026-02-09/detail-inhmfqcf9150021.d.html
+    last_updated: '2026-06-17'
   - name: 先进封装渗透率_百分比
     unit: '%'
     type: ratio
+    current_value: 45
+    source_name: 通富微电先进封装收入占比
+    source_url: https://xueqiu.com/1855261132/371844203
+    last_updated: '2026-06-17'
   new_capacity:
   - company: 长电科技
     scale: Chiplet/CoWoS扩产
     expected_online: 2026-Q3
     status: construction
+  group: packaging
+  layer: 4
 - id: semi_ai_server
   name: AI服务器
   position: downstream
@@ -735,9 +1017,19 @@ segments:
   - name: 全球AI服务器出货量_万台
     unit: 万台
     type: output
+    current_value: 220
+    source_name: IDC/TrendForce 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 国内AI服务器市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 1800
+    source_name: IDC/券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
+  group: end_product
+  layer: 5
 - id: semi_pcb_ccl
   name: PCB与覆铜板
   position: downstream
@@ -766,16 +1058,26 @@ segments:
   - name: 国内PCB产值_亿元
     unit: 亿元
     type: market
+    current_value: 3800
+    source_name: Prismark/CPCA 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: AI服务器PCB占比_百分比
     unit: '%'
     type: ratio
+    current_value: 20
+    source_name: Prismark估算 2025
+    source_url: ''
+    last_updated: '2026-06-17'
+  group: end_product
+  layer: 5
 - id: semi_auto_electronics
   name: 汽车电子
   position: downstream
   tier: 4
   description: 新能源车+智能驾驶推动汽车电子用量爆发。核心产品包括域控制器/智能座舱/ADAS/激光雷达/T-Box/V2X。华为(鸿蒙座舱+MDC智驾平台)和比亚迪(自研+垂直整合)是中国汽车电子两大主线。2026年智驾域控渗透率突破30%，L2+向L3跨越。
   key_companies:
-  - code: '002920'
+  - code: 002920
     name: 德赛西威
     role: 智能座舱+智驾域控龙头，英伟达Orin/Thor中国核心Tier1
   - code: '601689'
@@ -797,12 +1099,22 @@ segments:
   - name: 国内汽车电子市场规模_亿元
     unit: 亿元
     type: market
+    current_value: 2200
+    source_name: 盖世汽车/券商研报 2025
+    source_url: ''
+    last_updated: '2026-06-17'
   - name: 智能座舱渗透率_百分比
     unit: '%'
     type: ratio
   - name: 智驾域控渗透率_百分比
     unit: '%'
     type: ratio
+    current_value: 30
+    source_name: NE时代/高工智能汽车 2026H1
+    source_url: ''
+    last_updated: '2026-06-17'
+  group: end_product
+  layer: 5
 supply_relationships:
 - supplier_code: '688126'
   buyer_code: '688981'
@@ -1183,8 +1495,6 @@ supply_relationships:
   relationship_type: primary
   confidence: 4
   notes: 摩尔线程GPU配套胜宏科技高端PCB
-# --- 新增环节的供应关系 ---
-# 光掩模/光罩 → 晶圆制造
 - supplier_code: '688401'
   buyer_code: '688981'
   product: 半导体光掩模版
@@ -1203,7 +1513,6 @@ supply_relationships:
   relationship_type: primary
   confidence: 5
   notes: 菲利华石英基板供路维光电/清溢光电(国内唯一通过日韩认证)
-# 湿电子化学品 → 晶圆制造
 - supplier_code: '603078'
   buyer_code: '688981'
   product: G5级硫酸/双氧水/氨水
@@ -1228,7 +1537,6 @@ supply_relationships:
   relationship_type: primary
   confidence: 4
   notes: 上海新阳电镀液供中芯国际铜互连产线
-# 设备零部件 → 设备厂商
 - supplier_code: '688409'
   buyer_code: '002371'
   product: 金属件/模组/气体管路
@@ -1253,9 +1561,8 @@ supply_relationships:
   relationship_type: primary
   confidence: 4
   notes: 英杰电气射频电源进入中微刻蚀设备(替代MKS/AE)
-# 玻璃基板/IC载板 → 封测
 - supplier_code: '603773'
-  buyer_code: '002185'
+  buyer_code: 002185
   product: TGV玻璃基板
   relationship_type: primary
   confidence: 4
@@ -1266,14 +1573,13 @@ supply_relationships:
   relationship_type: primary
   confidence: 4
   notes: 德龙激光TGV钻孔设备供沃格光电
-- supplier_code: '002916'
+- supplier_code: 002916
   buyer_code: '600584'
   product: FC-BGA载板(ABF)
   relationship_type: primary
   confidence: 5
   notes: 深南电路ABF载板供长电科技先进封装
-# 封装材料 → 封测
-- supplier_code: '002119'
+- supplier_code: 002119
   buyer_code: '600584'
   product: 引线框架/键合丝
   relationship_type: primary
@@ -1297,7 +1603,6 @@ supply_relationships:
   relationship_type: primary
   confidence: 4
   notes: 德邦科技底部填充胶供长电科技先进封装
-# EDA → 芯片设计
 - supplier_code: '301269'
   buyer_code: '688256'
   product: 模拟IC全流程EDA
@@ -1316,7 +1621,6 @@ supply_relationships:
   relationship_type: secondary
   confidence: 3
   notes: 概伦电子供中微公司设备仿真建模
-# 射频前端 → 手机终端
 - supplier_code: '300782'
   product: 射频开关/LNA/PA模组
   relationship_type: primary
@@ -1327,7 +1631,6 @@ supply_relationships:
   relationship_type: primary
   confidence: 5
   notes: 唯捷创芯PA供小米/OPPO/vivo/传音,国内PA市占率最高
-# MEMS 代工 → 设计公司
 - supplier_code: '300456'
   buyer_code: '688286'
   product: MEMS麦克风代工(8英寸)
@@ -1340,8 +1643,7 @@ supply_relationships:
   relationship_type: secondary
   confidence: 3
   notes: 赛微电子北京Fab3为睿创微纳提供MEMS代工
-# 汽车电子 → 整车厂
-- supplier_code: '002920'
+- supplier_code: 002920
   product: 智能座舱+智驾域控(Orin/Thor平台)
   relationship_type: primary
   confidence: 5
@@ -1356,3 +1658,33 @@ supply_relationships:
   relationship_type: primary
   confidence: 4
   notes: 经纬恒润供一汽/上汽/吉利/蔚来/小鹏
+group_labels:
+  material:
+  - 🧪 材料/耗材
+  - '#1b6e2e'
+  equipment:
+  - 🔧 设备/零部件
+  - '#43a047'
+  packaging_prep:
+  - 📦 封装上游
+  - '#6d8a70'
+  design_ip:
+  - 🧠 芯片设计
+  - '#546e7a'
+  wafer_fab:
+  - 🏭 晶圆制造
+  - '#e8a840'
+  packaging:
+  - 📦 封装测试
+  - '#e06040'
+  end_product:
+  - 🖥 终端应用
+  - '#c0392b'
+group_order:
+- material
+- equipment
+- packaging_prep
+- design_ip
+- wafer_fab
+- packaging
+- end_product

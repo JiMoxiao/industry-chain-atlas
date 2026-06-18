@@ -7,9 +7,19 @@
 ```
 semiconductor/
 ├── data/
-│   └── semiconductor.yaml   # 产业链定义（26 环节 / 93 供应关系 / 140+ 公司）
-├── generate_viz.py          # YAML → 交互式 HTML 生成器
-├── industry_chain.html      # 生成的可视化页面（浏览器直接打开）
+│   ├── semiconductor.yaml      # 产业链定义（26 环节 / 93 供应关系 / 140+ 公司）
+│   └── market_heat.json        # 市场热度数据缓存
+├── lib/
+│   ├── config.py               # 配置常量（分组/分层/颜色/布局参数）
+│   ├── data_loader.py          # YAML 读取 + 热度数据合并 + 扁平化
+│   ├── layout.py               # 分层布局引擎
+│   └── renderer.py             # 模板加载 + 数据注入 → 自包含 HTML
+├── templates/
+│   ├── styles.css              # 样式（独立可预览）
+│   ├── app.js                  # 交互逻辑（拖拽/缩放/过滤/面板/提示）
+│   └── page.html               # HTML 骨架
+├── generate_viz.py             # 入口：5 行调度逻辑
+├── industry_chain.html         # 生成的可视化页面（浏览器直接打开）
 ├── README.md
 ```
 
@@ -38,3 +48,4 @@ start industry_chain.html
 - **YAML 是唯一真相源**：HTML 从 YAML 生成，不手动维护两份数据
 - **自包含**：HTML 零外部依赖，浏览器直接打开
 - **可复现**：修改 YAML → 运行 `generate_viz.py` → 新 HTML 立即可用
+- **模块化源码**：配置/数据/布局/渲染/CSS/JS 各自独立文件，互不污染

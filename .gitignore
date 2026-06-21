@@ -1,0 +1,32 @@
+# Node
+node_modules/
+dist/
+.pnpm-store/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Local debug and runtime artifacts
+.dbg/
+*.log
+
+# Browser and local caches
+web/.vite/
+web/node_modules/
+web/dist/
+
+# Build outputs and temp files
+*.tmp
+*.temp

@@ -9,6 +9,7 @@ import yaml
 
 from .data_loader import load_heat_data
 from .layout import layout_nodes
+from .source_metadata import enrich_data_point, enrich_relationship
 
 SCRIPT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -77,7 +78,7 @@ def load_all_yamls():
                 "tier": seg.get("tier", 1),
                 "description": seg.get("description", ""),
                 "companies": companies,
-                "data_points": seg.get("data_points", []),
+                "data_points": [enrich_data_point(point) for point in seg.get("data_points", [])],
                 "new_capacity": new_cap,
                 "group": prefix + seg.get("group", "material"),
                 "layer": seg.get("layer", 0) + offset,
@@ -91,6 +92,7 @@ def load_all_yamls():
         seg_ids = {seg["id"]: True for seg in data["segments"]}
         pairs = set()
         for rel in data.get("supply_relationships", []):
+            enriched_rel = enrich_relationship(rel)
             sup = rel.get("supplier_code", "")
             buy = rel.get("buyer_code", "")
             for ss in co_to_segs.get(sup, []):
@@ -102,6 +104,14 @@ def load_all_yamls():
                             "product": rel.get("product", ""),
                             "notes": rel.get("notes", ""),
                             "rel_type": rel.get("relationship_type", "primary"),
+                            "confidence": enriched_rel["confidence"],
+                            "source_confidence": enriched_rel["source_confidence"],
+                            "source_confidence_label": enriched_rel["source_confidence_label"],
+                            "source_tier": enriched_rel["source_tier"],
+                            "source_tier_label": enriched_rel["source_tier_label"],
+                            "source_name": enriched_rel.get("source_name", ""),
+                            "source_url": enriched_rel.get("source_url", ""),
+                            "estimated": enriched_rel["estimated"],
                             "industry": name,
                         })
 
@@ -139,6 +149,14 @@ def load_all_yamls():
                         "product": "产业链交叉",
                         "notes": f"共享企业: {code}",
                         "rel_type": "secondary",
+                        "confidence": 2,
+                        "source_confidence": 2,
+                        "source_confidence_label": "较低",
+                        "source_tier": "secondary",
+                        "source_tier_label": "券商/媒体",
+                        "source_name": "",
+                        "source_url": "",
+                        "estimated": False,
                         "industry": "cross",
                     })
 

@@ -8,6 +8,7 @@ import os
 from collections import defaultdict
 
 from .config import NODE_W, NODE_H  # layout constants only
+from .source_metadata import enrich_data_point, enrich_relationship
 
 SCRIPT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,26 +26,58 @@ def load_heat_data():
 def build_segment_edges(segments, supply_rels):
     """公司级供应关系 → 细分领域级连线（去重）."""
     co_to_segs = defaultdict(list)
+    code_to_company = {}
     for seg in segments:
         for co in seg.get("key_companies", []):
             co_to_segs[co["code"]].append(seg["id"])
+            code_to_company[co["code"]] = co.get("name", co["code"])
 
     pairs = set()
     edges = []
+    orphan_relationships = []
     for rel in supply_rels:
+        enriched_rel = enrich_relationship(rel)
         sup = rel.get("supplier_code", "")
         buy = rel.get("buyer_code", "")
+        matched = False
         for ss in co_to_segs.get(sup, []):
             for bs in co_to_segs.get(buy, []):
                 if ss != bs and (ss, bs) not in pairs:
                     pairs.add((ss, bs))
+                    matched = True
                     edges.append({
                         "from": ss, "to": bs,
                         "product": rel.get("product", ""),
                         "notes": rel.get("notes", ""),
                         "rel_type": rel.get("relationship_type", "primary"),
+                        "confidence": enriched_rel["confidence"],
+                        "source_confidence": enriched_rel["source_confidence"],
+                        "source_confidence_label": enriched_rel["source_confidence_label"],
+                        "source_tier": enriched_rel["source_tier"],
+                        "source_tier_label": enriched_rel["source_tier_label"],
+                        "source_name": enriched_rel.get("source_name", ""),
+                        "source_url": enriched_rel.get("source_url", ""),
+                        "estimated": enriched_rel["estimated"],
                     })
-    return edges
+        if not matched:
+            orphan_relationships.append({
+                "supplier_code": sup,
+                "supplier_name": code_to_company.get(sup, sup),
+                "buyer_code": buy,
+                "buyer_name": code_to_company.get(buy, buy),
+                "product": rel.get("product", ""),
+                "notes": rel.get("notes", ""),
+                "rel_type": rel.get("relationship_type", "primary"),
+                "confidence": enriched_rel["confidence"],
+                "source_confidence": enriched_rel["source_confidence"],
+                "source_confidence_label": enriched_rel["source_confidence_label"],
+                "source_tier": enriched_rel["source_tier"],
+                "source_tier_label": enriched_rel["source_tier_label"],
+                "source_name": enriched_rel.get("source_name", ""),
+                "source_url": enriched_rel.get("source_url", ""),
+                "estimated": enriched_rel["estimated"],
+            })
+    return edges, orphan_relationships
 
 
 def flatten_data(data):
@@ -71,7 +104,7 @@ def flatten_data(data):
             "tier": seg.get("tier", 1),
             "description": seg.get("description", ""),
             "companies": companies,
-            "data_points": seg.get("data_points", []),
+            "data_points": [enrich_data_point(point) for point in seg.get("data_points", [])],
             "new_capacity": new_cap,
             "group": seg.get("group", "material"),
             "layer": seg.get("layer", 2),
@@ -79,10 +112,11 @@ def flatten_data(data):
             "heat_d5": h.get("d5", 0),
             "heat_d20": h.get("d20", 0),
         })
-    edges = build_segment_edges(segments, supply_rels)
+    edges, orphan_relationships = build_segment_edges(segments, supply_rels)
     return {
         "nodes": nodes,
         "edges": edges,
+        "orphan_relationships": orphan_relationships,
         "industry": data.get("industry", ""),
         "icon": data.get("icon", ""),
         "flow_description": data.get("flow_description", ""),

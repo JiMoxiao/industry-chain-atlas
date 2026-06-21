@@ -56,11 +56,11 @@
 
 Windows 用户优先使用：
 
-```powershell
-.\start.ps1
+```bat
+start.bat
 ```
 
-或按 README 中的手动方式分别启动前后端。
+双击 `start.bat` 即可；如需调试底层脚本，也可继续使用 `.\start.ps1`。其余情况下按 README 中的手动方式分别启动前后端。
 
 ### 常用检查
 
@@ -86,8 +86,8 @@ python generate_data.py --all
 
 刷新研究数据：
 
-```powershell
-.\refresh-data.ps1
+```bat
+refresh-data.bat
 ```
 
 ## 数据相关约定

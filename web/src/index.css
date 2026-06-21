@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #0f172a;
+  background:
+    radial-gradient(circle at top, rgba(45, 212, 191, 0.12), transparent 28%),
+    linear-gradient(180deg, #f8fafc 0%, #f2f7fb 42%, #eef4f8 100%);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(circle at top, rgba(45, 212, 191, 0.12), transparent 28%),
+      linear-gradient(180deg, #f8fafc 0%, #f2f7fb 42%, #eef4f8 100%);
+    color: #0f172a;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(226, 232, 240, 0.75);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(100, 116, 139, 0.28);
+  }
+}
+
+@layer components {
+  .app-shell {
+    @apply min-h-screen text-slate-900;
+  }
+
+  .panel-elevated {
+    @apply rounded-[28px] border border-slate-200/90 bg-white/90 shadow-[0_20px_48px_rgba(148,163,184,0.18)] backdrop-blur-xl;
+  }
+
+  .panel-soft {
+    @apply rounded-2xl border border-slate-200/90 bg-white/80 shadow-[0_10px_28px_rgba(148,163,184,0.12)] backdrop-blur;
+  }
+
+  .surface-muted {
+    @apply rounded-2xl border border-slate-200/90 bg-slate-50/80;
+  }
+
+  .surface-subtle {
+    @apply rounded-2xl border border-white/70 bg-white/70 backdrop-blur;
+  }
+
+  .chip-neutral {
+    @apply rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs text-slate-600;
+  }
+
+  .chip-accent {
+    @apply rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs text-teal-700;
+  }
+
+  .chip-info {
+    @apply rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs text-sky-700;
+  }
+
+  .chip-warn {
+    @apply rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs text-amber-700;
+  }
+
+  .chip-danger {
+    @apply rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs text-rose-700;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-2xl border border-teal-600 bg-teal-600 px-4 py-3 text-sm font-medium text-white shadow-[0_10px_24px_rgba(13,148,136,0.28)] transition hover:border-teal-700 hover:bg-teal-700;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-white hover:text-slate-900;
+  }
+
+  .input-surface {
+    @apply flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-sm text-slate-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.75)] transition focus-within:border-teal-300 focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(45,212,191,0.12)];
+  }
+}

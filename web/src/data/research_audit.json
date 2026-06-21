@@ -1,0 +1,1316 @@
+{
+  "kind": "research_audit",
+  "generated_at": "2026-06-21T01:47:58",
+  "summary": {
+    "chain_count": 5,
+    "data_point_count": 134,
+    "relationship_count": 66,
+    "missing_source_name_count": 10,
+    "missing_source_url_count": 111,
+    "missing_buyer_count": 32,
+    "estimated_data_point_count": 17,
+    "average_quality_score": 54.1
+  },
+  "chains": [
+    {
+      "slug": "semiconductor",
+      "title": "🔬 半导体全产业链图谱",
+      "kind": "chain",
+      "generated_at": "2026-06-21T01:47:57",
+      "description": "核心半导体制造主链，覆盖材料、设备、设计、制造、封测与终端应用。",
+      "stats": {
+        "node_count": 26,
+        "edge_count": 36,
+        "group_count": 7,
+        "stock_count": 136
+      },
+      "data_point_count": 64,
+      "relationship_count": 36,
+      "orphan_relationship_count": 63,
+      "estimated_data_point_count": 11,
+      "estimated_relationship_count": 0,
+      "missing_source_name_count": 10,
+      "missing_source_url_count": 41,
+      "missing_buyer_count": 16,
+      "data_point_tier_distribution": {
+        "official": 2,
+        "authoritative": 26,
+        "secondary": 20,
+        "unknown": 16
+      },
+      "relationship_tier_distribution": {
+        "official": 0,
+        "authoritative": 46,
+        "secondary": 53,
+        "unknown": 0
+      },
+      "data_point_confidence_distribution": {
+        "1": 12,
+        "2": 11,
+        "3": 33,
+        "4": 8,
+        "5": 0
+      },
+      "relationship_confidence_distribution": {
+        "1": 0,
+        "2": 0,
+        "3": 4,
+        "4": 49,
+        "5": 46
+      },
+      "average_data_point_confidence": 2.58,
+      "quality_score": 51.6,
+      "top_segments": [
+        {
+          "id": "semi_equipment",
+          "name": "半导体设备",
+          "company_count": 13,
+          "data_point_count": 4,
+          "heat_d20": 18.55
+        },
+        {
+          "id": "semi_storage",
+          "name": "存储芯片",
+          "company_count": 8,
+          "data_point_count": 4,
+          "heat_d20": 24.19
+        },
+        {
+          "id": "semi_silicon_wafer",
+          "name": "硅片",
+          "company_count": 7,
+          "data_point_count": 3,
+          "heat_d20": 27.78
+        },
+        {
+          "id": "semi_ai_chip",
+          "name": "AI算力芯片",
+          "company_count": 7,
+          "data_point_count": 3,
+          "heat_d20": 2.37
+        },
+        {
+          "id": "semi_power_discrete",
+          "name": "功率半导体",
+          "company_count": 7,
+          "data_point_count": 2,
+          "heat_d20": 27.64
+        }
+      ],
+      "low_confidence": {
+        "data_points": [
+          {
+            "kind": "data_point",
+            "chain_slug": "semiconductor",
+            "segment_id": "semi_equipment",
+            "segment_name": "半导体设备",
+            "name": "头部企业订单额_亿元",
+            "source_name": "",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 1,
+            "source_confidence_label": "低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "semiconductor",
+            "segment_id": "semi_equipment",
+            "segment_name": "半导体设备",
+            "name": "设备交期_月",
+            "source_name": "",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 1,
+            "source_confidence_label": "低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "semiconductor",
+            "segment_id": "semi_glass_substrate",
+            "segment_name": "玻璃基板(先进封装)",
+            "name": "TGV产能_万片_年",
+            "source_name": "",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 1,
+            "source_confidence_label": "低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "semiconductor",
+            "segment_id": "semi_eda_ip",
+            "segment_name": "EDA与IP核",
+            "name": "国产EDA市占率_百分比",
+            "source_name": "",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 1,
+            "source_confidence_label": "低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "semiconductor",
+            "segment_id": "semi_storage",
+            "segment_name": "存储芯片",
+            "name": "HBM市场规模_亿美元",
+            "source_name": "",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 1,
+            "source_confidence_label": "低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "semiconductor",
+            "segment_id": "semi_analog_mcu",
+            "segment_name": "模拟芯片与MCU",
+            "name": "平均交期_周",
+            "source_name": "",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 1,
+            "source_confidence_label": "低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "semiconductor",
+            "segment_id": "semi_cis",
+            "segment_name": "CIS图像传感器",
+            "name": "车载CIS出货量_亿颗",
+            "source_name": "",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 1,
+            "source_confidence_label": "低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "semiconductor",
+            "segment_id": "semi_wafer_fab",
+            "segment_name": "晶圆制造",
+            "name": "全球晶圆代工营收_亿美元",
+            "source_name": "",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 1,
+            "source_confidence_label": "低",
+            "estimated": false
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "slug": "electronic_chemicals",
+      "title": "⚗️ 电子化工材料（半导体上游）全产业链图谱",
+      "kind": "chain",
+      "generated_at": "2026-06-21T01:47:57",
+      "description": "聚焦湿电子化学品、光刻胶、电子特气与先进封装化学材料。",
+      "stats": {
+        "node_count": 9,
+        "edge_count": 6,
+        "group_count": 3,
+        "stock_count": 31
+      },
+      "data_point_count": 21,
+      "relationship_count": 6,
+      "orphan_relationship_count": 16,
+      "estimated_data_point_count": 4,
+      "estimated_relationship_count": 0,
+      "missing_source_name_count": 0,
+      "missing_source_url_count": 21,
+      "missing_buyer_count": 9,
+      "data_point_tier_distribution": {
+        "official": 1,
+        "authoritative": 7,
+        "secondary": 10,
+        "unknown": 3
+      },
+      "relationship_tier_distribution": {
+        "official": 0,
+        "authoritative": 12,
+        "secondary": 10,
+        "unknown": 0
+      },
+      "data_point_confidence_distribution": {
+        "1": 0,
+        "2": 7,
+        "3": 14,
+        "4": 0,
+        "5": 0
+      },
+      "relationship_confidence_distribution": {
+        "1": 0,
+        "2": 0,
+        "3": 4,
+        "4": 6,
+        "5": 12
+      },
+      "average_data_point_confidence": 2.67,
+      "quality_score": 53.4,
+      "top_segments": [
+        {
+          "id": "ec_pr_resin",
+          "name": "光刻胶核心原料",
+          "company_count": 5,
+          "data_point_count": 3,
+          "heat_d20": 12.26
+        },
+        {
+          "id": "ec_si_mo_precursors",
+          "name": "电子级硅基与金属有机源",
+          "company_count": 4,
+          "data_point_count": 3,
+          "heat_d20": 14.79
+        },
+        {
+          "id": "ec_g5_acids",
+          "name": "G5电子级酸",
+          "company_count": 4,
+          "data_point_count": 2,
+          "heat_d20": 48.95
+        },
+        {
+          "id": "ec_fluorine_base",
+          "name": "氟化工基础材料",
+          "company_count": 4,
+          "data_point_count": 2,
+          "heat_d20": 10.85
+        },
+        {
+          "id": "ec_cmp_abrasive",
+          "name": "CMP纳米磨料与添加剂",
+          "company_count": 4,
+          "data_point_count": 2,
+          "heat_d20": 5.18
+        }
+      ],
+      "low_confidence": {
+        "data_points": [
+          {
+            "kind": "data_point",
+            "chain_slug": "electronic_chemicals",
+            "segment_id": "ec_pr_resin",
+            "segment_name": "光刻胶核心原料",
+            "name": "光刻胶树脂单体国产化率_百分比",
+            "source_name": "行业数据 2025 专利份额从5%升至22%",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "electronic_chemicals",
+            "segment_id": "ec_packaging_polymer",
+            "segment_name": "电子封装高分子材料",
+            "name": "球形硅微粉进口依赖度_百分比",
+            "source_name": "日本电化/龙森垄断，国产联瑞新材(非上市)突破中",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "electronic_chemicals",
+            "segment_id": "ec_cmp_abrasive",
+            "segment_name": "CMP纳米磨料与添加剂",
+            "name": "全球铈基CMP磨料国产占比_百分比",
+            "source_name": "行业数据 Merck垄断85%",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "electronic_chemicals",
+            "segment_id": "ec_solvents",
+            "segment_name": "电子级溶剂与显影液",
+            "name": "中国电子级PGMEA市场需求_万吨_年",
+            "source_name": "券商估算 2025半导体+面板",
+            "source_tier": "secondary",
+            "source_tier_label": "券商/媒体",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": true
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "electronic_chemicals",
+            "segment_id": "ec_si_mo_precursors",
+            "segment_name": "电子级硅基与金属有机源",
+            "name": "中国电子级TCS市场规模_亿元",
+            "source_name": "券商估算 半导体+光伏级",
+            "source_tier": "secondary",
+            "source_tier_label": "券商/媒体",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": true
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "electronic_chemicals",
+            "segment_id": "ec_pr_resin",
+            "segment_name": "光刻胶核心原料",
+            "name": "中国光刻胶树脂市场规模_亿元",
+            "source_name": "券商估算 树脂占光刻胶成本40-75%",
+            "source_tier": "secondary",
+            "source_tier_label": "券商/媒体",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": true
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "electronic_chemicals",
+            "segment_id": "ec_packaging_polymer",
+            "segment_name": "电子封装高分子材料",
+            "name": "中国EMC用环氧树脂市场规模_亿元",
+            "source_name": "券商估算 封装用环氧树脂",
+            "source_tier": "secondary",
+            "source_tier_label": "券商/媒体",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": true
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "slug": "nonferrous_metals",
+      "title": "⛏ 有色金属（半导体上游）全产业链图谱",
+      "kind": "chain",
+      "generated_at": "2026-06-21T01:47:57",
+      "description": "覆盖铜、铝、金、银等有色金属在半导体链中的关键供给环节。",
+      "stats": {
+        "node_count": 10,
+        "edge_count": 11,
+        "group_count": 3,
+        "stock_count": 26
+      },
+      "data_point_count": 20,
+      "relationship_count": 11,
+      "orphan_relationship_count": 6,
+      "estimated_data_point_count": 0,
+      "estimated_relationship_count": 0,
+      "missing_source_name_count": 0,
+      "missing_source_url_count": 20,
+      "missing_buyer_count": 1,
+      "data_point_tier_distribution": {
+        "official": 2,
+        "authoritative": 1,
+        "secondary": 10,
+        "unknown": 7
+      },
+      "relationship_tier_distribution": {
+        "official": 0,
+        "authoritative": 5,
+        "secondary": 12,
+        "unknown": 0
+      },
+      "data_point_confidence_distribution": {
+        "1": 0,
+        "2": 7,
+        "3": 13,
+        "4": 0,
+        "5": 0
+      },
+      "relationship_confidence_distribution": {
+        "1": 0,
+        "2": 0,
+        "3": 4,
+        "4": 8,
+        "5": 5
+      },
+      "average_data_point_confidence": 2.65,
+      "quality_score": 53.0,
+      "top_segments": [
+        {
+          "id": "nf_scattered_metals",
+          "name": "稀散金属（镓/铟/锗）",
+          "company_count": 6,
+          "data_point_count": 2,
+          "heat_d20": 7.03
+        },
+        {
+          "id": "nf_refractory",
+          "name": "高纯难熔金属",
+          "company_count": 5,
+          "data_point_count": 2,
+          "heat_d20": 22.93
+        },
+        {
+          "id": "nf_hp_copper",
+          "name": "高纯铜(溅射靶材级)",
+          "company_count": 3,
+          "data_point_count": 2,
+          "heat_d20": 32.91
+        },
+        {
+          "id": "nf_hp_aluminum",
+          "name": "高纯铝",
+          "company_count": 3,
+          "data_point_count": 2,
+          "heat_d20": 6.96
+        },
+        {
+          "id": "nf_rare_earth",
+          "name": "稀土功能材料",
+          "company_count": 3,
+          "data_point_count": 2,
+          "heat_d20": 3.75
+        }
+      ],
+      "low_confidence": {
+        "data_points": [
+          {
+            "kind": "data_point",
+            "chain_slug": "nonferrous_metals",
+            "segment_id": "nf_hp_aluminum",
+            "segment_name": "高纯铝",
+            "name": "6N级超高纯铝全球供应商数量",
+            "source_name": "行业数据",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "nonferrous_metals",
+            "segment_id": "nf_refractory",
+            "segment_name": "高纯难熔金属",
+            "name": "全球钼靶供应现状",
+            "source_name": "台积电3nm月耗钼靶超2吨/供应紧缺",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "nonferrous_metals",
+            "segment_id": "nf_bonding_wire",
+            "segment_name": "键合丝",
+            "name": "中国键合丝总需求量_亿米",
+            "source_name": "行业数据 2022",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "nonferrous_metals",
+            "segment_id": "nf_leadframe_alloy",
+            "segment_name": "引线框架铜合金",
+            "name": "高精度引线框架铜带国产化率_百分比",
+            "source_name": "博威合金/楚江新材合计市占",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "nonferrous_metals",
+            "segment_id": "nf_scattered_metals",
+            "segment_name": "稀散金属（镓/铟/锗）",
+            "name": "磷化铟衬底自给率_百分比",
+            "source_name": "行业数据 日本住友/美国AXT垄断90%",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "nonferrous_metals",
+            "segment_id": "nf_scattered_metals",
+            "segment_name": "稀散金属（镓/铟/锗）",
+            "name": "全球精铟产量_吨_年",
+            "source_name": "行业数据 2024 中国占70%+",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "nonferrous_metals",
+            "segment_id": "nf_rare_earth",
+            "segment_name": "稀土功能材料",
+            "name": "中国稀土抛光材料市场规模_亿元",
+            "source_name": "行业数据 2024",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "slug": "silicon_materials",
+      "title": "🏗 硅基材料（半导体上游）全产业链图谱",
+      "kind": "chain",
+      "generated_at": "2026-06-21T01:47:57",
+      "description": "聚焦工业硅、多晶硅、石英、硅片、SiC 与 SOI 等底层材料。",
+      "stats": {
+        "node_count": 8,
+        "edge_count": 9,
+        "group_count": 3,
+        "stock_count": 22
+      },
+      "data_point_count": 18,
+      "relationship_count": 9,
+      "orphan_relationship_count": 8,
+      "estimated_data_point_count": 2,
+      "estimated_relationship_count": 0,
+      "missing_source_name_count": 0,
+      "missing_source_url_count": 18,
+      "missing_buyer_count": 6,
+      "data_point_tier_distribution": {
+        "official": 0,
+        "authoritative": 9,
+        "secondary": 6,
+        "unknown": 3
+      },
+      "relationship_tier_distribution": {
+        "official": 0,
+        "authoritative": 6,
+        "secondary": 11,
+        "unknown": 0
+      },
+      "data_point_confidence_distribution": {
+        "1": 0,
+        "2": 5,
+        "3": 13,
+        "4": 0,
+        "5": 0
+      },
+      "relationship_confidence_distribution": {
+        "1": 0,
+        "2": 1,
+        "3": 8,
+        "4": 2,
+        "5": 6
+      },
+      "average_data_point_confidence": 2.72,
+      "quality_score": 54.4,
+      "top_segments": [
+        {
+          "id": "sm_metallurgical_si",
+          "name": "工业硅",
+          "company_count": 4,
+          "data_point_count": 3,
+          "heat_d20": 14.03
+        },
+        {
+          "id": "sm_epitaxial_wafer",
+          "name": "外延片",
+          "company_count": 4,
+          "data_point_count": 2,
+          "heat_d20": 18.78
+        },
+        {
+          "id": "sm_sic_powder",
+          "name": "碳化硅粉体",
+          "company_count": 4,
+          "data_point_count": 2,
+          "heat_d20": 10.13
+        },
+        {
+          "id": "sm_quartz",
+          "name": "石英坩埚与石英制品",
+          "company_count": 4,
+          "data_point_count": 2,
+          "heat_d20": 9.5
+        },
+        {
+          "id": "sm_elec_polysilicon",
+          "name": "电子级多晶硅",
+          "company_count": 3,
+          "data_point_count": 3,
+          "heat_d20": -8.95
+        }
+      ],
+      "low_confidence": {
+        "data_points": [
+          {
+            "kind": "data_point",
+            "chain_slug": "silicon_materials",
+            "segment_id": "sm_wafer_consumables",
+            "segment_name": "硅片加工辅材(切割/研磨)",
+            "name": "半导体级金刚线国产化率_百分比",
+            "source_name": "日本则武/旭金刚石仍主导高端",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "silicon_materials",
+            "segment_id": "sm_compound_substrate",
+            "segment_name": "化合物半导体衬底",
+            "name": "InP衬底国产化率_百分比",
+            "source_name": "日本住友电工/AXT垄断90%+",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "silicon_materials",
+            "segment_id": "sm_epitaxial_wafer",
+            "segment_name": "外延片",
+            "name": "SiC外延片国产化率_百分比",
+            "source_name": "三安光电/芯联集成/天域半导体(非上市)合计",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "silicon_materials",
+            "segment_id": "sm_elec_polysilicon",
+            "segment_name": "电子级多晶硅",
+            "name": "中国12英寸晶圆用多晶硅年需求量_万吨",
+            "source_name": "行业研报估算",
+            "source_tier": "secondary",
+            "source_tier_label": "券商/媒体",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": true
+          },
+          {
+            "kind": "data_point",
+            "chain_slug": "silicon_materials",
+            "segment_id": "sm_wafer_consumables",
+            "segment_name": "硅片加工辅材(切割/研磨)",
+            "name": "中国半导体硅片切割用金刚线市场规模_亿元",
+            "source_name": "券商估算 半导体硅片切割线",
+            "source_tier": "secondary",
+            "source_tier_label": "券商/媒体",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": true
+          }
+        ],
+        "relationships": [
+          {
+            "kind": "relationship",
+            "chain_slug": "silicon_materials",
+            "from": "688303",
+            "to": "600438",
+            "from_name": "688303",
+            "to_name": "600438",
+            "product": "多晶硅(交叉供应)",
+            "source_tier": "secondary",
+            "source_tier_label": "券商/媒体",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          }
+        ]
+      }
+    },
+    {
+      "slug": "pcb_materials",
+      "title": "🧱 PCB与覆铜板（半导体上游）全产业链图谱",
+      "kind": "chain",
+      "generated_at": "2026-06-21T01:47:57",
+      "description": "覆盖覆铜板、铜箔、玻纤布、树脂和高频高速 PCB 材料。",
+      "stats": {
+        "node_count": 5,
+        "edge_count": 4,
+        "group_count": 4,
+        "stock_count": 11
+      },
+      "data_point_count": 11,
+      "relationship_count": 4,
+      "orphan_relationship_count": 2,
+      "estimated_data_point_count": 0,
+      "estimated_relationship_count": 0,
+      "missing_source_name_count": 0,
+      "missing_source_url_count": 11,
+      "missing_buyer_count": 0,
+      "data_point_tier_distribution": {
+        "official": 2,
+        "authoritative": 4,
+        "secondary": 4,
+        "unknown": 1
+      },
+      "relationship_tier_distribution": {
+        "official": 0,
+        "authoritative": 3,
+        "secondary": 3,
+        "unknown": 0
+      },
+      "data_point_confidence_distribution": {
+        "1": 0,
+        "2": 1,
+        "3": 10,
+        "4": 0,
+        "5": 0
+      },
+      "relationship_confidence_distribution": {
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 2,
+        "5": 3
+      },
+      "average_data_point_confidence": 2.91,
+      "quality_score": 58.2,
+      "top_segments": [
+        {
+          "id": "pcb_ccl",
+          "name": "覆铜板(CCL)",
+          "company_count": 3,
+          "data_point_count": 2,
+          "heat_d20": 103.09
+        },
+        {
+          "id": "pcb_copper_foil",
+          "name": "电子铜箔",
+          "company_count": 3,
+          "data_point_count": 2,
+          "heat_d20": 74.28
+        },
+        {
+          "id": "pcb_glass_cloth",
+          "name": "电子布(电子级玻纤布)",
+          "company_count": 2,
+          "data_point_count": 3,
+          "heat_d20": 62.53
+        },
+        {
+          "id": "pcb_specialty_resin",
+          "name": "特种树脂(CCL基体)",
+          "company_count": 2,
+          "data_point_count": 2,
+          "heat_d20": 40.47
+        },
+        {
+          "id": "pcb_glass_yarn",
+          "name": "电子级玻纤纱",
+          "company_count": 2,
+          "data_point_count": 2,
+          "heat_d20": 35.45
+        }
+      ],
+      "low_confidence": {
+        "data_points": [
+          {
+            "kind": "data_point",
+            "chain_slug": "pcb_materials",
+            "segment_id": "pcb_specialty_resin",
+            "segment_name": "特种树脂(CCL基体)",
+            "name": "高频高速树脂国产化率_百分比",
+            "source_name": "松下/AGC/Rogers垄断95%+，东材科技PPE突围",
+            "source_tier": "unknown",
+            "source_tier_label": "待校验",
+            "source_confidence": 2,
+            "source_confidence_label": "较低",
+            "estimated": false
+          }
+        ],
+        "relationships": []
+      }
+    }
+  ],
+  "fusion": {
+    "slug": "fusion",
+    "title": "半导体全产业链融合图谱",
+    "kind": "fusion",
+    "generated_at": "2026-06-21T01:47:57",
+    "description": "融合多条链路后的全局图谱，用于观察跨行业连接与共享公司。",
+    "stats": {
+      "node_count": 58,
+      "edge_count": 98,
+      "group_count": 20,
+      "stock_count": 197
+    },
+    "data_point_count": 134,
+    "relationship_count": 98,
+    "orphan_relationship_count": 0,
+    "estimated_data_point_count": 17,
+    "estimated_relationship_count": 0,
+    "missing_source_name_count": 10,
+    "missing_source_url_count": 111,
+    "missing_buyer_count": 0,
+    "data_point_tier_distribution": {
+      "official": 7,
+      "authoritative": 47,
+      "secondary": 50,
+      "unknown": 30
+    },
+    "relationship_tier_distribution": {
+      "official": 0,
+      "authoritative": 32,
+      "secondary": 66,
+      "unknown": 0
+    },
+    "data_point_confidence_distribution": {
+      "1": 12,
+      "2": 31,
+      "3": 83,
+      "4": 8,
+      "5": 0
+    },
+    "relationship_confidence_distribution": {
+      "1": 0,
+      "2": 32,
+      "3": 12,
+      "4": 22,
+      "5": 32
+    },
+    "average_data_point_confidence": 2.65,
+    "quality_score": 53.0,
+    "top_segments": [
+      {
+        "id": "semiconductor/semi_equipment",
+        "name": "🔬 半导体设备",
+        "company_count": 13,
+        "data_point_count": 4,
+        "heat_d20": 18.55
+      },
+      {
+        "id": "semiconductor/semi_storage",
+        "name": "🔬 存储芯片",
+        "company_count": 8,
+        "data_point_count": 4,
+        "heat_d20": 24.19
+      },
+      {
+        "id": "semiconductor/semi_silicon_wafer",
+        "name": "🔬 硅片",
+        "company_count": 7,
+        "data_point_count": 3,
+        "heat_d20": 27.78
+      },
+      {
+        "id": "semiconductor/semi_ai_chip",
+        "name": "🔬 AI算力芯片",
+        "company_count": 7,
+        "data_point_count": 3,
+        "heat_d20": 2.37
+      },
+      {
+        "id": "semiconductor/semi_power_discrete",
+        "name": "🔬 功率半导体",
+        "company_count": 7,
+        "data_point_count": 2,
+        "heat_d20": 27.64
+      }
+    ],
+    "low_confidence": {
+      "data_points": [
+        {
+          "kind": "data_point",
+          "chain_slug": "fusion",
+          "segment_id": "semiconductor/semi_equipment",
+          "segment_name": "🔬 半导体设备",
+          "name": "头部企业订单额_亿元",
+          "source_name": "",
+          "source_tier": "unknown",
+          "source_tier_label": "待校验",
+          "source_confidence": 1,
+          "source_confidence_label": "低",
+          "estimated": false
+        },
+        {
+          "kind": "data_point",
+          "chain_slug": "fusion",
+          "segment_id": "semiconductor/semi_equipment",
+          "segment_name": "🔬 半导体设备",
+          "name": "设备交期_月",
+          "source_name": "",
+          "source_tier": "unknown",
+          "source_tier_label": "待校验",
+          "source_confidence": 1,
+          "source_confidence_label": "低",
+          "estimated": false
+        },
+        {
+          "kind": "data_point",
+          "chain_slug": "fusion",
+          "segment_id": "semiconductor/semi_glass_substrate",
+          "segment_name": "🔬 玻璃基板(先进封装)",
+          "name": "TGV产能_万片_年",
+          "source_name": "",
+          "source_tier": "unknown",
+          "source_tier_label": "待校验",
+          "source_confidence": 1,
+          "source_confidence_label": "低",
+          "estimated": false
+        },
+        {
+          "kind": "data_point",
+          "chain_slug": "fusion",
+          "segment_id": "semiconductor/semi_eda_ip",
+          "segment_name": "🔬 EDA与IP核",
+          "name": "国产EDA市占率_百分比",
+          "source_name": "",
+          "source_tier": "unknown",
+          "source_tier_label": "待校验",
+          "source_confidence": 1,
+          "source_confidence_label": "低",
+          "estimated": false
+        },
+        {
+          "kind": "data_point",
+          "chain_slug": "fusion",
+          "segment_id": "semiconductor/semi_storage",
+          "segment_name": "🔬 存储芯片",
+          "name": "HBM市场规模_亿美元",
+          "source_name": "",
+          "source_tier": "unknown",
+          "source_tier_label": "待校验",
+          "source_confidence": 1,
+          "source_confidence_label": "低",
+          "estimated": false
+        },
+        {
+          "kind": "data_point",
+          "chain_slug": "fusion",
+          "segment_id": "semiconductor/semi_analog_mcu",
+          "segment_name": "🔬 模拟芯片与MCU",
+          "name": "平均交期_周",
+          "source_name": "",
+          "source_tier": "unknown",
+          "source_tier_label": "待校验",
+          "source_confidence": 1,
+          "source_confidence_label": "低",
+          "estimated": false
+        },
+        {
+          "kind": "data_point",
+          "chain_slug": "fusion",
+          "segment_id": "semiconductor/semi_cis",
+          "segment_name": "🔬 CIS图像传感器",
+          "name": "车载CIS出货量_亿颗",
+          "source_name": "",
+          "source_tier": "unknown",
+          "source_tier_label": "待校验",
+          "source_confidence": 1,
+          "source_confidence_label": "低",
+          "estimated": false
+        },
+        {
+          "kind": "data_point",
+          "chain_slug": "fusion",
+          "segment_id": "semiconductor/semi_wafer_fab",
+          "segment_name": "🔬 晶圆制造",
+          "name": "全球晶圆代工营收_亿美元",
+          "source_name": "",
+          "source_tier": "unknown",
+          "source_tier_label": "待校验",
+          "source_confidence": 1,
+          "source_confidence_label": "低",
+          "estimated": false
+        }
+      ],
+      "relationships": [
+        {
+          "kind": "relationship",
+          "chain_slug": "fusion",
+          "from": "electronic_chemicals/ec_pb_sources",
+          "to": "silicon_materials/sm_metallurgical_si",
+          "from_name": "🧪 电子级磷/硼源化学品",
+          "to_name": "🏭 工业硅",
+          "product": "产业链交叉",
+          "source_tier": "secondary",
+          "source_tier_label": "券商/媒体",
+          "source_confidence": 2,
+          "source_confidence_label": "较低",
+          "estimated": false
+        },
+        {
+          "kind": "relationship",
+          "chain_slug": "fusion",
+          "from": "electronic_chemicals/ec_g5_acids",
+          "to": "semiconductor/semi_photoresist",
+          "from_name": "🧪 G5电子级酸",
+          "to_name": "🔬 光刻胶",
+          "product": "产业链交叉",
+          "source_tier": "secondary",
+          "source_tier_label": "券商/媒体",
+          "source_confidence": 2,
+          "source_confidence_label": "较低",
+          "estimated": false
+        },
+        {
+          "kind": "relationship",
+          "chain_slug": "fusion",
+          "from": "electronic_chemicals/ec_g5_acids",
+          "to": "semiconductor/semi_wet_chemicals",
+          "from_name": "🧪 G5电子级酸",
+          "to_name": "🔬 湿电子化学品",
+          "product": "产业链交叉",
+          "source_tier": "secondary",
+          "source_tier_label": "券商/媒体",
+          "source_confidence": 2,
+          "source_confidence_label": "较低",
+          "estimated": false
+        },
+        {
+          "kind": "relationship",
+          "chain_slug": "fusion",
+          "from": "electronic_chemicals/ec_solvents",
+          "to": "semiconductor/semi_photoresist",
+          "from_name": "🧪 电子级溶剂与显影液",
+          "to_name": "🔬 光刻胶",
+          "product": "产业链交叉",
+          "source_tier": "secondary",
+          "source_tier_label": "券商/媒体",
+          "source_confidence": 2,
+          "source_confidence_label": "较低",
+          "estimated": false
+        },
+        {
+          "kind": "relationship",
+          "chain_slug": "fusion",
+          "from": "electronic_chemicals/ec_solvents",
+          "to": "semiconductor/semi_wet_chemicals",
+          "from_name": "🧪 电子级溶剂与显影液",
+          "to_name": "🔬 湿电子化学品",
+          "product": "产业链交叉",
+          "source_tier": "secondary",
+          "source_tier_label": "券商/媒体",
+          "source_confidence": 2,
+          "source_confidence_label": "较低",
+          "estimated": false
+        },
+        {
+          "kind": "relationship",
+          "chain_slug": "fusion",
+          "from": "electronic_chemicals/ec_si_mo_precursors",
+          "to": "semiconductor/semi_specialty_gas",
+          "from_name": "🧪 电子级硅基与金属有机源",
+          "to_name": "🔬 电子特气",
+          "product": "产业链交叉",
+          "source_tier": "secondary",
+          "source_tier_label": "券商/媒体",
+          "source_confidence": 2,
+          "source_confidence_label": "较低",
+          "estimated": false
+        },
+        {
+          "kind": "relationship",
+          "chain_slug": "fusion",
+          "from": "electronic_chemicals/ec_si_mo_precursors",
+          "to": "semiconductor/semi_photoresist",
+          "from_name": "🧪 电子级硅基与金属有机源",
+          "to_name": "🔬 光刻胶",
+          "product": "产业链交叉",
+          "source_tier": "secondary",
+          "source_tier_label": "券商/媒体",
+          "source_confidence": 2,
+          "source_confidence_label": "较低",
+          "estimated": false
+        },
+        {
+          "kind": "relationship",
+          "chain_slug": "fusion",
+          "from": "electronic_chemicals/ec_pr_resin",
+          "to": "semiconductor/semi_photoresist",
+          "from_name": "🧪 光刻胶核心原料",
+          "to_name": "🔬 光刻胶",
+          "product": "产业链交叉",
+          "source_tier": "secondary",
+          "source_tier_label": "券商/媒体",
+          "source_confidence": 2,
+          "source_confidence_label": "较低",
+          "estimated": false
+        }
+      ]
+    }
+  },
+  "global_top_risks": [
+    {
+      "kind": "data_point",
+      "chain_slug": "semiconductor",
+      "segment_id": "semi_equipment",
+      "segment_name": "半导体设备",
+      "name": "头部企业订单额_亿元",
+      "source_name": "",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 1,
+      "source_confidence_label": "低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "semiconductor",
+      "segment_id": "semi_equipment",
+      "segment_name": "半导体设备",
+      "name": "设备交期_月",
+      "source_name": "",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 1,
+      "source_confidence_label": "低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "semiconductor",
+      "segment_id": "semi_glass_substrate",
+      "segment_name": "玻璃基板(先进封装)",
+      "name": "TGV产能_万片_年",
+      "source_name": "",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 1,
+      "source_confidence_label": "低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "semiconductor",
+      "segment_id": "semi_eda_ip",
+      "segment_name": "EDA与IP核",
+      "name": "国产EDA市占率_百分比",
+      "source_name": "",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 1,
+      "source_confidence_label": "低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "semiconductor",
+      "segment_id": "semi_storage",
+      "segment_name": "存储芯片",
+      "name": "HBM市场规模_亿美元",
+      "source_name": "",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 1,
+      "source_confidence_label": "低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "semiconductor",
+      "segment_id": "semi_analog_mcu",
+      "segment_name": "模拟芯片与MCU",
+      "name": "平均交期_周",
+      "source_name": "",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 1,
+      "source_confidence_label": "低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "semiconductor",
+      "segment_id": "semi_cis",
+      "segment_name": "CIS图像传感器",
+      "name": "车载CIS出货量_亿颗",
+      "source_name": "",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 1,
+      "source_confidence_label": "低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "semiconductor",
+      "segment_id": "semi_wafer_fab",
+      "segment_name": "晶圆制造",
+      "name": "全球晶圆代工营收_亿美元",
+      "source_name": "",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 1,
+      "source_confidence_label": "低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "electronic_chemicals",
+      "segment_id": "ec_pr_resin",
+      "segment_name": "光刻胶核心原料",
+      "name": "光刻胶树脂单体国产化率_百分比",
+      "source_name": "行业数据 2025 专利份额从5%升至22%",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 2,
+      "source_confidence_label": "较低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "electronic_chemicals",
+      "segment_id": "ec_packaging_polymer",
+      "segment_name": "电子封装高分子材料",
+      "name": "球形硅微粉进口依赖度_百分比",
+      "source_name": "日本电化/龙森垄断，国产联瑞新材(非上市)突破中",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 2,
+      "source_confidence_label": "较低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "electronic_chemicals",
+      "segment_id": "ec_cmp_abrasive",
+      "segment_name": "CMP纳米磨料与添加剂",
+      "name": "全球铈基CMP磨料国产占比_百分比",
+      "source_name": "行业数据 Merck垄断85%",
+      "source_tier": "unknown",
+      "source_tier_label": "待校验",
+      "source_confidence": 2,
+      "source_confidence_label": "较低",
+      "estimated": false
+    },
+    {
+      "kind": "data_point",
+      "chain_slug": "electronic_chemicals",
+      "segment_id": "ec_solvents",
+      "segment_name": "电子级溶剂与显影液",
+      "name": "中国电子级PGMEA市场需求_万吨_年",
+      "source_name": "券商估算 2025半导体+面板",
+      "source_tier": "secondary",
+      "source_tier_label": "券商/媒体",
+      "source_confidence": 2,
+      "source_confidence_label": "较低",
+      "estimated": true
+    }
+  ]
+}

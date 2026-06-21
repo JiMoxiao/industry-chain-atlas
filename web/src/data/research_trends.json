@@ -1,0 +1,3656 @@
+{
+  "kind": "research_trends",
+  "generated_at": "2026-06-21T01:47:58",
+  "summary": {
+    "chain_count": 5,
+    "chains_with_snapshots": 5,
+    "total_snapshot_count": 6,
+    "tracked_series_count": 124,
+    "earliest_snapshot_date": "2026-06-18",
+    "latest_snapshot_date": "2026-06-19"
+  },
+  "chains": [
+    {
+      "slug": "semiconductor",
+      "title": "🔬 半导体全产业链图谱",
+      "snapshot_count": 2,
+      "earliest_snapshot_date": "2026-06-18",
+      "latest_snapshot_date": "2026-06-19",
+      "tracked_segment_count": 26,
+      "tracked_metric_count": 54,
+      "orphan_relationship_count": 63,
+      "segments": [
+        {
+          "id": "semi_silicon_wafer",
+          "name": "硅片",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "semi_silicon_wafer:全球硅片出货面积_百万平方英寸",
+              "segment_id": "semi_silicon_wafer",
+              "segment_name": "硅片",
+              "metric_name": "全球硅片出货面积_百万平方英寸",
+              "metric_type": "market",
+              "unit": "MSI",
+              "sample_count": 2,
+              "latest_value": 14500.0,
+              "previous_value": 14500.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 14500.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 14500.0
+                }
+              ]
+            },
+            {
+              "key": "semi_silicon_wafer:产能_万片_月",
+              "segment_id": "semi_silicon_wafer",
+              "segment_name": "硅片",
+              "metric_name": "产能_万片_月",
+              "metric_type": "capacity",
+              "unit": "万片/月",
+              "sample_count": 2,
+              "latest_value": 270.0,
+              "previous_value": 270.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 270.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 270.0
+                }
+              ]
+            },
+            {
+              "key": "semi_silicon_wafer:产量_万片_月",
+              "segment_id": "semi_silicon_wafer",
+              "segment_name": "硅片",
+              "metric_name": "产量_万片_月",
+              "metric_type": "output",
+              "unit": "万片/月",
+              "sample_count": 2,
+              "latest_value": 240.0,
+              "previous_value": 240.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 240.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 240.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_sic_substrate",
+          "name": "SiC衬底",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "semi_sic_substrate:产能_万片_年",
+              "segment_id": "semi_sic_substrate",
+              "segment_name": "SiC衬底",
+              "metric_name": "产能_万片_年",
+              "metric_type": "capacity",
+              "unit": "万片/年",
+              "sample_count": 2,
+              "latest_value": 100.0,
+              "previous_value": 100.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 100.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 100.0
+                }
+              ]
+            },
+            {
+              "key": "semi_sic_substrate:产量_万片_年",
+              "segment_id": "semi_sic_substrate",
+              "segment_name": "SiC衬底",
+              "metric_name": "产量_万片_年",
+              "metric_type": "output",
+              "unit": "万片/年",
+              "sample_count": 2,
+              "latest_value": 80.0,
+              "previous_value": 80.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 80.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 80.0
+                }
+              ]
+            },
+            {
+              "key": "semi_sic_substrate:全球SiC衬底市场规模_亿美元",
+              "segment_id": "semi_sic_substrate",
+              "segment_name": "SiC衬底",
+              "metric_name": "全球SiC衬底市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 2,
+              "latest_value": 30.0,
+              "previous_value": 30.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 30.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 30.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_specialty_gas",
+          "name": "电子特气",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_specialty_gas:国内电子特气市场规模_亿元",
+              "segment_id": "semi_specialty_gas",
+              "segment_name": "电子特气",
+              "metric_name": "国内电子特气市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 320.0,
+              "previous_value": 320.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 320.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 320.0
+                }
+              ]
+            },
+            {
+              "key": "semi_specialty_gas:国产化率_百分比",
+              "segment_id": "semi_specialty_gas",
+              "segment_name": "电子特气",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 30.0,
+              "previous_value": 30.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 30.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 30.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_target_material",
+          "name": "溅射靶材",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_target_material:全球靶材市场规模_亿元",
+              "segment_id": "semi_target_material",
+              "segment_name": "溅射靶材",
+              "metric_name": "全球靶材市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 180.0,
+              "previous_value": 180.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 180.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 180.0
+                }
+              ]
+            },
+            {
+              "key": "semi_target_material:特殊靶材价格涨幅_百分比",
+              "segment_id": "semi_target_material",
+              "segment_name": "溅射靶材",
+              "metric_name": "特殊靶材价格涨幅_百分比",
+              "metric_type": "price_change",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 8.0,
+              "previous_value": 8.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 8.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 8.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_cmp_materials",
+          "name": "CMP抛光材料",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_cmp_materials:产能_吨_年",
+              "segment_id": "semi_cmp_materials",
+              "segment_name": "CMP抛光材料",
+              "metric_name": "产能_吨_年",
+              "metric_type": "capacity",
+              "unit": "吨/年",
+              "sample_count": 2,
+              "latest_value": 5000.0,
+              "previous_value": 5000.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 5000.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 5000.0
+                }
+              ]
+            },
+            {
+              "key": "semi_cmp_materials:国产化率_百分比",
+              "segment_id": "semi_cmp_materials",
+              "segment_name": "CMP抛光材料",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 20.0,
+              "previous_value": 20.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 20.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 20.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_photoresist",
+          "name": "光刻胶",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_photoresist:全球光刻胶市场规模_亿美元",
+              "segment_id": "semi_photoresist",
+              "segment_name": "光刻胶",
+              "metric_name": "全球光刻胶市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 2,
+              "latest_value": 28.0,
+              "previous_value": 28.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 28.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 28.0
+                }
+              ]
+            },
+            {
+              "key": "semi_photoresist:国产化率_百分比",
+              "segment_id": "semi_photoresist",
+              "segment_name": "光刻胶",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 15.0,
+              "previous_value": 15.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 15.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 15.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_photomask",
+          "name": "光掩模/光罩",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_photomask:全球半导体光掩模市场规模_亿美元",
+              "segment_id": "semi_photomask",
+              "segment_name": "光掩模/光罩",
+              "metric_name": "全球半导体光掩模市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 2,
+              "latest_value": 52.0,
+              "previous_value": 52.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 52.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 52.0
+                }
+              ]
+            },
+            {
+              "key": "semi_photomask:国产化率_百分比",
+              "segment_id": "semi_photomask",
+              "segment_name": "光掩模/光罩",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 10.0,
+              "previous_value": 10.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 10.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 10.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_wet_chemicals",
+          "name": "湿电子化学品",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_wet_chemicals:国内湿电子化学品市场规模_亿元",
+              "segment_id": "semi_wet_chemicals",
+              "segment_name": "湿电子化学品",
+              "metric_name": "国内湿电子化学品市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 180.0,
+              "previous_value": 180.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 180.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 180.0
+                }
+              ]
+            },
+            {
+              "key": "semi_wet_chemicals:国产化率_百分比",
+              "segment_id": "semi_wet_chemicals",
+              "segment_name": "湿电子化学品",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 44.0,
+              "previous_value": 44.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 44.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 44.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_equipment",
+          "name": "半导体设备",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_equipment:国产设备采购额_亿元",
+              "segment_id": "semi_equipment",
+              "segment_name": "半导体设备",
+              "metric_name": "国产设备采购额_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 520.0,
+              "previous_value": 520.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 520.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 520.0
+                }
+              ]
+            },
+            {
+              "key": "semi_equipment:国产化率_百分比",
+              "segment_id": "semi_equipment",
+              "segment_name": "半导体设备",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 25.0,
+              "previous_value": 25.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 25.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 25.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_equipment_parts",
+          "name": "半导体设备零部件",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_equipment_parts:国内半导体设备零部件市场规模_亿元",
+              "segment_id": "semi_equipment_parts",
+              "segment_name": "半导体设备零部件",
+              "metric_name": "国内半导体设备零部件市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 250.0,
+              "previous_value": 250.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 250.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 250.0
+                }
+              ]
+            },
+            {
+              "key": "semi_equipment_parts:国产化率_百分比",
+              "segment_id": "semi_equipment_parts",
+              "segment_name": "半导体设备零部件",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 15.0,
+              "previous_value": 15.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 15.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 15.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_glass_substrate",
+          "name": "玻璃基板(先进封装)",
+          "metric_count": 1,
+          "metrics": [
+            {
+              "key": "semi_glass_substrate:全球TGV玻璃基板市场规模_预测_亿美元",
+              "segment_id": "semi_glass_substrate",
+              "segment_name": "玻璃基板(先进封装)",
+              "metric_name": "全球TGV玻璃基板市场规模_预测_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 2,
+              "latest_value": 5.0,
+              "previous_value": 5.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 5.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 5.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_ic_substrate",
+          "name": "IC载板/封装基板",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_ic_substrate:全球IC载板市场规模_亿美元",
+              "segment_id": "semi_ic_substrate",
+              "segment_name": "IC载板/封装基板",
+              "metric_name": "全球IC载板市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 2,
+              "latest_value": 160.0,
+              "previous_value": 160.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 160.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 160.0
+                }
+              ]
+            },
+            {
+              "key": "semi_ic_substrate:ABF载板国产化率_百分比",
+              "segment_id": "semi_ic_substrate",
+              "segment_name": "IC载板/封装基板",
+              "metric_name": "ABF载板国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 5.0,
+              "previous_value": 5.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 5.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 5.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_packaging_materials",
+          "name": "封装材料",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_packaging_materials:国内半导体封装材料市场规模_亿元",
+              "segment_id": "semi_packaging_materials",
+              "segment_name": "封装材料",
+              "metric_name": "国内半导体封装材料市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 450.0,
+              "previous_value": 450.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 450.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 450.0
+                }
+              ]
+            },
+            {
+              "key": "semi_packaging_materials:先进封装材料国产化率_百分比",
+              "segment_id": "semi_packaging_materials",
+              "segment_name": "封装材料",
+              "metric_name": "先进封装材料国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 18.0,
+              "previous_value": 18.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 18.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 18.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_eda_ip",
+          "name": "EDA与IP核",
+          "metric_count": 1,
+          "metrics": [
+            {
+              "key": "semi_eda_ip:国内EDA市场规模_亿元",
+              "segment_id": "semi_eda_ip",
+              "segment_name": "EDA与IP核",
+              "metric_name": "国内EDA市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 180.0,
+              "previous_value": 180.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 180.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 180.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_ai_chip",
+          "name": "AI算力芯片",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "semi_ai_chip:国内AI芯片市场规模_亿元",
+              "segment_id": "semi_ai_chip",
+              "segment_name": "AI算力芯片",
+              "metric_name": "国内AI芯片市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 2398.0,
+              "previous_value": 2398.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 2398.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 2398.0
+                }
+              ]
+            },
+            {
+              "key": "semi_ai_chip:出货量_万颗",
+              "segment_id": "semi_ai_chip",
+              "segment_name": "AI算力芯片",
+              "metric_name": "出货量_万颗",
+              "metric_type": "output",
+              "unit": "万颗",
+              "sample_count": 2,
+              "latest_value": 400.0,
+              "previous_value": 400.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 400.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 400.0
+                }
+              ]
+            },
+            {
+              "key": "semi_ai_chip:国产化率_百分比",
+              "segment_id": "semi_ai_chip",
+              "segment_name": "AI算力芯片",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 41.0,
+              "previous_value": 41.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 41.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 41.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_storage",
+          "name": "存储芯片",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "semi_storage:全球DRAM市场规模_亿美元",
+              "segment_id": "semi_storage",
+              "segment_name": "存储芯片",
+              "metric_name": "全球DRAM市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 2,
+              "latest_value": 978.0,
+              "previous_value": 978.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 978.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 978.0
+                }
+              ]
+            },
+            {
+              "key": "semi_storage:DRAM合约价涨跌幅_百分比",
+              "segment_id": "semi_storage",
+              "segment_name": "存储芯片",
+              "metric_name": "DRAM合约价涨跌幅_百分比",
+              "metric_type": "price_change",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 58.0,
+              "previous_value": 58.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 58.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 58.0
+                }
+              ]
+            },
+            {
+              "key": "semi_storage:NAND合约价涨跌幅_百分比",
+              "segment_id": "semi_storage",
+              "segment_name": "存储芯片",
+              "metric_name": "NAND合约价涨跌幅_百分比",
+              "metric_type": "price_change",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 32.0,
+              "previous_value": 32.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 32.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 32.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_analog_mcu",
+          "name": "模拟芯片与MCU",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_analog_mcu:国内模拟芯片市场规模_亿元",
+              "segment_id": "semi_analog_mcu",
+              "segment_name": "模拟芯片与MCU",
+              "metric_name": "国内模拟芯片市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 520.0,
+              "previous_value": 520.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 520.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 520.0
+                }
+              ]
+            },
+            {
+              "key": "semi_analog_mcu:国产化率_百分比",
+              "segment_id": "semi_analog_mcu",
+              "segment_name": "模拟芯片与MCU",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 18.0,
+              "previous_value": 18.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 18.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 18.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_rf_frontend",
+          "name": "射频前端",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_rf_frontend:国内射频前端市场规模_亿元",
+              "segment_id": "semi_rf_frontend",
+              "segment_name": "射频前端",
+              "metric_name": "国内射频前端市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 350.0,
+              "previous_value": 350.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 350.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 350.0
+                }
+              ]
+            },
+            {
+              "key": "semi_rf_frontend:国产化率_百分比",
+              "segment_id": "semi_rf_frontend",
+              "segment_name": "射频前端",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 25.0,
+              "previous_value": 25.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 25.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 25.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_cis",
+          "name": "CIS图像传感器",
+          "metric_count": 1,
+          "metrics": [
+            {
+              "key": "semi_cis:全球CIS市场规模_亿美元",
+              "segment_id": "semi_cis",
+              "segment_name": "CIS图像传感器",
+              "metric_name": "全球CIS市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 2,
+              "latest_value": 260.0,
+              "previous_value": 260.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 260.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 260.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_mems_sensor",
+          "name": "MEMS传感器",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_mems_sensor:国内MEMS传感器市场规模_亿元",
+              "segment_id": "semi_mems_sensor",
+              "segment_name": "MEMS传感器",
+              "metric_name": "国内MEMS传感器市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 220.0,
+              "previous_value": 220.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 220.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 220.0
+                }
+              ]
+            },
+            {
+              "key": "semi_mems_sensor:国产化率_百分比",
+              "segment_id": "semi_mems_sensor",
+              "segment_name": "MEMS传感器",
+              "metric_name": "国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 15.0,
+              "previous_value": 15.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 15.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 15.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_power_discrete",
+          "name": "功率半导体",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_power_discrete:国内IGBT市场规模_亿元",
+              "segment_id": "semi_power_discrete",
+              "segment_name": "功率半导体",
+              "metric_name": "国内IGBT市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 500.0,
+              "previous_value": 500.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 500.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 500.0
+                }
+              ]
+            },
+            {
+              "key": "semi_power_discrete:SiC渗透率_百分比",
+              "segment_id": "semi_power_discrete",
+              "segment_name": "功率半导体",
+              "metric_name": "SiC渗透率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 20.0,
+              "previous_value": 20.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 20.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 20.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_wafer_fab",
+          "name": "晶圆制造",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "semi_wafer_fab:产能_万片_月_8英寸等效",
+              "segment_id": "semi_wafer_fab",
+              "segment_name": "晶圆制造",
+              "metric_name": "产能_万片_月_8英寸等效",
+              "metric_type": "capacity",
+              "unit": "万片/月",
+              "sample_count": 2,
+              "latest_value": 320.0,
+              "previous_value": 320.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 320.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 320.0
+                }
+              ]
+            },
+            {
+              "key": "semi_wafer_fab:产量_万片_月",
+              "segment_id": "semi_wafer_fab",
+              "segment_name": "晶圆制造",
+              "metric_name": "产量_万片_月",
+              "metric_type": "output",
+              "unit": "万片/月",
+              "sample_count": 2,
+              "latest_value": 290.0,
+              "previous_value": 290.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 290.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 290.0
+                }
+              ]
+            },
+            {
+              "key": "semi_wafer_fab:产能利用率_百分比",
+              "segment_id": "semi_wafer_fab",
+              "segment_name": "晶圆制造",
+              "metric_name": "产能利用率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 93.0,
+              "previous_value": 93.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 93.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 93.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_packaging",
+          "name": "封装测试",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_packaging:先进封装渗透率_百分比",
+              "segment_id": "semi_packaging",
+              "segment_name": "封装测试",
+              "metric_name": "先进封装渗透率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 45.0,
+              "previous_value": 45.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 45.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 45.0
+                }
+              ]
+            },
+            {
+              "key": "semi_packaging:CoWoS全球产能_万片_月",
+              "segment_id": "semi_packaging",
+              "segment_name": "封装测试",
+              "metric_name": "CoWoS全球产能_万片_月",
+              "metric_type": "capacity",
+              "unit": "万片/月",
+              "sample_count": 2,
+              "latest_value": 9.0,
+              "previous_value": 9.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 9.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 9.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_ai_server",
+          "name": "AI服务器",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_ai_server:国内AI服务器市场规模_亿元",
+              "segment_id": "semi_ai_server",
+              "segment_name": "AI服务器",
+              "metric_name": "国内AI服务器市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 1800.0,
+              "previous_value": 1800.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 1800.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 1800.0
+                }
+              ]
+            },
+            {
+              "key": "semi_ai_server:全球AI服务器出货量_万台",
+              "segment_id": "semi_ai_server",
+              "segment_name": "AI服务器",
+              "metric_name": "全球AI服务器出货量_万台",
+              "metric_type": "output",
+              "unit": "万台",
+              "sample_count": 2,
+              "latest_value": 220.0,
+              "previous_value": 220.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 220.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 220.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_pcb_ccl",
+          "name": "PCB与覆铜板",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_pcb_ccl:国内PCB产值_亿元",
+              "segment_id": "semi_pcb_ccl",
+              "segment_name": "PCB与覆铜板",
+              "metric_name": "国内PCB产值_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 3800.0,
+              "previous_value": 3800.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 3800.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 3800.0
+                }
+              ]
+            },
+            {
+              "key": "semi_pcb_ccl:AI服务器PCB占比_百分比",
+              "segment_id": "semi_pcb_ccl",
+              "segment_name": "PCB与覆铜板",
+              "metric_name": "AI服务器PCB占比_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 20.0,
+              "previous_value": 20.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 20.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 20.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "semi_auto_electronics",
+          "name": "汽车电子",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "semi_auto_electronics:国内汽车电子市场规模_亿元",
+              "segment_id": "semi_auto_electronics",
+              "segment_name": "汽车电子",
+              "metric_name": "国内汽车电子市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 2,
+              "latest_value": 2200.0,
+              "previous_value": 2200.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 2200.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 2200.0
+                }
+              ]
+            },
+            {
+              "key": "semi_auto_electronics:智驾域控渗透率_百分比",
+              "segment_id": "semi_auto_electronics",
+              "segment_name": "汽车电子",
+              "metric_name": "智驾域控渗透率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 2,
+              "latest_value": 30.0,
+              "previous_value": 30.0,
+              "delta_value": 0.0,
+              "delta_ratio": 0.0,
+              "points": [
+                {
+                  "date": "2026-06-18",
+                  "value": 30.0
+                },
+                {
+                  "date": "2026-06-19",
+                  "value": 30.0
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "top_series": [
+        {
+          "key": "semi_silicon_wafer:全球硅片出货面积_百万平方英寸",
+          "segment_id": "semi_silicon_wafer",
+          "segment_name": "硅片",
+          "metric_name": "全球硅片出货面积_百万平方英寸",
+          "metric_type": "market",
+          "unit": "MSI",
+          "sample_count": 2,
+          "latest_value": 14500.0,
+          "previous_value": 14500.0,
+          "delta_value": 0.0,
+          "delta_ratio": 0.0,
+          "points": [
+            {
+              "date": "2026-06-18",
+              "value": 14500.0
+            },
+            {
+              "date": "2026-06-19",
+              "value": 14500.0
+            }
+          ]
+        },
+        {
+          "key": "semi_cmp_materials:产能_吨_年",
+          "segment_id": "semi_cmp_materials",
+          "segment_name": "CMP抛光材料",
+          "metric_name": "产能_吨_年",
+          "metric_type": "capacity",
+          "unit": "吨/年",
+          "sample_count": 2,
+          "latest_value": 5000.0,
+          "previous_value": 5000.0,
+          "delta_value": 0.0,
+          "delta_ratio": 0.0,
+          "points": [
+            {
+              "date": "2026-06-18",
+              "value": 5000.0
+            },
+            {
+              "date": "2026-06-19",
+              "value": 5000.0
+            }
+          ]
+        },
+        {
+          "key": "semi_pcb_ccl:国内PCB产值_亿元",
+          "segment_id": "semi_pcb_ccl",
+          "segment_name": "PCB与覆铜板",
+          "metric_name": "国内PCB产值_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 2,
+          "latest_value": 3800.0,
+          "previous_value": 3800.0,
+          "delta_value": 0.0,
+          "delta_ratio": 0.0,
+          "points": [
+            {
+              "date": "2026-06-18",
+              "value": 3800.0
+            },
+            {
+              "date": "2026-06-19",
+              "value": 3800.0
+            }
+          ]
+        },
+        {
+          "key": "semi_ai_chip:国内AI芯片市场规模_亿元",
+          "segment_id": "semi_ai_chip",
+          "segment_name": "AI算力芯片",
+          "metric_name": "国内AI芯片市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 2,
+          "latest_value": 2398.0,
+          "previous_value": 2398.0,
+          "delta_value": 0.0,
+          "delta_ratio": 0.0,
+          "points": [
+            {
+              "date": "2026-06-18",
+              "value": 2398.0
+            },
+            {
+              "date": "2026-06-19",
+              "value": 2398.0
+            }
+          ]
+        },
+        {
+          "key": "semi_auto_electronics:国内汽车电子市场规模_亿元",
+          "segment_id": "semi_auto_electronics",
+          "segment_name": "汽车电子",
+          "metric_name": "国内汽车电子市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 2,
+          "latest_value": 2200.0,
+          "previous_value": 2200.0,
+          "delta_value": 0.0,
+          "delta_ratio": 0.0,
+          "points": [
+            {
+              "date": "2026-06-18",
+              "value": 2200.0
+            },
+            {
+              "date": "2026-06-19",
+              "value": 2200.0
+            }
+          ]
+        },
+        {
+          "key": "semi_ai_server:国内AI服务器市场规模_亿元",
+          "segment_id": "semi_ai_server",
+          "segment_name": "AI服务器",
+          "metric_name": "国内AI服务器市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 2,
+          "latest_value": 1800.0,
+          "previous_value": 1800.0,
+          "delta_value": 0.0,
+          "delta_ratio": 0.0,
+          "points": [
+            {
+              "date": "2026-06-18",
+              "value": 1800.0
+            },
+            {
+              "date": "2026-06-19",
+              "value": 1800.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "electronic_chemicals",
+      "title": "⚗️ 电子化工材料（半导体上游）全产业链图谱",
+      "snapshot_count": 1,
+      "earliest_snapshot_date": "2026-06-19",
+      "latest_snapshot_date": "2026-06-19",
+      "tracked_segment_count": 9,
+      "tracked_metric_count": 21,
+      "orphan_relationship_count": 16,
+      "segments": [
+        {
+          "id": "ec_fluorine_base",
+          "name": "氟化工基础材料",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "ec_fluorine_base:中国电子级氢氟酸市场规模_亿元",
+              "segment_id": "ec_fluorine_base",
+              "segment_name": "氟化工基础材料",
+              "metric_name": "中国电子级氢氟酸市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 103.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 103.0
+                }
+              ]
+            },
+            {
+              "key": "ec_fluorine_base:半导体级G5氢氟酸国产化率_百分比",
+              "segment_id": "ec_fluorine_base",
+              "segment_name": "氟化工基础材料",
+              "metric_name": "半导体级G5氢氟酸国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 28.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 28.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ec_pb_sources",
+          "name": "电子级磷/硼源化学品",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "ec_pb_sources:半导体级磷酸国产化率_百分比",
+              "segment_id": "ec_pb_sources",
+              "segment_name": "电子级磷/硼源化学品",
+              "metric_name": "半导体级磷酸国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 35.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 35.0
+                }
+              ]
+            },
+            {
+              "key": "ec_pb_sources:中国电子级磷酸市场规模_亿元",
+              "segment_id": "ec_pb_sources",
+              "segment_name": "电子级磷/硼源化学品",
+              "metric_name": "中国电子级磷酸市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 18.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 18.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ec_g5_acids",
+          "name": "G5电子级酸",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "ec_g5_acids:中国半导体湿电子化学品市场规模_亿元",
+              "segment_id": "ec_g5_acids",
+              "segment_name": "G5电子级酸",
+              "metric_name": "中国半导体湿电子化学品市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 130.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 130.0
+                }
+              ]
+            },
+            {
+              "key": "ec_g5_acids:集成电路级湿化学品综合国产化率_百分比",
+              "segment_id": "ec_g5_acids",
+              "segment_name": "G5电子级酸",
+              "metric_name": "集成电路级湿化学品综合国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 44.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 44.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ec_solvents",
+          "name": "电子级溶剂与显影液",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "ec_solvents:中国电子级PGMEA市场需求_万吨_年",
+              "segment_id": "ec_solvents",
+              "segment_name": "电子级溶剂与显影液",
+              "metric_name": "中国电子级PGMEA市场需求_万吨_年",
+              "metric_type": "market",
+              "unit": "万吨/年",
+              "sample_count": 1,
+              "latest_value": 15.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 15.0
+                }
+              ]
+            },
+            {
+              "key": "ec_solvents:半导体级TMAH国产化率_百分比",
+              "segment_id": "ec_solvents",
+              "segment_name": "电子级溶剂与显影液",
+              "metric_name": "半导体级TMAH国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 5.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 5.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ec_si_mo_precursors",
+          "name": "电子级硅基与金属有机源",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "ec_si_mo_precursors:中国电子级TCS市场规模_亿元",
+              "segment_id": "ec_si_mo_precursors",
+              "segment_name": "电子级硅基与金属有机源",
+              "metric_name": "中国电子级TCS市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 25.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 25.0
+                }
+              ]
+            },
+            {
+              "key": "ec_si_mo_precursors:半导体ALD/CVD前驱体国产化率_百分比",
+              "segment_id": "ec_si_mo_precursors",
+              "segment_name": "电子级硅基与金属有机源",
+              "metric_name": "半导体ALD/CVD前驱体国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 20.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 20.0
+                }
+              ]
+            },
+            {
+              "key": "ec_si_mo_precursors:MO源全球市占率_百分比",
+              "segment_id": "ec_si_mo_precursors",
+              "segment_name": "电子级硅基与金属有机源",
+              "metric_name": "MO源全球市占率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 8.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 8.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ec_pr_resin",
+          "name": "光刻胶核心原料",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "ec_pr_resin:PAG进口依赖度_百分比",
+              "segment_id": "ec_pr_resin",
+              "segment_name": "光刻胶核心原料",
+              "metric_name": "PAG进口依赖度_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 75.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 75.0
+                }
+              ]
+            },
+            {
+              "key": "ec_pr_resin:中国光刻胶树脂市场规模_亿元",
+              "segment_id": "ec_pr_resin",
+              "segment_name": "光刻胶核心原料",
+              "metric_name": "中国光刻胶树脂市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 50.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 50.0
+                }
+              ]
+            },
+            {
+              "key": "ec_pr_resin:光刻胶树脂单体国产化率_百分比",
+              "segment_id": "ec_pr_resin",
+              "segment_name": "光刻胶核心原料",
+              "metric_name": "光刻胶树脂单体国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 50.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 50.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ec_electroplating",
+          "name": "半导体电镀与湿法沉积化学品",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "ec_electroplating:铜互连电镀液国产化率_百分比",
+              "segment_id": "ec_electroplating",
+              "segment_name": "半导体电镀与湿法沉积化学品",
+              "metric_name": "铜互连电镀液国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 25.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 25.0
+                }
+              ]
+            },
+            {
+              "key": "ec_electroplating:全球半导体电镀液市场规模_亿美元",
+              "segment_id": "ec_electroplating",
+              "segment_name": "半导体电镀与湿法沉积化学品",
+              "metric_name": "全球半导体电镀液市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 1,
+              "latest_value": 12.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 12.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ec_packaging_polymer",
+          "name": "电子封装高分子材料",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "ec_packaging_polymer:球形硅微粉进口依赖度_百分比",
+              "segment_id": "ec_packaging_polymer",
+              "segment_name": "电子封装高分子材料",
+              "metric_name": "球形硅微粉进口依赖度_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 70.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 70.0
+                }
+              ]
+            },
+            {
+              "key": "ec_packaging_polymer:中国EMC用环氧树脂市场规模_亿元",
+              "segment_id": "ec_packaging_polymer",
+              "segment_name": "电子封装高分子材料",
+              "metric_name": "中国EMC用环氧树脂市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 35.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 35.0
+                }
+              ]
+            },
+            {
+              "key": "ec_packaging_polymer:先进封装Underfill国产化率_百分比",
+              "segment_id": "ec_packaging_polymer",
+              "segment_name": "电子封装高分子材料",
+              "metric_name": "先进封装Underfill国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 15.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 15.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ec_cmp_abrasive",
+          "name": "CMP纳米磨料与添加剂",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "ec_cmp_abrasive:全球CMP抛光液市场规模_亿美元",
+              "segment_id": "ec_cmp_abrasive",
+              "segment_name": "CMP纳米磨料与添加剂",
+              "metric_name": "全球CMP抛光液市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 1,
+              "latest_value": 38.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 38.0
+                }
+              ]
+            },
+            {
+              "key": "ec_cmp_abrasive:全球铈基CMP磨料国产占比_百分比",
+              "segment_id": "ec_cmp_abrasive",
+              "segment_name": "CMP纳米磨料与添加剂",
+              "metric_name": "全球铈基CMP磨料国产占比_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 3.2,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 3.2
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "top_series": [
+        {
+          "key": "ec_g5_acids:中国半导体湿电子化学品市场规模_亿元",
+          "segment_id": "ec_g5_acids",
+          "segment_name": "G5电子级酸",
+          "metric_name": "中国半导体湿电子化学品市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 1,
+          "latest_value": 130.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 130.0
+            }
+          ]
+        },
+        {
+          "key": "ec_fluorine_base:中国电子级氢氟酸市场规模_亿元",
+          "segment_id": "ec_fluorine_base",
+          "segment_name": "氟化工基础材料",
+          "metric_name": "中国电子级氢氟酸市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 1,
+          "latest_value": 103.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 103.0
+            }
+          ]
+        },
+        {
+          "key": "ec_pr_resin:PAG进口依赖度_百分比",
+          "segment_id": "ec_pr_resin",
+          "segment_name": "光刻胶核心原料",
+          "metric_name": "PAG进口依赖度_百分比",
+          "metric_type": "ratio",
+          "unit": "%",
+          "sample_count": 1,
+          "latest_value": 75.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 75.0
+            }
+          ]
+        },
+        {
+          "key": "ec_packaging_polymer:球形硅微粉进口依赖度_百分比",
+          "segment_id": "ec_packaging_polymer",
+          "segment_name": "电子封装高分子材料",
+          "metric_name": "球形硅微粉进口依赖度_百分比",
+          "metric_type": "ratio",
+          "unit": "%",
+          "sample_count": 1,
+          "latest_value": 70.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 70.0
+            }
+          ]
+        },
+        {
+          "key": "ec_pr_resin:中国光刻胶树脂市场规模_亿元",
+          "segment_id": "ec_pr_resin",
+          "segment_name": "光刻胶核心原料",
+          "metric_name": "中国光刻胶树脂市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 1,
+          "latest_value": 50.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 50.0
+            }
+          ]
+        },
+        {
+          "key": "ec_pr_resin:光刻胶树脂单体国产化率_百分比",
+          "segment_id": "ec_pr_resin",
+          "segment_name": "光刻胶核心原料",
+          "metric_name": "光刻胶树脂单体国产化率_百分比",
+          "metric_type": "ratio",
+          "unit": "%",
+          "sample_count": 1,
+          "latest_value": 50.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 50.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "nonferrous_metals",
+      "title": "⛏ 有色金属（半导体上游）全产业链图谱",
+      "snapshot_count": 1,
+      "earliest_snapshot_date": "2026-06-19",
+      "latest_snapshot_date": "2026-06-19",
+      "tracked_segment_count": 10,
+      "tracked_metric_count": 20,
+      "orphan_relationship_count": 6,
+      "segments": [
+        {
+          "id": "nf_hp_copper",
+          "name": "高纯铜(溅射靶材级)",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "nf_hp_copper:300mm晶圆高纯铜靶材国产化率_百分比",
+              "segment_id": "nf_hp_copper",
+              "segment_name": "高纯铜(溅射靶材级)",
+              "metric_name": "300mm晶圆高纯铜靶材国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 38.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 38.0
+                }
+              ]
+            },
+            {
+              "key": "nf_hp_copper:全球铜溅射靶材市场规模_亿美元",
+              "segment_id": "nf_hp_copper",
+              "segment_name": "高纯铜(溅射靶材级)",
+              "metric_name": "全球铜溅射靶材市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 1,
+              "latest_value": 11.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 11.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nf_hp_aluminum",
+          "name": "高纯铝",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "nf_hp_aluminum:新疆众和高纯铝产量_万吨_年",
+              "segment_id": "nf_hp_aluminum",
+              "segment_name": "高纯铝",
+              "metric_name": "新疆众和高纯铝产量_万吨_年",
+              "metric_type": "output",
+              "unit": "万吨/年",
+              "sample_count": 1,
+              "latest_value": 7.95,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 7.95
+                }
+              ]
+            },
+            {
+              "key": "nf_hp_aluminum:6N级超高纯铝全球供应商数量",
+              "segment_id": "nf_hp_aluminum",
+              "segment_name": "高纯铝",
+              "metric_name": "6N级超高纯铝全球供应商数量",
+              "metric_type": "market",
+              "unit": "家",
+              "sample_count": 1,
+              "latest_value": 3.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 3.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nf_precious_metal",
+          "name": "半导体用贵金属材料",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "nf_precious_metal:半导体封装用银浆国产化率_百分比",
+              "segment_id": "nf_precious_metal",
+              "segment_name": "半导体用贵金属材料",
+              "metric_name": "半导体封装用银浆国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 30.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 30.0
+                }
+              ]
+            },
+            {
+              "key": "nf_precious_metal:全球半导体用金键合丝市场规模_亿元",
+              "segment_id": "nf_precious_metal",
+              "segment_name": "半导体用贵金属材料",
+              "metric_name": "全球半导体用金键合丝市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 18.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 18.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nf_refractory",
+          "name": "高纯难熔金属",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "nf_refractory:靶材涨价幅度_百分比",
+              "segment_id": "nf_refractory",
+              "segment_name": "高纯难熔金属",
+              "metric_name": "靶材涨价幅度_百分比",
+              "metric_type": "price_change",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 65.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 65.0
+                }
+              ]
+            },
+            {
+              "key": "nf_refractory:全球钼靶供应现状",
+              "segment_id": "nf_refractory",
+              "segment_name": "高纯难熔金属",
+              "metric_name": "全球钼靶供应现状",
+              "metric_type": "status",
+              "unit": "",
+              "sample_count": 1,
+              "latest_value": 0.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 0.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nf_hp_cobalt",
+          "name": "高纯钴及新兴互连金属",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "nf_hp_cobalt:全球精炼钴中国产能占比_百分比",
+              "segment_id": "nf_hp_cobalt",
+              "segment_name": "高纯钴及新兴互连金属",
+              "metric_name": "全球精炼钴中国产能占比_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 78.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 78.0
+                }
+              ]
+            },
+            {
+              "key": "nf_hp_cobalt:全球半导体用钴靶材市场规模_亿美元",
+              "segment_id": "nf_hp_cobalt",
+              "segment_name": "高纯钴及新兴互连金属",
+              "metric_name": "全球半导体用钴靶材市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 1,
+              "latest_value": 1.8,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 1.8
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nf_bonding_wire",
+          "name": "键合丝",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "nf_bonding_wire:中国键合丝总需求量_亿米",
+              "segment_id": "nf_bonding_wire",
+              "segment_name": "键合丝",
+              "metric_name": "中国键合丝总需求量_亿米",
+              "metric_type": "market",
+              "unit": "亿米",
+              "sample_count": 1,
+              "latest_value": 360.1,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 360.1
+                }
+              ]
+            },
+            {
+              "key": "nf_bonding_wire:全球键合丝市场规模_亿元",
+              "segment_id": "nf_bonding_wire",
+              "segment_name": "键合丝",
+              "metric_name": "全球键合丝市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 43.2,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 43.2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nf_leadframe_alloy",
+          "name": "引线框架铜合金",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "nf_leadframe_alloy:中国引线框架铜合金市场规模_亿元",
+              "segment_id": "nf_leadframe_alloy",
+              "segment_name": "引线框架铜合金",
+              "metric_name": "中国引线框架铜合金市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 55.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 55.0
+                }
+              ]
+            },
+            {
+              "key": "nf_leadframe_alloy:高精度引线框架铜带国产化率_百分比",
+              "segment_id": "nf_leadframe_alloy",
+              "segment_name": "引线框架铜合金",
+              "metric_name": "高精度引线框架铜带国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 55.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 55.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nf_pkg_interconnect",
+          "name": "封装互连材料(焊料/浆料)",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "nf_pkg_interconnect:全球半导体焊料球市场规模_亿元",
+              "segment_id": "nf_pkg_interconnect",
+              "segment_name": "封装互连材料(焊料/浆料)",
+              "metric_name": "全球半导体焊料球市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 22.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 22.0
+                }
+              ]
+            },
+            {
+              "key": "nf_pkg_interconnect:BGA焊球国产化率_百分比",
+              "segment_id": "nf_pkg_interconnect",
+              "segment_name": "封装互连材料(焊料/浆料)",
+              "metric_name": "BGA焊球国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 10.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 10.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nf_scattered_metals",
+          "name": "稀散金属（镓/铟/锗）",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "nf_scattered_metals:全球精铟产量_吨_年",
+              "segment_id": "nf_scattered_metals",
+              "segment_name": "稀散金属（镓/铟/锗）",
+              "metric_name": "全球精铟产量_吨_年",
+              "metric_type": "output",
+              "unit": "吨/年",
+              "sample_count": 1,
+              "latest_value": 1150.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 1150.0
+                }
+              ]
+            },
+            {
+              "key": "nf_scattered_metals:磷化铟衬底自给率_百分比",
+              "segment_id": "nf_scattered_metals",
+              "segment_name": "稀散金属（镓/铟/锗）",
+              "metric_name": "磷化铟衬底自给率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 10.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 10.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "nf_rare_earth",
+          "name": "稀土功能材料",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "nf_rare_earth:半导体CMP抛光液国产化率_百分比",
+              "segment_id": "nf_rare_earth",
+              "segment_name": "稀土功能材料",
+              "metric_name": "半导体CMP抛光液国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 10.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 10.0
+                }
+              ]
+            },
+            {
+              "key": "nf_rare_earth:中国稀土抛光材料市场规模_亿元",
+              "segment_id": "nf_rare_earth",
+              "segment_name": "稀土功能材料",
+              "metric_name": "中国稀土抛光材料市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 7.68,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 7.68
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "top_series": [
+        {
+          "key": "nf_scattered_metals:全球精铟产量_吨_年",
+          "segment_id": "nf_scattered_metals",
+          "segment_name": "稀散金属（镓/铟/锗）",
+          "metric_name": "全球精铟产量_吨_年",
+          "metric_type": "output",
+          "unit": "吨/年",
+          "sample_count": 1,
+          "latest_value": 1150.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 1150.0
+            }
+          ]
+        },
+        {
+          "key": "nf_bonding_wire:中国键合丝总需求量_亿米",
+          "segment_id": "nf_bonding_wire",
+          "segment_name": "键合丝",
+          "metric_name": "中国键合丝总需求量_亿米",
+          "metric_type": "market",
+          "unit": "亿米",
+          "sample_count": 1,
+          "latest_value": 360.1,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 360.1
+            }
+          ]
+        },
+        {
+          "key": "nf_hp_cobalt:全球精炼钴中国产能占比_百分比",
+          "segment_id": "nf_hp_cobalt",
+          "segment_name": "高纯钴及新兴互连金属",
+          "metric_name": "全球精炼钴中国产能占比_百分比",
+          "metric_type": "ratio",
+          "unit": "%",
+          "sample_count": 1,
+          "latest_value": 78.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 78.0
+            }
+          ]
+        },
+        {
+          "key": "nf_refractory:靶材涨价幅度_百分比",
+          "segment_id": "nf_refractory",
+          "segment_name": "高纯难熔金属",
+          "metric_name": "靶材涨价幅度_百分比",
+          "metric_type": "price_change",
+          "unit": "%",
+          "sample_count": 1,
+          "latest_value": 65.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 65.0
+            }
+          ]
+        },
+        {
+          "key": "nf_leadframe_alloy:中国引线框架铜合金市场规模_亿元",
+          "segment_id": "nf_leadframe_alloy",
+          "segment_name": "引线框架铜合金",
+          "metric_name": "中国引线框架铜合金市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 1,
+          "latest_value": 55.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 55.0
+            }
+          ]
+        },
+        {
+          "key": "nf_leadframe_alloy:高精度引线框架铜带国产化率_百分比",
+          "segment_id": "nf_leadframe_alloy",
+          "segment_name": "引线框架铜合金",
+          "metric_name": "高精度引线框架铜带国产化率_百分比",
+          "metric_type": "ratio",
+          "unit": "%",
+          "sample_count": 1,
+          "latest_value": 55.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 55.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "silicon_materials",
+      "title": "🏗 硅基材料（半导体上游）全产业链图谱",
+      "snapshot_count": 1,
+      "earliest_snapshot_date": "2026-06-19",
+      "latest_snapshot_date": "2026-06-19",
+      "tracked_segment_count": 8,
+      "tracked_metric_count": 18,
+      "orphan_relationship_count": 8,
+      "segments": [
+        {
+          "id": "sm_metallurgical_si",
+          "name": "工业硅",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "sm_metallurgical_si:中国工业硅产能_万吨_年",
+              "segment_id": "sm_metallurgical_si",
+              "segment_name": "工业硅",
+              "metric_name": "中国工业硅产能_万吨_年",
+              "metric_type": "capacity",
+              "unit": "万吨/年",
+              "sample_count": 1,
+              "latest_value": 728.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 728.0
+                }
+              ]
+            },
+            {
+              "key": "sm_metallurgical_si:中国工业硅产量_万吨",
+              "segment_id": "sm_metallurgical_si",
+              "segment_name": "工业硅",
+              "metric_name": "中国工业硅产量_万吨",
+              "metric_type": "output",
+              "unit": "万吨",
+              "sample_count": 1,
+              "latest_value": 480.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 480.0
+                }
+              ]
+            },
+            {
+              "key": "sm_metallurgical_si:全球产能占比_百分比",
+              "segment_id": "sm_metallurgical_si",
+              "segment_name": "工业硅",
+              "metric_name": "全球产能占比_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 82.6,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 82.6
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sm_elec_polysilicon",
+          "name": "电子级多晶硅",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "sm_elec_polysilicon:全球电子级多晶硅市场规模_亿美元",
+              "segment_id": "sm_elec_polysilicon",
+              "segment_name": "电子级多晶硅",
+              "metric_name": "全球电子级多晶硅市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 1,
+              "latest_value": 12.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 12.0
+                }
+              ]
+            },
+            {
+              "key": "sm_elec_polysilicon:12英寸晶圆用多晶硅国产化率_百分比",
+              "segment_id": "sm_elec_polysilicon",
+              "segment_name": "电子级多晶硅",
+              "metric_name": "12英寸晶圆用多晶硅国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 10.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 10.0
+                }
+              ]
+            },
+            {
+              "key": "sm_elec_polysilicon:中国12英寸晶圆用多晶硅年需求量_万吨",
+              "segment_id": "sm_elec_polysilicon",
+              "segment_name": "电子级多晶硅",
+              "metric_name": "中国12英寸晶圆用多晶硅年需求量_万吨",
+              "metric_type": "market",
+              "unit": "万吨",
+              "sample_count": 1,
+              "latest_value": 1.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 1.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sm_quartz",
+          "name": "石英坩埚与石英制品",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "sm_quartz:半导体石英坩埚国产化率_百分比",
+              "segment_id": "sm_quartz",
+              "segment_name": "石英坩埚与石英制品",
+              "metric_name": "半导体石英坩埚国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 30.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 30.0
+                }
+              ]
+            },
+            {
+              "key": "sm_quartz:中国半导体石英坩埚市场规模_亿元",
+              "segment_id": "sm_quartz",
+              "segment_name": "石英坩埚与石英制品",
+              "metric_name": "中国半导体石英坩埚市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 5.1,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 5.1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sm_wafer_consumables",
+          "name": "硅片加工辅材(切割/研磨)",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "sm_wafer_consumables:半导体级金刚线国产化率_百分比",
+              "segment_id": "sm_wafer_consumables",
+              "segment_name": "硅片加工辅材(切割/研磨)",
+              "metric_name": "半导体级金刚线国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 30.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 30.0
+                }
+              ]
+            },
+            {
+              "key": "sm_wafer_consumables:中国半导体硅片切割用金刚线市场规模_亿元",
+              "segment_id": "sm_wafer_consumables",
+              "segment_name": "硅片加工辅材(切割/研磨)",
+              "metric_name": "中国半导体硅片切割用金刚线市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 8.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 8.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sm_sic_powder",
+          "name": "碳化硅粉体",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "sm_sic_powder:高纯SiC粉体CAGR_百分比",
+              "segment_id": "sm_sic_powder",
+              "segment_name": "碳化硅粉体",
+              "metric_name": "高纯SiC粉体CAGR_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 17.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 17.0
+                }
+              ]
+            },
+            {
+              "key": "sm_sic_powder:全球高纯SiC粉体市场规模_亿元",
+              "segment_id": "sm_sic_powder",
+              "segment_name": "碳化硅粉体",
+              "metric_name": "全球高纯SiC粉体市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 12.2,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 12.2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sm_compound_substrate",
+          "name": "化合物半导体衬底",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "sm_compound_substrate:InP衬底国产化率_百分比",
+              "segment_id": "sm_compound_substrate",
+              "segment_name": "化合物半导体衬底",
+              "metric_name": "InP衬底国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 10.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 10.0
+                }
+              ]
+            },
+            {
+              "key": "sm_compound_substrate:全球半绝缘GaAs衬底市场规模_亿美元",
+              "segment_id": "sm_compound_substrate",
+              "segment_name": "化合物半导体衬底",
+              "metric_name": "全球半绝缘GaAs衬底市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 1,
+              "latest_value": 6.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 6.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sm_epitaxial_wafer",
+          "name": "外延片",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "sm_epitaxial_wafer:中国半导体硅外延片市场规模_亿元",
+              "segment_id": "sm_epitaxial_wafer",
+              "segment_name": "外延片",
+              "metric_name": "中国半导体硅外延片市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 55.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 55.0
+                }
+              ]
+            },
+            {
+              "key": "sm_epitaxial_wafer:SiC外延片国产化率_百分比",
+              "segment_id": "sm_epitaxial_wafer",
+              "segment_name": "外延片",
+              "metric_name": "SiC外延片国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 40.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 40.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "sm_soi_specialty",
+          "name": "SOI与特种硅片",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "sm_soi_specialty:全球SOI硅片市场规模_亿美元",
+              "segment_id": "sm_soi_specialty",
+              "segment_name": "SOI与特种硅片",
+              "metric_name": "全球SOI硅片市场规模_亿美元",
+              "metric_type": "market",
+              "unit": "亿美元",
+              "sample_count": 1,
+              "latest_value": 18.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 18.0
+                }
+              ]
+            },
+            {
+              "key": "sm_soi_specialty:中国SOI硅片自给率_百分比",
+              "segment_id": "sm_soi_specialty",
+              "segment_name": "SOI与特种硅片",
+              "metric_name": "中国SOI硅片自给率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 8.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 8.0
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "top_series": [
+        {
+          "key": "sm_metallurgical_si:中国工业硅产能_万吨_年",
+          "segment_id": "sm_metallurgical_si",
+          "segment_name": "工业硅",
+          "metric_name": "中国工业硅产能_万吨_年",
+          "metric_type": "capacity",
+          "unit": "万吨/年",
+          "sample_count": 1,
+          "latest_value": 728.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 728.0
+            }
+          ]
+        },
+        {
+          "key": "sm_metallurgical_si:中国工业硅产量_万吨",
+          "segment_id": "sm_metallurgical_si",
+          "segment_name": "工业硅",
+          "metric_name": "中国工业硅产量_万吨",
+          "metric_type": "output",
+          "unit": "万吨",
+          "sample_count": 1,
+          "latest_value": 480.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 480.0
+            }
+          ]
+        },
+        {
+          "key": "sm_metallurgical_si:全球产能占比_百分比",
+          "segment_id": "sm_metallurgical_si",
+          "segment_name": "工业硅",
+          "metric_name": "全球产能占比_百分比",
+          "metric_type": "ratio",
+          "unit": "%",
+          "sample_count": 1,
+          "latest_value": 82.6,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 82.6
+            }
+          ]
+        },
+        {
+          "key": "sm_epitaxial_wafer:中国半导体硅外延片市场规模_亿元",
+          "segment_id": "sm_epitaxial_wafer",
+          "segment_name": "外延片",
+          "metric_name": "中国半导体硅外延片市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 1,
+          "latest_value": 55.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 55.0
+            }
+          ]
+        },
+        {
+          "key": "sm_epitaxial_wafer:SiC外延片国产化率_百分比",
+          "segment_id": "sm_epitaxial_wafer",
+          "segment_name": "外延片",
+          "metric_name": "SiC外延片国产化率_百分比",
+          "metric_type": "ratio",
+          "unit": "%",
+          "sample_count": 1,
+          "latest_value": 40.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 40.0
+            }
+          ]
+        },
+        {
+          "key": "sm_quartz:半导体石英坩埚国产化率_百分比",
+          "segment_id": "sm_quartz",
+          "segment_name": "石英坩埚与石英制品",
+          "metric_name": "半导体石英坩埚国产化率_百分比",
+          "metric_type": "ratio",
+          "unit": "%",
+          "sample_count": 1,
+          "latest_value": 30.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 30.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "pcb_materials",
+      "title": "🧱 PCB与覆铜板（半导体上游）全产业链图谱",
+      "snapshot_count": 1,
+      "earliest_snapshot_date": "2026-06-19",
+      "latest_snapshot_date": "2026-06-19",
+      "tracked_segment_count": 5,
+      "tracked_metric_count": 11,
+      "orphan_relationship_count": 2,
+      "segments": [
+        {
+          "id": "pcb_glass_yarn",
+          "name": "电子级玻纤纱",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "pcb_glass_yarn:全球电子级玻纤纱市场规模_亿元",
+              "segment_id": "pcb_glass_yarn",
+              "segment_name": "电子级玻纤纱",
+              "metric_name": "全球电子级玻纤纱市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 120.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 120.0
+                }
+              ]
+            },
+            {
+              "key": "pcb_glass_yarn:中国电子纱全球产能占比_百分比",
+              "segment_id": "pcb_glass_yarn",
+              "segment_name": "电子级玻纤纱",
+              "metric_name": "中国电子纱全球产能占比_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 72.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 72.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "pcb_glass_cloth",
+          "name": "电子布(电子级玻纤布)",
+          "metric_count": 3,
+          "metrics": [
+            {
+              "key": "pcb_glass_cloth:全球高端电子布市场规模_亿元",
+              "segment_id": "pcb_glass_cloth",
+              "segment_name": "电子布(电子级玻纤布)",
+              "metric_name": "全球高端电子布市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 85.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 85.0
+                }
+              ]
+            },
+            {
+              "key": "pcb_glass_cloth:宏和科技超薄布全球市占率_百分比",
+              "segment_id": "pcb_glass_cloth",
+              "segment_name": "电子布(电子级玻纤布)",
+              "metric_name": "宏和科技超薄布全球市占率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 20.5,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 20.5
+                }
+              ]
+            },
+            {
+              "key": "pcb_glass_cloth:Low Dk/Df电子布渗透率_百分比",
+              "segment_id": "pcb_glass_cloth",
+              "segment_name": "电子布(电子级玻纤布)",
+              "metric_name": "Low Dk/Df电子布渗透率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 15.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 15.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "pcb_copper_foil",
+          "name": "电子铜箔",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "pcb_copper_foil:全球电子铜箔市场规模_亿元",
+              "segment_id": "pcb_copper_foil",
+              "segment_name": "电子铜箔",
+              "metric_name": "全球电子铜箔市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 280.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 280.0
+                }
+              ]
+            },
+            {
+              "key": "pcb_copper_foil:高频高速电子铜箔国产化率_百分比",
+              "segment_id": "pcb_copper_foil",
+              "segment_name": "电子铜箔",
+              "metric_name": "高频高速电子铜箔国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 25.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 25.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "pcb_specialty_resin",
+          "name": "特种树脂(CCL基体)",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "pcb_specialty_resin:全球CCL用特种树脂市场规模_亿元",
+              "segment_id": "pcb_specialty_resin",
+              "segment_name": "特种树脂(CCL基体)",
+              "metric_name": "全球CCL用特种树脂市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 180.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 180.0
+                }
+              ]
+            },
+            {
+              "key": "pcb_specialty_resin:高频高速树脂国产化率_百分比",
+              "segment_id": "pcb_specialty_resin",
+              "segment_name": "特种树脂(CCL基体)",
+              "metric_name": "高频高速树脂国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 8.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 8.0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "pcb_ccl",
+          "name": "覆铜板(CCL)",
+          "metric_count": 2,
+          "metrics": [
+            {
+              "key": "pcb_ccl:全球CCL市场规模_亿元",
+              "segment_id": "pcb_ccl",
+              "segment_name": "覆铜板(CCL)",
+              "metric_name": "全球CCL市场规模_亿元",
+              "metric_type": "market",
+              "unit": "亿元",
+              "sample_count": 1,
+              "latest_value": 1400.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 1400.0
+                }
+              ]
+            },
+            {
+              "key": "pcb_ccl:AI服务器CCL国产化率_百分比",
+              "segment_id": "pcb_ccl",
+              "segment_name": "覆铜板(CCL)",
+              "metric_name": "AI服务器CCL国产化率_百分比",
+              "metric_type": "ratio",
+              "unit": "%",
+              "sample_count": 1,
+              "latest_value": 15.0,
+              "previous_value": null,
+              "delta_value": null,
+              "delta_ratio": null,
+              "points": [
+                {
+                  "date": "2026-06-19",
+                  "value": 15.0
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "top_series": [
+        {
+          "key": "pcb_ccl:全球CCL市场规模_亿元",
+          "segment_id": "pcb_ccl",
+          "segment_name": "覆铜板(CCL)",
+          "metric_name": "全球CCL市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 1,
+          "latest_value": 1400.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 1400.0
+            }
+          ]
+        },
+        {
+          "key": "pcb_copper_foil:全球电子铜箔市场规模_亿元",
+          "segment_id": "pcb_copper_foil",
+          "segment_name": "电子铜箔",
+          "metric_name": "全球电子铜箔市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 1,
+          "latest_value": 280.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 280.0
+            }
+          ]
+        },
+        {
+          "key": "pcb_specialty_resin:全球CCL用特种树脂市场规模_亿元",
+          "segment_id": "pcb_specialty_resin",
+          "segment_name": "特种树脂(CCL基体)",
+          "metric_name": "全球CCL用特种树脂市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 1,
+          "latest_value": 180.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 180.0
+            }
+          ]
+        },
+        {
+          "key": "pcb_glass_yarn:全球电子级玻纤纱市场规模_亿元",
+          "segment_id": "pcb_glass_yarn",
+          "segment_name": "电子级玻纤纱",
+          "metric_name": "全球电子级玻纤纱市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 1,
+          "latest_value": 120.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 120.0
+            }
+          ]
+        },
+        {
+          "key": "pcb_glass_cloth:全球高端电子布市场规模_亿元",
+          "segment_id": "pcb_glass_cloth",
+          "segment_name": "电子布(电子级玻纤布)",
+          "metric_name": "全球高端电子布市场规模_亿元",
+          "metric_type": "market",
+          "unit": "亿元",
+          "sample_count": 1,
+          "latest_value": 85.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 85.0
+            }
+          ]
+        },
+        {
+          "key": "pcb_glass_yarn:中国电子纱全球产能占比_百分比",
+          "segment_id": "pcb_glass_yarn",
+          "segment_name": "电子级玻纤纱",
+          "metric_name": "中国电子纱全球产能占比_百分比",
+          "metric_type": "ratio",
+          "unit": "%",
+          "sample_count": 1,
+          "latest_value": 72.0,
+          "previous_value": null,
+          "delta_value": null,
+          "delta_ratio": null,
+          "points": [
+            {
+              "date": "2026-06-19",
+              "value": 72.0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

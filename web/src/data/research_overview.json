@@ -1,0 +1,305 @@
+{
+  "kind": "research_overview",
+  "generated_at": "2026-06-21T01:47:58",
+  "summary": {
+    "chain_count": 5,
+    "fusion_node_count": 58,
+    "fusion_edge_count": 98,
+    "fusion_stock_count": 197,
+    "total_node_count": 58,
+    "total_edge_count": 66,
+    "total_stock_count": 197,
+    "average_quality_score": 54.1,
+    "missing_source_url_count": 111,
+    "estimated_data_point_count": 17,
+    "chains_with_snapshots": 5,
+    "total_snapshot_count": 6,
+    "tracked_series_count": 124,
+    "latest_snapshot_date": "2026-06-19",
+    "orphan_relationship_count": 95
+  },
+  "fusion": {
+    "title": "半导体全产业链融合图谱",
+    "route": "/fusion",
+    "stats": {
+      "node_count": 58,
+      "edge_count": 98,
+      "group_count": 20,
+      "stock_count": 197
+    },
+    "description": "融合多条链路后的全局图谱，用于观察跨行业连接与共享公司。"
+  },
+  "chains": [
+    {
+      "slug": "semiconductor",
+      "title": "🔬 半导体全产业链图谱",
+      "route": "/chain/semiconductor",
+      "description": "核心半导体制造主链，覆盖材料、设备、设计、制造、封测与终端应用。",
+      "stats": {
+        "node_count": 26,
+        "edge_count": 36,
+        "group_count": 7,
+        "stock_count": 136
+      },
+      "data_point_count": 64,
+      "relationship_count": 36,
+      "quality_score": 51.6,
+      "average_data_point_confidence": 2.58,
+      "estimated_ratio": 0.172,
+      "missing_source_url_count": 41,
+      "orphan_relationship_count": 63,
+      "tier_distribution": {
+        "official": 2,
+        "authoritative": 26,
+        "secondary": 20,
+        "unknown": 16
+      },
+      "snapshot_count": 2,
+      "latest_snapshot_date": "2026-06-19",
+      "tracked_segment_count": 26,
+      "tracked_metric_count": 54,
+      "top_segments": [
+        {
+          "id": "semi_equipment",
+          "name": "半导体设备",
+          "company_count": 13,
+          "data_point_count": 4,
+          "heat_d20": 18.55
+        },
+        {
+          "id": "semi_storage",
+          "name": "存储芯片",
+          "company_count": 8,
+          "data_point_count": 4,
+          "heat_d20": 24.19
+        },
+        {
+          "id": "semi_silicon_wafer",
+          "name": "硅片",
+          "company_count": 7,
+          "data_point_count": 3,
+          "heat_d20": 27.78
+        }
+      ]
+    },
+    {
+      "slug": "electronic_chemicals",
+      "title": "⚗️ 电子化工材料（半导体上游）全产业链图谱",
+      "route": "/chain/electronic_chemicals",
+      "description": "聚焦湿电子化学品、光刻胶、电子特气与先进封装化学材料。",
+      "stats": {
+        "node_count": 9,
+        "edge_count": 6,
+        "group_count": 3,
+        "stock_count": 31
+      },
+      "data_point_count": 21,
+      "relationship_count": 6,
+      "quality_score": 53.4,
+      "average_data_point_confidence": 2.67,
+      "estimated_ratio": 0.19,
+      "missing_source_url_count": 21,
+      "orphan_relationship_count": 16,
+      "tier_distribution": {
+        "official": 1,
+        "authoritative": 7,
+        "secondary": 10,
+        "unknown": 3
+      },
+      "snapshot_count": 1,
+      "latest_snapshot_date": "2026-06-19",
+      "tracked_segment_count": 9,
+      "tracked_metric_count": 21,
+      "top_segments": [
+        {
+          "id": "ec_pr_resin",
+          "name": "光刻胶核心原料",
+          "company_count": 5,
+          "data_point_count": 3,
+          "heat_d20": 12.26
+        },
+        {
+          "id": "ec_si_mo_precursors",
+          "name": "电子级硅基与金属有机源",
+          "company_count": 4,
+          "data_point_count": 3,
+          "heat_d20": 14.79
+        },
+        {
+          "id": "ec_g5_acids",
+          "name": "G5电子级酸",
+          "company_count": 4,
+          "data_point_count": 2,
+          "heat_d20": 48.95
+        }
+      ]
+    },
+    {
+      "slug": "nonferrous_metals",
+      "title": "⛏ 有色金属（半导体上游）全产业链图谱",
+      "route": "/chain/nonferrous_metals",
+      "description": "覆盖铜、铝、金、银等有色金属在半导体链中的关键供给环节。",
+      "stats": {
+        "node_count": 10,
+        "edge_count": 11,
+        "group_count": 3,
+        "stock_count": 26
+      },
+      "data_point_count": 20,
+      "relationship_count": 11,
+      "quality_score": 53.0,
+      "average_data_point_confidence": 2.65,
+      "estimated_ratio": 0.0,
+      "missing_source_url_count": 20,
+      "orphan_relationship_count": 6,
+      "tier_distribution": {
+        "official": 2,
+        "authoritative": 1,
+        "secondary": 10,
+        "unknown": 7
+      },
+      "snapshot_count": 1,
+      "latest_snapshot_date": "2026-06-19",
+      "tracked_segment_count": 10,
+      "tracked_metric_count": 20,
+      "top_segments": [
+        {
+          "id": "nf_scattered_metals",
+          "name": "稀散金属（镓/铟/锗）",
+          "company_count": 6,
+          "data_point_count": 2,
+          "heat_d20": 7.03
+        },
+        {
+          "id": "nf_refractory",
+          "name": "高纯难熔金属",
+          "company_count": 5,
+          "data_point_count": 2,
+          "heat_d20": 22.93
+        },
+        {
+          "id": "nf_hp_copper",
+          "name": "高纯铜(溅射靶材级)",
+          "company_count": 3,
+          "data_point_count": 2,
+          "heat_d20": 32.91
+        }
+      ]
+    },
+    {
+      "slug": "silicon_materials",
+      "title": "🏗 硅基材料（半导体上游）全产业链图谱",
+      "route": "/chain/silicon_materials",
+      "description": "聚焦工业硅、多晶硅、石英、硅片、SiC 与 SOI 等底层材料。",
+      "stats": {
+        "node_count": 8,
+        "edge_count": 9,
+        "group_count": 3,
+        "stock_count": 22
+      },
+      "data_point_count": 18,
+      "relationship_count": 9,
+      "quality_score": 54.4,
+      "average_data_point_confidence": 2.72,
+      "estimated_ratio": 0.111,
+      "missing_source_url_count": 18,
+      "orphan_relationship_count": 8,
+      "tier_distribution": {
+        "official": 0,
+        "authoritative": 9,
+        "secondary": 6,
+        "unknown": 3
+      },
+      "snapshot_count": 1,
+      "latest_snapshot_date": "2026-06-19",
+      "tracked_segment_count": 8,
+      "tracked_metric_count": 18,
+      "top_segments": [
+        {
+          "id": "sm_metallurgical_si",
+          "name": "工业硅",
+          "company_count": 4,
+          "data_point_count": 3,
+          "heat_d20": 14.03
+        },
+        {
+          "id": "sm_epitaxial_wafer",
+          "name": "外延片",
+          "company_count": 4,
+          "data_point_count": 2,
+          "heat_d20": 18.78
+        },
+        {
+          "id": "sm_sic_powder",
+          "name": "碳化硅粉体",
+          "company_count": 4,
+          "data_point_count": 2,
+          "heat_d20": 10.13
+        }
+      ]
+    },
+    {
+      "slug": "pcb_materials",
+      "title": "🧱 PCB与覆铜板（半导体上游）全产业链图谱",
+      "route": "/chain/pcb_materials",
+      "description": "覆盖覆铜板、铜箔、玻纤布、树脂和高频高速 PCB 材料。",
+      "stats": {
+        "node_count": 5,
+        "edge_count": 4,
+        "group_count": 4,
+        "stock_count": 11
+      },
+      "data_point_count": 11,
+      "relationship_count": 4,
+      "quality_score": 58.2,
+      "average_data_point_confidence": 2.91,
+      "estimated_ratio": 0.0,
+      "missing_source_url_count": 11,
+      "orphan_relationship_count": 2,
+      "tier_distribution": {
+        "official": 2,
+        "authoritative": 4,
+        "secondary": 4,
+        "unknown": 1
+      },
+      "snapshot_count": 1,
+      "latest_snapshot_date": "2026-06-19",
+      "tracked_segment_count": 5,
+      "tracked_metric_count": 11,
+      "top_segments": [
+        {
+          "id": "pcb_ccl",
+          "name": "覆铜板(CCL)",
+          "company_count": 3,
+          "data_point_count": 2,
+          "heat_d20": 103.09
+        },
+        {
+          "id": "pcb_copper_foil",
+          "name": "电子铜箔",
+          "company_count": 3,
+          "data_point_count": 2,
+          "heat_d20": 74.28
+        },
+        {
+          "id": "pcb_glass_cloth",
+          "name": "电子布(电子级玻纤布)",
+          "company_count": 2,
+          "data_point_count": 3,
+          "heat_d20": 62.53
+        }
+      ]
+    }
+  ],
+  "focus": {
+    "highest_quality_chain": "pcb_materials",
+    "most_missing_source_chain": "semiconductor",
+    "most_estimated_chain": "electronic_chemicals"
+  },
+  "highlights": [
+    "融合图谱汇总 58 个环节、98 条关系。",
+    "主链平均质量分 54.1 / 100。",
+    "产能快照累计 6 份，覆盖 5 条子链。",
+    "待补外链来源共 111 条，优先影响研究可追溯性。"
+  ]
+}

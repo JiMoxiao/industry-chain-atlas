@@ -95,10 +95,15 @@ if (-not (Test-Path ".\web\node_modules")) {
   Set-Location $projectRoot
 }
 
-Write-Host "[3/4] Generate frontend data..."
+Write-Host "[3/5] Refresh heat cache..."
+python .\update_heat.py
+
+Write-Host "[4/5] Refresh research snapshots..."
+python .\snapshot.py --all
+
+Write-Host "[5/5] Generate frontend data and start services..."
 python .\generate_data.py --all
 
-Write-Host "[4/4] Start backend and frontend in background..."
 $backendProcess = Start-HiddenProcess `
   -FilePath "python" `
   -WorkingDirectory $projectRoot `

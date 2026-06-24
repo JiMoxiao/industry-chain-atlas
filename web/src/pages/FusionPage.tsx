@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AtlasPage } from "@/components/AtlasPage";
 import { StatePanel } from "@/components/StatePanel";
-import { getCachedChainPayload, loadChainPayload } from "@/data";
+import { getCachedChainPayload, loadChainPayload, refreshChainPayloadInBackground } from "@/data";
 import type { ChainPayload } from "@/types/chain";
 
 export default function FusionPage() {
@@ -13,13 +13,15 @@ export default function FusionPage() {
     if (cachedPayload) {
       setPayload(cachedPayload);
       setError(null);
-      return;
     }
 
     let cancelled = false;
+    if (!cachedPayload) {
+      setPayload(null);
+    }
     setError(null);
 
-    loadChainPayload("fusion")
+    loadChainPayload("fusion", { force: true })
       .then((nextPayload) => {
         if (!cancelled) {
           setPayload(nextPayload);
@@ -33,6 +35,23 @@ export default function FusionPage() {
 
     return () => {
       cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      void refreshChainPayloadInBackground("fusion").then((nextPayload) => {
+        if (!cancelled && nextPayload) {
+          setPayload(nextPayload);
+          setError(null);
+        }
+      });
+    }, 1200);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
     };
   }, []);
 

@@ -10,6 +10,10 @@ const chainPayloadImporters = {
 } as const;
 
 type ChainSlug = keyof typeof chainPayloadImporters;
+interface LoadChainPayloadOptions {
+  force?: boolean;
+  allowStaticFallback?: boolean;
+}
 
 const chainPayloadCache = new Map<ChainSlug, Promise<ChainPayload>>();
 const resolvedChainPayloadCache = new Map<ChainSlug, ChainPayload>();
@@ -21,6 +25,10 @@ async function fetchChainFromApi(slug: ChainSlug) {
     throw new Error(`API ${endpoint} returned ${response.status}`);
   }
   return (await response.json()) as ChainPayload;
+}
+
+async function loadStaticChainPayload(slug: ChainSlug) {
+  return chainPayloadImporters[slug]().then((module) => module.default as ChainPayload);
 }
 
 export function isChainSlug(slug: string): slug is ChainSlug {
@@ -35,14 +43,22 @@ export function getCachedChainPayload(slug: string) {
   return resolvedChainPayloadCache.get(slug) ?? null;
 }
 
-export function loadChainPayload(slug: string) {
+export function clearChainPayloadCaches(slugs?: ChainSlug[]) {
+  const targets = slugs ?? (Object.keys(chainPayloadImporters) as ChainSlug[]);
+  targets.forEach((target) => {
+    chainPayloadCache.delete(target);
+    resolvedChainPayloadCache.delete(target);
+  });
+}
+
+export function loadChainPayload(slug: string, options: LoadChainPayloadOptions = {}) {
   if (!isChainSlug(slug)) {
     return Promise.resolve(null);
   }
 
-  const resolved = resolvedChainPayloadCache.get(slug);
-  if (resolved) {
-    return Promise.resolve(resolved);
+  const { force = false, allowStaticFallback = true } = options;
+  if (force) {
+    clearChainPayloadCaches([slug]);
   }
 
   const cached = chainPayloadCache.get(slug);
@@ -51,7 +67,12 @@ export function loadChainPayload(slug: string) {
   }
 
   const pending = fetchChainFromApi(slug)
-    .catch(() => chainPayloadImporters[slug]().then((module) => module.default as ChainPayload))
+    .catch((error) => {
+      if (!allowStaticFallback) {
+        throw error;
+      }
+      return loadStaticChainPayload(slug);
+    })
     .then((payload) => {
       resolvedChainPayloadCache.set(slug, payload);
       return payload;
@@ -67,4 +88,14 @@ export function loadChainPayload(slug: string) {
 
 export function warmChainPayloads(slugs: ChainSlug[]) {
   void Promise.allSettled(slugs.map((slug) => loadChainPayload(slug)));
+}
+
+export function refreshChainPayloadInBackground(slug: ChainSlug) {
+  return fetchChainFromApi(slug)
+    .then((payload) => {
+      resolvedChainPayloadCache.set(slug, payload);
+      chainPayloadCache.set(slug, Promise.resolve(payload));
+      return payload;
+    })
+    .catch(() => null);
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import { AtlasPage } from "@/components/AtlasPage";
 import { StatePanel } from "@/components/StatePanel";
-import { getCachedChainPayload, isChainSlug, loadChainPayload } from "@/data";
+import { getCachedChainPayload, isChainSlug, loadChainPayload, refreshChainPayloadInBackground } from "@/data";
 import type { ChainPayload } from "@/types/chain";
 
 export default function ChainPage() {
@@ -21,14 +21,15 @@ export default function ChainPage() {
     if (cachedPayload) {
       setPayload(cachedPayload);
       setError(null);
-      return;
     }
 
     let cancelled = false;
-    setPayload(null);
+    if (!cachedPayload) {
+      setPayload(null);
+    }
     setError(null);
 
-    loadChainPayload(slug)
+    loadChainPayload(slug, { force: true })
       .then((nextPayload) => {
         if (!cancelled) {
           setPayload(nextPayload);
@@ -42,6 +43,27 @@ export default function ChainPage() {
 
     return () => {
       cancelled = true;
+    };
+  }, [slug]);
+
+  useEffect(() => {
+    if (!slug || !isChainSlug(slug) || slug === "fusion") {
+      return;
+    }
+
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      void refreshChainPayloadInBackground(slug).then((nextPayload) => {
+        if (!cancelled && nextPayload) {
+          setPayload(nextPayload);
+          setError(null);
+        }
+      });
+    }, 1200);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
     };
   }, [slug]);
 

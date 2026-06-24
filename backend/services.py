@@ -1,15 +1,17 @@
 from __future__ import annotations
 
 import json
+import threading
 from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from backend.config import HEAT_CACHE_PATH, SNAPSHOT_DIR, WEB_DATA_DIR
+from backend.config import DATA_DIR, HEAT_CACHE_PATH, PROJECT_ROOT, SNAPSHOT_DIR, WEB_DATA_DIR
 from generate_data import (
     CHAIN_SLUGS,
     build_chain_payload,
     build_fusion_payload,
+    run_all,
 )
 from lib.capacity_trends import build_trend_payload
 from lib.research_audit import build_audit_payload, build_research_overview
@@ -17,6 +19,14 @@ from update_heat import collect_stocks, compute_segment_heat, fetch_d20, fetch_r
 
 GENERATED_JSON_CACHE: dict[Path, tuple[int, dict[str, Any]]] = {}
 HEAT_CACHE_MAX_AGE_SECONDS = 30 * 60
+GENERATED_DATA_LOCK = threading.Lock()
+GENERATED_FILENAMES = [
+    *(f"{slug}.json" for slug in CHAIN_SLUGS),
+    "fusion.json",
+    "research_audit.json",
+    "research_overview.json",
+    "research_trends.json",
+]
 
 
 def _read_generated_json(filename: str) -> dict[str, Any] | None:
@@ -34,6 +44,57 @@ def _read_generated_json(filename: str) -> dict[str, Any] | None:
 
     GENERATED_JSON_CACHE[path] = (mtime_ns, payload)
     return payload
+
+
+def _source_paths() -> list[Path]:
+    paths = [
+        PROJECT_ROOT / "generate_data.py",
+        PROJECT_ROOT / "snapshot.py",
+        PROJECT_ROOT / "update_heat.py",
+        HEAT_CACHE_PATH,
+    ]
+    paths.extend(sorted(DATA_DIR.glob("*.yaml")))
+    paths.extend(sorted(path for path in SNAPSHOT_DIR.rglob("*") if path.is_file()))
+    paths.extend(sorted(path for path in (PROJECT_ROOT / "lib").rglob("*.py")))
+    return [path for path in paths if path.exists()]
+
+
+def _generated_paths() -> list[Path]:
+    return [WEB_DATA_DIR / filename for filename in GENERATED_FILENAMES]
+
+
+def _latest_mtime_ns(paths: list[Path]) -> int:
+    if not paths:
+        return 0
+    return max(path.stat().st_mtime_ns for path in paths)
+
+
+def _earliest_mtime_ns(paths: list[Path]) -> int | None:
+    existing = [path.stat().st_mtime_ns for path in paths if path.exists()]
+    if not existing:
+        return None
+    return min(existing)
+
+
+def _generated_data_is_stale() -> bool:
+    generated_paths = _generated_paths()
+    earliest_generated = _earliest_mtime_ns(generated_paths)
+    if earliest_generated is None or any(not path.exists() for path in generated_paths):
+        return True
+
+    latest_source = _latest_mtime_ns(_source_paths())
+    return latest_source > earliest_generated
+
+
+def ensure_generated_data_fresh() -> None:
+    if not _generated_data_is_stale():
+        return
+
+    with GENERATED_DATA_LOCK:
+        if not _generated_data_is_stale():
+            return
+        run_all()
+        GENERATED_JSON_CACHE.clear()
 
 
 def _parse_iso_timestamp(value: str) -> datetime | None:
@@ -58,6 +119,7 @@ def _heat_cache_meta(timestamp: str) -> tuple[str, int | None]:
 def build_chain_response(slug: str) -> dict[str, Any]:
     if slug not in CHAIN_SLUGS:
         raise KeyError(slug)
+    ensure_generated_data_fresh()
     cached_payload = _read_generated_json(f"{slug}.json")
     if cached_payload is not None:
         return cached_payload
@@ -65,6 +127,7 @@ def build_chain_response(slug: str) -> dict[str, Any]:
 
 
 def build_fusion_response() -> dict[str, Any]:
+    ensure_generated_data_fresh()
     cached_payload = _read_generated_json("fusion.json")
     if cached_payload is not None:
         return cached_payload
@@ -76,6 +139,7 @@ def _build_chain_payloads() -> list[dict[str, Any]]:
 
 
 def build_research_bundle() -> dict[str, Any]:
+    ensure_generated_data_fresh()
     audit_payload = _read_generated_json("research_audit.json")
     overview_payload = _read_generated_json("research_overview.json")
     trend_payload = _read_generated_json("research_trends.json")
@@ -105,6 +169,7 @@ def build_research_bundle() -> dict[str, Any]:
 
 
 def build_research_trends() -> dict[str, Any]:
+    ensure_generated_data_fresh()
     cached_payload = _read_generated_json("research_trends.json")
     if cached_payload is not None:
         return cached_payload

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Activity,
   AlertTriangle,
@@ -12,9 +12,9 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { StatePanel } from "@/components/StatePanel";
-import { warmChainPayloads } from "@/data";
+import { clearChainPayloadCaches, warmChainPayloads } from "@/data";
 import { TrendSparkline } from "@/components/TrendSparkline";
-import { loadResearchBundle, type ResearchBundle } from "@/data/research";
+import { clearResearchCaches, getCachedResearchBundle, loadResearchBundle, refreshResearchBundleInBackground, type ResearchBundle } from "@/data/research";
 import { loadBackendHealth, loadJobStatus, triggerFullRefresh, triggerHeatRefresh } from "@/data/system";
 import type { BackendHealth, BackendJobState } from "@/types/backend";
 import type { ResearchOverviewChainCard, ResearchRiskItem, ResearchTrendChain } from "@/types/research";
@@ -22,7 +22,7 @@ import type { ResearchOverviewChainCard, ResearchRiskItem, ResearchTrendChain } 
 type BackendConnectionState = "checking" | "online" | "reconnecting" | "offline";
 
 export default function Home() {
-  const [researchData, setResearchData] = useState<ResearchBundle | null>(null);
+  const [researchData, setResearchData] = useState<ResearchBundle | null>(() => getCachedResearchBundle());
   const [error, setError] = useState<string | null>(null);
   const [backendHealth, setBackendHealth] = useState<BackendHealth | null>(null);
   const [jobState, setJobState] = useState<BackendJobState | null>(null);
@@ -30,6 +30,13 @@ export default function Home() {
   const [backendConnectionState, setBackendConnectionState] = useState<BackendConnectionState>("checking");
   const [jobActionMessage, setJobActionMessage] = useState<string | null>(null);
   const [pendingAction, setPendingAction] = useState<"heat" | "full" | null>(null);
+  const lastAppliedRefreshRef = useRef<string | null>(null);
+
+  const reloadResearchData = async (force = false) => {
+    const payload = await loadResearchBundle({ force });
+    setResearchData(payload);
+    setError(null);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -67,6 +74,44 @@ export default function Home() {
       setPendingAction(null);
     }
   }, [jobState?.running]);
+
+  useEffect(() => {
+    if (backendConnectionState !== "online") {
+      return;
+    }
+
+    let cancelled = false;
+    const timer = window.setTimeout(() => {
+      void refreshResearchBundleInBackground().then((payload) => {
+        if (!cancelled && payload) {
+          setResearchData(payload);
+          setError(null);
+        }
+      });
+    }, 300);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [backendConnectionState]);
+
+  useEffect(() => {
+    const finishedAt = jobState?.last_finished_at;
+    if (!finishedAt || jobState?.running || jobState?.last_status !== "success") {
+      return;
+    }
+    if (lastAppliedRefreshRef.current === finishedAt) {
+      return;
+    }
+
+    lastAppliedRefreshRef.current = finishedAt;
+    clearResearchCaches();
+    clearChainPayloadCaches();
+    void reloadResearchData(true).catch((reason) => {
+      setError(reason instanceof Error ? reason.message : "研究总览数据刷新失败");
+    });
+  }, [jobState?.last_finished_at, jobState?.last_status, jobState?.running]);
 
   useEffect(() => {
     let cancelled = false;

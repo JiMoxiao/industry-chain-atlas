@@ -1,6 +1,6 @@
 {
   "kind": "research_audit",
-  "generated_at": "2026-06-21T01:47:58",
+  "generated_at": "2026-06-24T23:03:06",
   "summary": {
     "chain_count": 5,
     "data_point_count": 134,
@@ -16,7 +16,7 @@
       "slug": "semiconductor",
       "title": "🔬 半导体全产业链图谱",
       "kind": "chain",
-      "generated_at": "2026-06-21T01:47:57",
+      "generated_at": "2026-06-24T23:03:06",
       "description": "核心半导体制造主链，覆盖材料、设备、设计、制造、封测与终端应用。",
       "stats": {
         "node_count": 26,
@@ -66,35 +66,35 @@
           "name": "半导体设备",
           "company_count": 13,
           "data_point_count": 4,
-          "heat_d20": 18.55
+          "heat_d20": 25.51
         },
         {
           "id": "semi_storage",
           "name": "存储芯片",
           "company_count": 8,
           "data_point_count": 4,
-          "heat_d20": 24.19
+          "heat_d20": 26.84
         },
         {
           "id": "semi_silicon_wafer",
           "name": "硅片",
           "company_count": 7,
           "data_point_count": 3,
-          "heat_d20": 27.78
+          "heat_d20": 26.31
         },
         {
           "id": "semi_ai_chip",
           "name": "AI算力芯片",
           "company_count": 7,
           "data_point_count": 3,
-          "heat_d20": 2.37
+          "heat_d20": -2.87
         },
         {
           "id": "semi_power_discrete",
           "name": "功率半导体",
           "company_count": 7,
           "data_point_count": 2,
-          "heat_d20": 27.64
+          "heat_d20": 20.85
         }
       ],
       "low_confidence": {
@@ -211,7 +211,7 @@
       "slug": "electronic_chemicals",
       "title": "⚗️ 电子化工材料（半导体上游）全产业链图谱",
       "kind": "chain",
-      "generated_at": "2026-06-21T01:47:57",
+      "generated_at": "2026-06-24T23:03:06",
       "description": "聚焦湿电子化学品、光刻胶、电子特气与先进封装化学材料。",
       "stats": {
         "node_count": 9,
@@ -261,35 +261,35 @@
           "name": "光刻胶核心原料",
           "company_count": 5,
           "data_point_count": 3,
-          "heat_d20": 12.26
+          "heat_d20": 12.8
         },
         {
           "id": "ec_si_mo_precursors",
           "name": "电子级硅基与金属有机源",
           "company_count": 4,
           "data_point_count": 3,
-          "heat_d20": 14.79
+          "heat_d20": 34.51
         },
         {
           "id": "ec_g5_acids",
           "name": "G5电子级酸",
           "company_count": 4,
           "data_point_count": 2,
-          "heat_d20": 48.95
+          "heat_d20": 52.68
         },
         {
           "id": "ec_fluorine_base",
           "name": "氟化工基础材料",
           "company_count": 4,
           "data_point_count": 2,
-          "heat_d20": 10.85
+          "heat_d20": 14.31
         },
         {
           "id": "ec_cmp_abrasive",
           "name": "CMP纳米磨料与添加剂",
           "company_count": 4,
           "data_point_count": 2,
-          "heat_d20": 5.18
+          "heat_d20": 0.67
         }
       ],
       "low_confidence": {
@@ -393,7 +393,7 @@
       "slug": "nonferrous_metals",
       "title": "⛏ 有色金属（半导体上游）全产业链图谱",
       "kind": "chain",
-      "generated_at": "2026-06-21T01:47:57",
+      "generated_at": "2026-06-24T23:03:06",
       "description": "覆盖铜、铝、金、银等有色金属在半导体链中的关键供给环节。",
       "stats": {
         "node_count": 10,
@@ -443,35 +443,35 @@
           "name": "稀散金属（镓/铟/锗）",
           "company_count": 6,
           "data_point_count": 2,
-          "heat_d20": 7.03
+          "heat_d20": 13.44
         },
         {
           "id": "nf_refractory",
           "name": "高纯难熔金属",
           "company_count": 5,
           "data_point_count": 2,
-          "heat_d20": 22.93
+          "heat_d20": 16.26
         },
         {
           "id": "nf_hp_copper",
           "name": "高纯铜(溅射靶材级)",
           "company_count": 3,
           "data_point_count": 2,
-          "heat_d20": 32.91
-        },
-        {
-          "id": "nf_hp_aluminum",
-          "name": "高纯铝",
-          "company_count": 3,
-          "data_point_count": 2,
-          "heat_d20": 6.96
+          "heat_d20": 48.27
         },
         {
           "id": "nf_rare_earth",
           "name": "稀土功能材料",
           "company_count": 3,
           "data_point_count": 2,
-          "heat_d20": 3.75
+          "heat_d20": 5.45
+        },
+        {
+          "id": "nf_hp_aluminum",
+          "name": "高纯铝",
+          "company_count": 3,
+          "data_point_count": 2,
+          "heat_d20": -4.45
         }
       ],
       "low_confidence": {
@@ -575,7 +575,7 @@
       "slug": "silicon_materials",
       "title": "🏗 硅基材料（半导体上游）全产业链图谱",
       "kind": "chain",
-      "generated_at": "2026-06-21T01:47:57",
+      "generated_at": "2026-06-24T23:03:06",
       "description": "聚焦工业硅、多晶硅、石英、硅片、SiC 与 SOI 等底层材料。",
       "stats": {
         "node_count": 8,
@@ -625,35 +625,35 @@
           "name": "工业硅",
           "company_count": 4,
           "data_point_count": 3,
-          "heat_d20": 14.03
+          "heat_d20": 15.4
         },
         {
           "id": "sm_epitaxial_wafer",
           "name": "外延片",
           "company_count": 4,
           "data_point_count": 2,
-          "heat_d20": 18.78
+          "heat_d20": 22.14
         },
         {
           "id": "sm_sic_powder",
           "name": "碳化硅粉体",
           "company_count": 4,
           "data_point_count": 2,
-          "heat_d20": 10.13
+          "heat_d20": 13.06
         },
         {
           "id": "sm_quartz",
           "name": "石英坩埚与石英制品",
           "company_count": 4,
           "data_point_count": 2,
-          "heat_d20": 9.5
+          "heat_d20": 10.38
         },
         {
           "id": "sm_elec_polysilicon",
           "name": "电子级多晶硅",
           "company_count": 3,
           "data_point_count": 3,
-          "heat_d20": -8.95
+          "heat_d20": -9.98
         }
       ],
       "low_confidence": {
@@ -746,7 +746,7 @@
       "slug": "pcb_materials",
       "title": "🧱 PCB与覆铜板（半导体上游）全产业链图谱",
       "kind": "chain",
-      "generated_at": "2026-06-21T01:47:57",
+      "generated_at": "2026-06-24T23:03:06",
       "description": "覆盖覆铜板、铜箔、玻纤布、树脂和高频高速 PCB 材料。",
       "stats": {
         "node_count": 5,
@@ -796,35 +796,35 @@
           "name": "覆铜板(CCL)",
           "company_count": 3,
           "data_point_count": 2,
-          "heat_d20": 103.09
+          "heat_d20": 64.7
         },
         {
           "id": "pcb_copper_foil",
           "name": "电子铜箔",
           "company_count": 3,
           "data_point_count": 2,
-          "heat_d20": 74.28
+          "heat_d20": 36.4
         },
         {
           "id": "pcb_glass_cloth",
           "name": "电子布(电子级玻纤布)",
           "company_count": 2,
           "data_point_count": 3,
-          "heat_d20": 62.53
-        },
-        {
-          "id": "pcb_specialty_resin",
-          "name": "特种树脂(CCL基体)",
-          "company_count": 2,
-          "data_point_count": 2,
-          "heat_d20": 40.47
+          "heat_d20": 49.67
         },
         {
           "id": "pcb_glass_yarn",
           "name": "电子级玻纤纱",
           "company_count": 2,
           "data_point_count": 2,
-          "heat_d20": 35.45
+          "heat_d20": 33.7
+        },
+        {
+          "id": "pcb_specialty_resin",
+          "name": "特种树脂(CCL基体)",
+          "company_count": 2,
+          "data_point_count": 2,
+          "heat_d20": 25.29
         }
       ],
       "low_confidence": {
@@ -851,7 +851,7 @@
     "slug": "fusion",
     "title": "半导体全产业链融合图谱",
     "kind": "fusion",
-    "generated_at": "2026-06-21T01:47:57",
+    "generated_at": "2026-06-24T23:03:06",
     "description": "融合多条链路后的全局图谱，用于观察跨行业连接与共享公司。",
     "stats": {
       "node_count": 58,
@@ -901,35 +901,35 @@
         "name": "🔬 半导体设备",
         "company_count": 13,
         "data_point_count": 4,
-        "heat_d20": 18.55
+        "heat_d20": 25.51
       },
       {
         "id": "semiconductor/semi_storage",
         "name": "🔬 存储芯片",
         "company_count": 8,
         "data_point_count": 4,
-        "heat_d20": 24.19
+        "heat_d20": 26.84
       },
       {
         "id": "semiconductor/semi_silicon_wafer",
         "name": "🔬 硅片",
         "company_count": 7,
         "data_point_count": 3,
-        "heat_d20": 27.78
+        "heat_d20": 26.31
       },
       {
         "id": "semiconductor/semi_ai_chip",
         "name": "🔬 AI算力芯片",
         "company_count": 7,
         "data_point_count": 3,
-        "heat_d20": 2.37
+        "heat_d20": -2.87
       },
       {
         "id": "semiconductor/semi_power_discrete",
         "name": "🔬 功率半导体",
         "company_count": 7,
         "data_point_count": 2,
-        "heat_d20": 27.64
+        "heat_d20": 20.85
       }
     ],
     "low_confidence": {
